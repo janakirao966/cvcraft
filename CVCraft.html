@@ -9,26 +9,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 <script>
-  // ---------- Clean URL & First-Time Redirection Handler ----------
+  // ---------- Clean URL Bar Handler ----------
   (function() {
+    // If opened with special query params (like ?mode=import), save intent
     const urlParams = new URLSearchParams(window.location.search);
-    const hasProfile = localStorage.getItem('cvcraft_profile_created') === 'true';
-    const hasState = !!localStorage.getItem('cvcraft_resume_state_v1');
-    const isDirectStart = urlParams.get('start') === '1' || urlParams.get('mode') === 'wizard' || urlParams.get('mode') === 'import';
+    if (urlParams.get('mode') === 'import') {
+      sessionStorage.setItem('cvcraft_auto_open_import', 'true');
+    }
 
-    // Clean URL bar immediately (removes ?start=1, ?from=builder, etc.) without reloading
+    // Clean URL bar immediately (removes any ?start=1, ?mode=import)
     if (window.history && window.history.replaceState && window.location.search) {
-      const cleanUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // If brand new user with no profile and not opened from landing CTA -> open landing page first
-    if (!hasProfile && !hasState && !isDirectStart) {
-      window.location.replace('index.html');
-      return;
-    }
-
-    // Set last active page as builder
+    // Track last active page as builder
     localStorage.setItem('cvcraft_last_page', 'builder');
   })();
 </script>
@@ -5040,8 +5034,12 @@
     updateUserGreeting();
     scheduleMobileLayoutUpdate();
 
-    // Only open onboarding wizard if brand new user with no saved profile and no edits
-    if (!hasProfile && !hasSavedState) {
+    // If user clicked "Import Backup JSON" from landing page
+    if (sessionStorage.getItem('cvcraft_auto_open_import') === 'true') {
+      sessionStorage.removeItem('cvcraft_auto_open_import');
+      setTimeout(() => openImportJsonModal(), 300);
+    } else if (!hasProfile && !hasSavedState) {
+      // Only open onboarding wizard if brand new user with no saved profile and no edits
       setTimeout(() => {
         openOnboardingWizard(true);
       }, 400);
