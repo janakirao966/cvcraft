@@ -1370,23 +1370,22 @@
   .dropzone-title { font-size: 24px; font-weight: 800; }
   .dropzone-desc { font-size: 14px; opacity: 0.9; }
 
-    /* Universal Modal Action Buttons & Responsive Layout */
+      /* Universal Modal Action Buttons & Responsive 50/50 Grid */
   .confirm-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     margin-top: 18px;
     width: 100%;
     box-sizing: border-box;
   }
   .confirm-actions button {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 13px;
-    font-weight: 600;
-    padding: 9px 18px;
-    min-height: 38px;
-    border-radius: 6px;
+    font-weight: 700;
+    padding: 10px 14px;
+    min-height: 40px;
+    border-radius: 8px;
     cursor: pointer;
     white-space: nowrap;
     display: inline-flex;
@@ -1395,10 +1394,11 @@
     gap: 6px;
     transition: all 0.15s ease;
     box-sizing: border-box;
+    width: 100%;
   }
   .confirm-cancel {
     background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    border: 1.5px solid #cbd5e1;
     color: #475569;
   }
   .confirm-cancel:hover {
@@ -1408,7 +1408,7 @@
   }
   .confirm-primary {
     background: #dc2626;
-    border: 1px solid #dc2626;
+    border: 1.5px solid #dc2626;
     color: #ffffff;
   }
   .confirm-primary:hover {
@@ -1416,42 +1416,37 @@
   }
   .download-btn-blue {
     background: #0284c7;
-    border: 1px solid #0284c7;
+    border: 1.5px solid #0284c7;
     color: #ffffff;
   }
   .download-btn-blue:hover {
     background: #0369a1;
   }
 
-  /* Wizard Footer Responsive 2-Way Balanced Layout */
+  /* Wizard Footer Responsive Symmetrical 50/50 Grid */
   .wizard-footer {
-    padding: 14px 22px;
+    padding: 14px 20px;
     background: #f8fafc;
     border-top: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
     box-sizing: border-box;
     width: 100%;
   }
-  .wizard-footer-left {
+  .wizard-footer-left, .wizard-footer-right {
+    width: 100%;
     display: flex;
-    align-items: center;
-    gap: 8px;
   }
-  .wizard-footer-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
+  .wizard-footer-left button, .wizard-footer-right button {
+    width: 100%;
   }
   .wizard-btn-pri, .wizard-btn-sec {
-    min-height: 38px;
-    padding: 8px 18px;
+    min-height: 40px;
+    padding: 10px 14px;
     font-size: 13px;
     font-weight: 700;
-    border-radius: 6px;
+    border-radius: 8px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1460,10 +1455,11 @@
     cursor: pointer;
     box-sizing: border-box;
     transition: all 0.15s ease;
+    width: 100%;
   }
   .wizard-btn-pri {
     background: #0284c7;
-    border: 1px solid #0284c7;
+    border: 1.5px solid #0284c7;
     color: #ffffff;
   }
   .wizard-btn-pri:hover {
@@ -1471,7 +1467,7 @@
   }
   .wizard-btn-sec {
     background: #ffffff;
-    border: 1px solid #cbd5e1;
+    border: 1.5px solid #cbd5e1;
     color: #334155;
   }
   .wizard-btn-sec:hover {
@@ -1480,51 +1476,37 @@
   }
 
   @media (max-width: 600px) {
-    .confirm-actions {
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-    }
-    .confirm-actions button {
-      flex: 1;
-      min-width: 0;
-      padding: 9px 10px;
-      font-size: 12px;
-    }
-    .wizard-footer {
+    .confirm-actions, .wizard-footer {
+      gap: 10px;
       padding: 12px 14px;
-      flex-direction: row;
-      justify-content: space-between;
     }
-    .wizard-footer-left, .wizard-footer-right {
-      flex: 1;
-    }
-    .wizard-btn-pri, .wizard-btn-sec {
-      width: 100%;
-      padding: 8px 10px;
+    .confirm-actions button, .wizard-btn-pri, .wizard-btn-sec {
+      min-height: 40px;
+      padding: 9px 8px;
       font-size: 12px;
     }
   }
 
-  /* Single-Line Welcome Option Cards */
+  /* Robust Non-Overlapping Option Cards */
   .wiz-intro-card-row {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin: 14px 0 10px 0;
+    gap: 12px;
+    margin: 16px 0 12px 0;
     width: 100%;
   }
   .wiz-intro-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-radius: 9px;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.18s ease;
     text-align: left;
-    text-decoration: none;
     box-sizing: border-box;
+    width: 100%;
+    user-select: none;
   }
   .wiz-intro-card.primary {
     background: #f0f9ff;
@@ -1534,7 +1516,7 @@
     background: #e0f2fe;
     border-color: #0284c7;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.14);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.15);
   }
   .wiz-intro-card.secondary {
     background: #f8fafc;
@@ -1544,68 +1526,75 @@
     background: #f1f5f9;
     border-color: #cbd5e1;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
   }
-  .wiz-intro-left {
+  .wiz-card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    min-width: 0;
-    flex: 1;
+    justify-content: center;
+    flex-shrink: 0;
   }
-  .wiz-intro-title {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: #0f172a;
-    white-space: nowrap;
-  }
-  .wiz-intro-badge {
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .wiz-intro-badge.blue {
+  .wiz-card-icon.blue {
     background: #e0f2fe;
     color: #0284c7;
+    border: 1px solid #bae6fd;
   }
-  .wiz-intro-badge.gray {
+  .wiz-card-icon.gray {
     background: #e2e8f0;
-    color: #64748b;
+    color: #475569;
+    border: 1px solid #cbd5e1;
   }
-  .wiz-intro-action {
-    font-size: 12.5px;
-    font-weight: 700;
+  .wiz-card-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .wiz-card-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.25;
+  }
+  .wiz-card-sub {
+    font-size: 11.5px;
+    color: #64748b;
+    line-height: 1.3;
+  }
+  .wiz-card-arrow {
+    color: #94a3b8;
     display: flex;
     align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-    margin-left: 10px;
+    justify-content: center;
+    flex-shrink: 0;
   }
-  .wiz-intro-action.blue { color: #0284c7; }
-  .wiz-intro-action.gray { color: #64748b; }
+  .wiz-intro-card:hover .wiz-card-arrow {
+    color: #0284c7;
+    transform: translateX(2px);
+  }
 
   @media (max-width: 600px) {
     .wiz-intro-card {
-      padding: 10px 12px;
+      padding: 12px 14px;
+      gap: 10px;
     }
-    .wiz-intro-left {
-      gap: 6px;
+    .wiz-card-icon {
+      width: 34px;
+      height: 34px;
     }
-    .wiz-intro-title {
-      font-size: 12px;
+    .wiz-card-title {
+      font-size: 12.5px;
     }
-    .wiz-intro-badge {
-      display: none; /* Hide secondary sub-badge on small mobile to ensure 1 clean line */
-    }
-    .wiz-intro-action {
-      font-size: 11.5px;
-      margin-left: 6px;
+    .wiz-card-sub {
+      font-size: 11px;
     }
   }
 
-    /* Attachment Page Thumbnails, Reorder, Delete & Processing Overlay */
+  /* Attachment Page Thumbnails, Reorder, Delete & Processing Overlay */
   .doc-pages {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -2715,43 +2704,47 @@
       </div>
 
       <div class="wizard-body">
-                <!-- STEP 0: Welcome & Introduction Screen -->
+                        <!-- STEP 0: Welcome & Introduction Screen -->
         <div class="wizard-step-panel" id="wizardStep0">
-          <div style="text-align:center;padding:10px 6px 12px 6px;">
+          <div style="text-align:center;padding:10px 4px 12px 4px;">
             <h3 style="font-family:'Outfit', Arial, sans-serif;font-size:21px;font-weight:800;color:#1a5276;margin:0 0 6px 0;display:flex;align-items:center;justify-content:center;gap:8px;">
               <i data-lucide="sparkles" style="width:22px;height:22px;color:#0284c7;flex-shrink:0;"></i>
               <span>Welcome to CVCraft</span>
             </h3>
-            <p style="font-size:13px;color:#64748b;margin:0 auto 16px auto;max-width:460px;line-height:1.45;">
+            <p style="font-size:13px;color:#64748b;margin:0 auto 16px auto;max-width:440px;line-height:1.45;">
               Choose how you would like to create your ATS-compliant master resume:
             </p>
 
-            <!-- Single-Line Clean Option Cards -->
+            <!-- Non-Overlapping Structured Action Cards -->
             <div class="wiz-intro-card-row">
-              <div class="wiz-intro-card primary" onclick="nextWizardStep()" title="Click to start guided setup">
-                <div class="wiz-intro-left">
-                  <i data-lucide="wand-2" style="width:16px;height:16px;color:#0284c7;flex-shrink:0;"></i>
-                  <span class="wiz-intro-title">Start Guided Profile Wizard</span>
-                  <span class="wiz-intro-badge blue">Recommended &bull; 2 Mins</span>
+              <div class="wiz-intro-card primary" onclick="nextWizardStep()" title="Click to start step-by-step guided setup">
+                <div class="wiz-card-icon blue">
+                  <i data-lucide="wand-2" style="width:18px;height:18px;"></i>
                 </div>
-                <div class="wiz-intro-action blue">
-                  <span>Get Started</span> <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                <div class="wiz-card-content">
+                  <div class="wiz-card-title">Start Guided Profile Wizard</div>
+                  <div class="wiz-card-sub">Recommended &bull; Step-by-step guided setup</div>
+                </div>
+                <div class="wiz-card-arrow">
+                  <i data-lucide="chevron-right" style="width:18px;height:18px;"></i>
                 </div>
               </div>
 
-              <div class="wiz-intro-card secondary" onclick="closeOnboardingWizard()" title="Click to edit directly on the page">
-                <div class="wiz-intro-left">
-                  <i data-lucide="edit-3" style="width:16px;height:16px;color:#64748b;flex-shrink:0;"></i>
-                  <span class="wiz-intro-title">Edit Directly on Resume Template</span>
-                  <span class="wiz-intro-badge gray">Manual Typing</span>
+              <div class="wiz-intro-card secondary" onclick="closeOnboardingWizard()" title="Click to edit directly on the resume template">
+                <div class="wiz-card-icon gray">
+                  <i data-lucide="edit-3" style="width:18px;height:18px;"></i>
                 </div>
-                <div class="wiz-intro-action gray">
-                  <span>Open Editor</span> <i data-lucide="x" style="width:14px;height:14px;"></i>
+                <div class="wiz-card-content">
+                  <div class="wiz-card-title">Edit Directly on Resume Template</div>
+                  <div class="wiz-card-sub">Fast &bull; Manual typing directly on page</div>
+                </div>
+                <div class="wiz-card-arrow">
+                  <i data-lucide="chevron-right" style="width:18px;height:18px;"></i>
                 </div>
               </div>
             </div>
 
-            <!-- Single-Line Feature Highlights Strip -->
+            <!-- Feature Badges Strip -->
             <div style="display:flex;justify-content:center;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap;font-size:11.5px;color:#64748b;">
               <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check-circle-2" style="width:13px;height:13px;color:#16a34a;"></i> ATS-Ready A4</span>
               <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="paperclip" style="width:13px;height:13px;color:#0284c7;"></i> Document Merger</span>
@@ -3661,16 +3654,28 @@
       '6. Choose Sections & Generate'
     ];
 
-    if (currentWizardStep === 0) {
+        if (currentWizardStep === 0) {
       if (titleEl) titleEl.textContent = 'Welcome to CVCraft';
       if (backBtn) backBtn.style.display = 'none';
-      if (closeDirectBtn) closeDirectBtn.style.display = 'inline-flex';
+      if (closeDirectBtn) {
+        closeDirectBtn.style.display = 'inline-flex';
+        closeDirectBtn.innerHTML = '<i data-lucide="x" style="width:14px;height:14px;margin-right:4px;"></i> Close / Edit';
+      }
       if (nextBtn) nextBtn.innerHTML = '<i data-lucide="play" style="width:14px;height:14px;margin-right:4px;"></i> Get Started &rarr;';
     } else {
       if (titleEl) titleEl.textContent = stepTitles[currentWizardStep - 1] || 'Resume Setup';
-      if (closeDirectBtn) closeDirectBtn.style.display = 'none';
-      if (backBtn) {
-        backBtn.style.display = currentWizardStep > 1 ? 'inline-flex' : 'none';
+      if (currentWizardStep === 1) {
+        if (closeDirectBtn) {
+          closeDirectBtn.style.display = 'inline-flex';
+          closeDirectBtn.innerHTML = '<i data-lucide="x" style="width:14px;height:14px;margin-right:4px;"></i> Close / Edit';
+        }
+        if (backBtn) backBtn.style.display = 'none';
+      } else {
+        if (closeDirectBtn) closeDirectBtn.style.display = 'none';
+        if (backBtn) {
+          backBtn.style.display = 'inline-flex';
+          backBtn.innerHTML = '&larr; Back';
+        }
       }
 
       if (currentWizardStep < TOTAL_WIZARD_STEPS) {
