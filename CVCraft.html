@@ -1910,7 +1910,7 @@
                 </div>
               </button>
 
-              <button class="more-menu-item" onclick="document.getElementById('jsonFileInput').click(); closeMoreDropdown();">
+              <button class="more-menu-item" onclick="openImportJsonModal(); closeMoreDropdown();">
                 <i data-lucide="upload" class="btn-icon" style="color:#10b981;"></i>
                 <div class="more-item-text">
                   <span class="more-item-title">Import JSON Backup</span>
@@ -1947,7 +1947,7 @@
           </div>
         </div>
 
-        <input type="file" id="jsonFileInput" accept=".json,application/json" style="display:none;">
+        <input type="file" id="jsonFileInput" accept=".json,application/json,text/plain,text/json,*/*" style="display:none;">
 
         <div class="header-divider"></div>
 
@@ -2002,7 +2002,7 @@
 
         <!-- JSON Import & Export -->
         <div class="mobile-menu-grid">
-          <button class="mobile-menu-item" onclick="document.getElementById('jsonFileInput').click(); closeMobileMenu();">
+          <button class="mobile-menu-item" onclick="openImportJsonModal(); closeMobileMenu();">
             <i data-lucide="upload" class="btn-icon"></i>
             <span>Import JSON</span>
           </button>
@@ -2232,6 +2232,68 @@
       <div class="confirm-actions">
         <button class="confirm-cancel" id="confirmCancelBtn" onclick="resolveConfirm(false)">Cancel</button>
         <button class="confirm-primary" id="confirmOkBtn" onclick="resolveConfirm(true)">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import JSON Backup & Profile Modal (Optimized for Mobile & Desktop) -->
+  <div class="confirm-overlay" id="importJsonModalOverlay" onclick="if (event.target === event.currentTarget) closeImportJsonModal()">
+    <div class="confirm-card" style="max-width: 520px; text-align: left;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="upload-cloud" style="width: 20px; height: 20px; color: #0284c7;"></i>
+          <h3 style="margin: 0; font-size: 16.5px; font-weight: 800; color: #0f172a;">Import Resume Profile</h3>
+        </div>
+        <button type="button" onclick="closeImportJsonModal()" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:18px;padding:2px 6px;">&times;</button>
+      </div>
+
+      <p style="font-size: 12.5px; color: #64748b; margin: 0 0 14px 0; line-height: 1.45;">
+        Easily restore your master resume on mobile or desktop using any of the methods below:
+      </p>
+
+      <!-- Method 1: Choose File (Broadened for all mobile pickers) -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; cursor: pointer; transition: all 0.15s ease;" onclick="triggerMobileJsonPicker()" onmouseover="this.style.borderColor='#0284c7'" onmouseout="this.style.borderColor='#e2e8f0'">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 34px; height: 34px; border-radius: 6px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i data-lucide="file-up" style="width: 18px; height: 18px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 13px; font-weight: 700; color: #0f172a;">Browse from Phone / Computer</div>
+              <div style="font-size: 11px; color: #64748b;">Select any .json or text file from Downloads/Files</div>
+            </div>
+          </div>
+          <span style="font-size: 12px; font-weight: 700; color: #0284c7; background: #ffffff; border: 1px solid #bae6fd; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">Choose File</span>
+        </div>
+      </div>
+
+      <!-- Method 2: Paste JSON Text -->
+      <div style="margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+          <label style="font-size: 12px; font-weight: 700; color: #334155; display: flex; align-items: center; gap: 4px;">
+            <i data-lucide="clipboard" style="width: 13px; height: 13px; color: #0284c7;"></i> Or Paste JSON Code / Text:
+          </label>
+          <button type="button" onclick="pasteFromClipboardToInput()" style="background:none; border:none; color:#0284c7; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;">Paste from Clipboard</button>
+        </div>
+        <textarea id="jsonPasteTextarea" rows="3" class="wizard-input" placeholder='Paste your {"app":"CVCraft", ...} code here' style="font-family: monospace; font-size: 11px; width: 100%; box-sizing: border-box; resize: vertical;"></textarea>
+        <button type="button" class="download-btn-blue" onclick="loadPastedJSONText()" style="width: 100%; margin-top: 6px; justify-content: center; padding: 8px 12px; font-size: 12.5px;">
+          <i data-lucide="check" class="btn-icon"></i> Load Pasted Profile
+        </button>
+      </div>
+
+      <!-- Method 3: Ready Master Profiles -->
+      <div style="border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
+        <div style="font-size: 11.5px; font-weight: 700; color: #64748b; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;">
+          Or Load Sample Master Profile:
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="wizard-btn-sec" onclick="loadSampleProfile('janni')" style="flex: 1; min-width: 180px; justify-content: center; font-size: 12px; padding: 6px 10px;">
+            <i data-lucide="user" class="btn-icon"></i> Janni Mohana Rao
+          </button>
+          <button type="button" class="wizard-btn-sec" onclick="loadSampleProfile('kogeshwar')" style="flex: 1; min-width: 180px; justify-content: center; font-size: 12px; padding: 6px 10px;">
+            <i data-lucide="user" class="btn-icon"></i> Lingam Kogeshwar Rao
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -4012,6 +4074,107 @@
     closeCropModal();
     updatePhotoButtonsLabel();
     showToast('Profile photo updated!', 'success');
+  }
+
+  // ---------- Mobile & Desktop Import JSON Helpers ----------
+  const SAMPLE_PROFILES = {
+    janni: {"app": "CVCraft", "version": "1.0", "exportedAt": "2026-08-16T10:22:00.000Z", "filename": "Janni_Mohana_Rao_Resume", "profileName": "Janni Mohana Rao \u2014 Pipe & Structural Fabricator", "page1HTML": "\n<div class=\"page-badge\">Page 1 of 2</div>\n\n    <!-- Header -->\n    <div class=\"header\">\n      <div class=\"header-left\">\n        <h1 class=\"name\" contenteditable=\"true\">Janni Mohana<br>Rao</h1>\n        <div class=\"title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</div>\n        <div class=\"address\" contenteditable=\"true\">\n          <b>Address:</b> D.No: C-79, Poleru (V&amp;P), Kanchili Mandal,\n          Srikakulam Dist, Andhra Pradesh, India, PIN: 532291\n        </div>\n      </div>\n      <div class=\"header-right\">\n        <div class=\"photo-wrap\" id=\"photoWrap\" role=\"button\" tabindex=\"0\" aria-label=\"Upload Profile Photo\" onclick=\"document.getElementById('photoInput').click()\">\n          <span class=\"placeholder\">Click to<br>upload photo</span>\n        </div>\n        <div class=\"contact\">\n          <div contenteditable=\"true\">Phone: +91 8179771433</div>\n          <div contenteditable=\"true\">Email: chotumohan2024@gmail.com</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Career Objective -->\n    <div class=\"section-title\" contenteditable=\"true\">Career Objective</div>\n    <div class=\"objective\" contenteditable=\"true\">\n      To secure a position as a Pipe &amp; Structural Fabricator utilizing my skills and abilities in the technical field that offers professional growth while being resourceful, innovative, and flexible to meet organizational goals.\n    </div>\n\n    <!-- Qualifications -->\n    <div class=\"section-title\" contenteditable=\"true\">Qualifications</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Technical Qualification:</b> Practical experience as a Pipe &amp; Structural Fabricator &amp; Fitter</li>\n      <li><b>Academic:</b> ITI Fitter from Siddharth ITC Bhimavaram, A.P.</li>\n      <li><b>Secondary School:</b> SSC from High school DG Puram, Kanchili, Srikakulam, A.P.</li>\n    </ul>\n\n    <!-- Work Experience Summary -->\n    <div class=\"section-title\" contenteditable=\"true\">Work Experience Summary</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Foreign Work Experience (Europe, UAE, Turkey, Africa):</b> Approx. 10+ Years</li>\n      <li><b>Indian Work Experience:</b> Approx. 5 Years</li>\n    </ul>\n\n    <!-- Detailed Work Experience -->\n    <div class=\"section-title\" contenteditable=\"true\">International Experience</div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2022 &ndash; Dec 2023</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Innova b2b europa kft. &mdash; SK Battery Plant &amp; Energop sp Zoo &amp; Lautec</span>\n        <span class=\"job-location\" contenteditable=\"true\">Europe</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Jul 2017 &ndash; Aug 2020</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Lamprell</span>\n        <span class=\"job-location\" contenteditable=\"true\">Dubai, UAE</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Nov 2016 &ndash; Mar 2017</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Ilk Insaat Taahhut San ve tic.a.s. &mdash; Start Refinery</span>\n        <span class=\"job-location\" contenteditable=\"true\">Turkey</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Dec 2014 &ndash; Jun 2016</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Lamprell</span>\n        <span class=\"job-location\" contenteditable=\"true\">Dubai, UAE</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2014 &ndash; Sep 2014</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Shayona Cement Corporation Ltd</span>\n        <span class=\"job-location\" contenteditable=\"true\">Africa</span>\n      </div>\n    </div>\n\n    <div class=\"section-title\" contenteditable=\"true\">Indian Experience</div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2024 &ndash; Jun 2025</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Samata Construction &mdash; HPCL / HCL Chemical Plant</span>\n        <span class=\"job-location\" contenteditable=\"true\">Visakhapatnam, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">Mar 2012 &ndash; Jan 2014</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Bhavani Erectors Private LTD</span>\n        <span class=\"job-location\" contenteditable=\"true\">Bellary, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">Mar 2009 &ndash; Jan 2011</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Indwell Pvt LTD</span>\n        <span class=\"job-location\" contenteditable=\"true\">Ramagundam, India</span>\n      </div>\n    </div>\n", "page2HTML": "\n<div class=\"page-badge\">Page 2 of 2</div>\n\n    <div class=\"section-title\" contenteditable=\"true\" style=\"margin-top:0;\">Key Responsibilities &amp; Competencies</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Piping Systems:</b> Fabrication, erection, and assembly of complex piping systems for upstream and downstream operations.</li>\n      <li><b>Material Expertise:</b> Worked with carbon steel and stainless steel.</li>\n      <li><b>Drawing Interpretation:</b> Read and interpreted P&amp;IDs, isometric drawings, and spool drawings to fabricate piping as per design.</li>\n      <li><b>Fabrication Techniques:</b> Carried out pipe fitting, beveling, threading, and tack welding to exact tolerances. Ensured compliance with ASME, API, and project-specific standards.</li>\n      <li><b>Refinery Operations:</b> Supported shutdown, turnaround, and maintenance activities with rapid fabrication and modification of pipework. Collaborated with engineers and welders to install high-pressure piping including steam, hydrocarbon, and chemical lines.</li>\n      <li><b>Safety &amp; Compliance:</b> Strict compliance with refinery safety protocols, hot work permits, and confined space procedures.</li>\n      <li><b>Marine &amp; Shipyards:</b> Fabricated and installed marine piping systems including fuel, ballast, fire-fighting, and bilge systems. Worked on shipbuilding, repair, and retrofitting jobs.</li>\n      <li><b>Tools &amp; Equipment:</b> Proficient in using hand tools, grinders, pipe benders, and orbital cutting machines.</li>\n      <li><b>Installation:</b> Installed pipe supports, brackets, valves, gaskets, and flanges; performed alignment before welding.</li>\n      <li><b>Rig Operations:</b> Performed fabrication, assembly, and installation of steel structures, pipe supports, platforms, and equipment skids on onshore and offshore rigs.</li>\n      <li><b>Refurbishment:</b> Successfully fabricated and installed over 50+ structural components during major rig refurbishment projects under safety regulations.</li>\n      <li><b>Rig Dismantling:</b> Experienced in rig dismantling using cutting torches, plasma cutters, grinders, and other metalworking tools to shape and modify components.</li>\n    </ul>\n\n    <div class=\"section-title\" contenteditable=\"true\">Personal Data</div>\n    <table class=\"pdata\" contenteditable=\"true\">\n      <tr><td class=\"label\">Father's Name</td><td>Mr. Linga Raju</td></tr>\n      <tr><td class=\"label\">Date of Birth</td><td>15th June 1991 (Age: 35)</td></tr>\n      <tr><td class=\"label\">Marital Status</td><td>Married</td></tr>\n      <tr><td class=\"label\">Nationality</td><td>Indian</td></tr>\n      <tr><td class=\"label\">Gender</td><td>Male</td></tr>\n      <tr><td class=\"label\">Languages Known</td><td>English, Hindi, Telugu</td></tr>\n      <tr><td class=\"label\">Current Passport</td><td>U8590763 (Issued: 08/07/2021, Expires: 07/07/2031)</td></tr>\n    </table>\n\n    <div class=\"section-title\" contenteditable=\"true\">Declaration</div>\n    <div class=\"declaration-text\" contenteditable=\"true\">\n      I hereby declare that all the details furnished above are true to the best of my knowledge.\n    </div>\n\n    <div class=\"sign-row\">\n      <div class=\"place-date\" contenteditable=\"true\">\n        Place: <span class=\"line\">&nbsp;</span><br>\n        Date: <span class=\"line\">&nbsp;</span>\n      </div>\n      <div class=\"sign-name\" contenteditable=\"true\">(JANNI MOHANA RAO)</div>\n    </div>\n", "photo": null, "attachments": []},
+    kogeshwar: {"app": "CVCraft", "version": "1.0", "exportedAt": "2026-08-16T10:22:00.000Z", "filename": "Lingam_Kogeshwar_Rao_Resume", "profileName": "Lingam Kogeshwar Rao \u2014 Mechanical Technician", "page1HTML": "\n<div class=\"page-badge\">Page 1 of 2</div>\n\n    <!-- Header -->\n    <div class=\"header\">\n      <div class=\"header-left\">\n        <h1 class=\"name\" contenteditable=\"true\">Lingam Kogeshwar<br>Rao</h1>\n        <div class=\"title\" contenteditable=\"true\">Mechanical Technician</div>\n        <div class=\"address\" contenteditable=\"true\">\n          <b>Address:</b> Door No: 1-123, Poleru (V&amp;P), Kanchili Mandal,\n          Srikakulam Dist, Andhra Pradesh, India\n        </div>\n      </div>\n      <div class=\"header-right\">\n        <div class=\"photo-wrap\" id=\"photoWrap\" role=\"button\" tabindex=\"0\" aria-label=\"Upload Profile Photo\" onclick=\"document.getElementById('photoInput').click()\">\n          <span class=\"placeholder\">Click to<br>upload photo</span>\n        </div>\n        <div class=\"contact\">\n          <div contenteditable=\"true\">Phone: +91 7337249877</div>\n          <div contenteditable=\"true\">Email: Kogeshwarsantu@gmail.com</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Career Objective -->\n    <div class=\"section-title\" contenteditable=\"true\">Career Objective</div>\n    <div class=\"objective\" contenteditable=\"true\">\n      To secure a position as a Mechanical Technician utilizing my skills and abilities in the technical field that offers professional growth while being resourceful, innovative, and flexible to meet organizational goals.\n    </div>\n\n    <!-- Qualifications -->\n    <div class=\"section-title\" contenteditable=\"true\">Qualifications</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Technical Qualification:</b> Practical experience as a Pipe Fitter / Pipe Fabricator / Mechanical Technician</li>\n      <li><b>Licensing:</b> GCC Qatar Valid Light Driving License (Manual)</li>\n      <li><b>Academic:</b> 10th Standard (SSC) | ZPHS High School, Hyd Bollaram</li>\n    </ul>\n\n    <!-- Work Experience Summary -->\n    <div class=\"section-title\" contenteditable=\"true\">Work Experience Summary</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Foreign Work Experience (Qatar):</b> Approx. 9 Years</li>\n      <li><b>Indian Work Experience:</b> Approx. 5+ Years</li>\n    </ul>\n\n    <!-- Detailed Work Experience -->\n    <div class=\"section-title\" contenteditable=\"true\">Detailed Work Experience</div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Piping Foreman</span>\n        <span class=\"job-date\" contenteditable=\"true\">Dec 2023 &ndash; Present</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">M/s. Apex Infralink Limited &mdash; RUF Unit, HPCL VRMP</span>\n        <span class=\"job-location\" contenteditable=\"true\">Visakhapatnam, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2014 &ndash; Jun 2023</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Elite International Trading Maintenance &amp; Contracting Co. W.L.L</span>\n        <span class=\"job-location\" contenteditable=\"true\">Doha, Qatar</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">Dec 2012 &ndash; Jan 2014</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Rowan Drilling / Tech-Sharp Engineers (P) Ltd &mdash; Kattupalli Shipyard</span>\n        <span class=\"job-location\" contenteditable=\"true\">Tamil Nadu, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">May 2011 &ndash; Nov 2012</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Nowell Construction Ltd / Indwell Constructions &mdash; KTPS New Paloncha</span>\n        <span class=\"job-location\" contenteditable=\"true\">Khammam, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">May 2009 &ndash; Mar 2011</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Nicco Corporation Limited &mdash; Nalco Expansion Project, Damanjodi</span>\n        <span class=\"job-location\" contenteditable=\"true\">Odisha, India</span>\n      </div>\n    </div>\n", "page2HTML": "\n<div class=\"page-badge\">Page 2 of 2</div>\n\n    <div class=\"section-title\" contenteditable=\"true\" style=\"margin-top:0;\">Key Responsibilities &amp; Competencies</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li>Fabrication, erection &amp; pre-commissioning activities of various above-ground (A/G) piping systems.</li>\n      <li>Erection &amp; alignment of pipe routing from various equipment according to standard codes.</li>\n      <li>Line check activities prior to hydro-testing as per isometric drawings and P&amp;ID diagrams.</li>\n      <li>Punch closing activities and Walkthrough checks for Test Packages to verify and close out system punches.</li>\n      <li>Coordination with client inspection departments at various fabrication and erection stages to obtain QA/QC approvals.</li>\n      <li>Material receiving inspection of pipe, fittings, and fabricated systems to verify alignment with specifications.</li>\n      <li>Installation of supports as per isometric and construction drawings.</li>\n      <li>Gasket verification, bolt tightening as per rating and dimensions, hydraulic torque applications, and visual inspection after tightening.</li>\n      <li>Co-ordination with other mechanical departments (QA/QC, Equipment, Steel Structure) for seamless project delivery.</li>\n      <li>Interpreted work orders, mechanical drawings, maps, and technical instructions to perform assigned maintenance, inspection, installation, and asset-tagging activities accurately.</li>\n      <li>Performed mechanical equipment inspections and maintenance, verified asset information, and reported equipment conditions and discrepancies to the Supervisor.</li>\n      <li>Completed work orders, inspection records, and field documentation accurately while ensuring compliance with established safety procedures and quality standards.</li>\n      <li>Led and guided assigned Helpers during field activities, ensuring proper use of tools and materials and maintaining a clean, organized, and safe work environment.</li>\n    </ul>\n\n    <div class=\"section-title\" contenteditable=\"true\">Awards &amp; Key Highlights</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Most Productive Employee of the Month (June 2014):</b> Awarded by Exterran / Belleli Energy Srl / Fichtner / TTQA for outstanding performance and productivity at the RAF-A2 Project Site.</li>\n    </ul>\n\n    <div class=\"section-title\" contenteditable=\"true\">Personal Data</div>\n    <table class=\"pdata\" contenteditable=\"true\">\n      <tr><td class=\"label\">Father's Name</td><td>Mr. L. Sri Ramulu</td></tr>\n      <tr><td class=\"label\">Date of Birth</td><td>16th January 1992 (Age: 33)</td></tr>\n      <tr><td class=\"label\">Marital Status</td><td>Married</td></tr>\n      <tr><td class=\"label\">Nationality</td><td>Indian</td></tr>\n      <tr><td class=\"label\">Gender</td><td>Male</td></tr>\n      <tr><td class=\"label\">Languages Known</td><td>English, Hindi, Telugu, Malayalam</td></tr>\n      <tr><td class=\"label\">Current Passport</td><td>A E380237 (Issued: 06/08/2025, Expires: 05/08/2035)</td></tr>\n      <tr><td class=\"label\">Qatar ID (QID)</td><td>29235615380</td></tr>\n      <tr><td class=\"label\">Driving License</td><td>GCC Qatar Valid Light Driving License (Manual) (Valid till 2028)</td></tr>\n    </table>\n\n    <div class=\"section-title\" contenteditable=\"true\">Declaration</div>\n    <div class=\"declaration-text\" contenteditable=\"true\">\n      I hereby certify that the above particulars are true and correct according to the best of my knowledge and belief.\n    </div>\n\n    <div class=\"sign-row\">\n      <div class=\"place-date\" contenteditable=\"true\">\n        Place: <span class=\"line\">&nbsp;</span><br>\n        Date: <span class=\"line\">&nbsp;</span>\n      </div>\n      <div class=\"sign-name\" contenteditable=\"true\">(Lingam Kogeshwar Rao)</div>\n    </div>\n", "photo": null, "attachments": []}
+  };
+
+  function openImportJsonModal() {
+    const overlay = document.getElementById('importJsonModalOverlay');
+    const textarea = document.getElementById('jsonPasteTextarea');
+    if (textarea) textarea.value = '';
+    if (overlay) {
+      openModal(overlay);
+      if (window.lucide) lucide.createIcons();
+    }
+  }
+
+  function closeImportJsonModal() {
+    const overlay = document.getElementById('importJsonModalOverlay');
+    if (overlay) closeModal(overlay);
+  }
+
+  function triggerMobileJsonPicker() {
+    closeImportJsonModal();
+    const input = document.getElementById('jsonFileInput');
+    if (input) input.click();
+  }
+
+  async function pasteFromClipboardToInput() {
+    try {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        const text = await navigator.clipboard.readText();
+        const textarea = document.getElementById('jsonPasteTextarea');
+        if (textarea) textarea.value = text;
+      } else {
+        alert('Please long-press and paste into the box below.');
+      }
+    } catch (e) {
+      alert('Please paste directly into the box below.');
+    }
+  }
+
+  async function loadPastedJSONText() {
+    const textarea = document.getElementById('jsonPasteTextarea');
+    const raw = (textarea?.value || '').trim();
+    if (!raw) {
+      alert('Please paste valid JSON text first.');
+      return;
+    }
+    try {
+      const data = JSON.parse(raw);
+      closeImportJsonModal();
+      await applyImportedJSONData(data, 'Pasted Profile');
+    } catch (e) {
+      alert('Invalid JSON format: ' + e.message);
+    }
+  }
+
+  async function loadSampleProfile(key) {
+    const data = SAMPLE_PROFILES[key];
+    if (!data) return;
+    closeImportJsonModal();
+    await applyImportedJSONData(data, data.filename || 'Sample Profile');
+  }
+
+  async function applyImportedJSONData(data, sourceLabel) {
+    if (!data.page1HTML && !data.page2HTML && !data.page1 && !data.page2) {
+      alert('The data is not a valid CVCraft resume backup.');
+      return;
+    }
+
+    if (data.page1HTML) document.getElementById('resume').innerHTML = data.page1HTML;
+    else if (data.page1) document.getElementById('resume').innerHTML = data.page1;
+
+    if (data.page2HTML) document.getElementById('resume-page2').innerHTML = data.page2HTML;
+    else if (data.page2) document.getElementById('resume-page2').innerHTML = data.page2;
+
+    const photoData = data.photo || null;
+    if (photoData) {
+      await dbSet('profile_photo', photoData);
+      const wrap = document.getElementById('photoWrap');
+      if (wrap) wrap.innerHTML = '<img src="' + photoData + '" alt="Profile Photo">';
+    }
+
+    if (data.filename && document.getElementById('pdfFilenameInput')) {
+      document.getElementById('pdfFilenameInput').value = data.filename;
+    }
+
+    if (data.attachments && Array.isArray(data.attachments)) {
+      attachments = data.attachments;
+      await dbSet('doc_attachments', attachments);
+      renderAttachmentsList();
+    }
+
+    localStorage.setItem('cvcraft_profile_created', 'true');
+    localStorage.setItem('cvcraft_last_page', 'builder');
+    saveState();
+    updatePhotoButtonsLabel();
+    updateUserGreeting();
+    showToast('Loaded profile: ' + sourceLabel, 'success');
   }
 
   // ---------- Attachments Shelf Manager ----------
