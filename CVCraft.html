@@ -2683,10 +2683,10 @@
     if (window.lucide) lucide.createIcons();
   }
 
-    // ---------- Synchronize Active Resume Content to Wizard Fields ----------
+      // ---------- Synchronize Active Resume Content to Wizard Fields ----------
   function syncResumeToWizardFields() {
     try {
-      // 1. Name & Title
+      // 1. Name, Title & Address
       const nameEl = document.querySelector('.header-left h1.name');
       const titleEl = document.querySelector('.header-left .title');
       const addrEl = document.querySelector('.header-left .address');
@@ -2695,12 +2695,18 @@
       const wizTitle = document.getElementById('wizTitle');
       const wizAddress = document.getElementById('wizAddress');
 
-      if (nameEl && wizName) wizName.value = nameEl.innerText.replace(/\s+/g, ' ').trim();
-      if (titleEl && wizTitle) wizTitle.value = titleEl.innerText.replace(/\s+/g, ' ').trim();
+      if (nameEl && wizName) {
+        const val = nameEl.innerText.replace(/[\r\n]+/g, ' ').trim();
+        wizName.value = (val === 'FULL NAME') ? '' : val;
+      }
+      if (titleEl && wizTitle) {
+        const val = titleEl.innerText.replace(/[\r\n]+/g, ' ').trim();
+        wizTitle.value = (val === 'PROFESSIONAL TITLE / ROLE') ? '' : val;
+      }
       if (addrEl && wizAddress) {
-        let addrText = addrEl.innerText.replace(/\s+/g, ' ').trim();
-        addrText = addrText.replace(/^Address:\s*/i, '');
-        wizAddress.value = addrText;
+        let addrText = addrEl.innerText.replace(/[\r\n]+/g, ' ').trim();
+        addrText = addrText.replace(/^Address:\s*/i, '').trim();
+        wizAddress.value = (addrText.includes('City, State, Country')) ? '' : addrText;
       }
 
       // 2. Contact Phone & Email
@@ -2711,87 +2717,104 @@
       contactDivs.forEach(div => {
         const txt = div.innerText.trim();
         if (txt.toLowerCase().includes('phone:') || txt.toLowerCase().includes('mob:') || txt.startsWith('+')) {
-          if (wizPhone) wizPhone.value = txt.replace(/^(phone|mob|tel):\s*/i, '').trim();
+          if (wizPhone) {
+            let p = txt.replace(/^(phone|mob|tel):\s*/i, '').trim();
+            wizPhone.value = p.includes('00000') ? '' : p;
+          }
         } else if (txt.toLowerCase().includes('email:') || txt.includes('@')) {
-          if (wizEmail) wizEmail.value = txt.replace(/^email:\s*/i, '').trim();
+          if (wizEmail) {
+            let em = txt.replace(/^email:\s*/i, '').trim();
+            wizEmail.value = em.includes('example.com') ? '' : em;
+          }
         }
       });
 
-      // 3. Objective
+      // 3. Objective Text (ID: wizObjectiveText)
       const objEl = document.querySelector('.objective');
-      const wizObj = document.getElementById('wizObjective');
-      if (objEl && wizObj) wizObj.value = objEl.innerText.trim();
+      const wizObj = document.getElementById('wizObjectiveText') || document.getElementById('wizObjective');
+      if (objEl && wizObj) {
+        wizObj.value = objEl.innerText.trim();
+      }
 
-      // 4. Qualifications
+      // 4. Qualifications (IDs: wizTechQual, wizAcademicQual, wizSSCQual, wizSafetyQual)
       const qualItems = document.querySelectorAll('#secQualContent li');
       const wizTechQual = document.getElementById('wizTechQual');
       const wizAcademicQual = document.getElementById('wizAcademicQual');
       const wizSSCQual = document.getElementById('wizSSCQual');
+      const wizSafetyQual = document.getElementById('wizSafetyQual');
 
       qualItems.forEach(li => {
         const raw = li.innerText.trim();
-        if (raw.toLowerCase().includes('technical')) {
+        if (raw.toLowerCase().includes('technical qualification')) {
           if (wizTechQual) wizTechQual.value = raw.replace(/^Technical Qualification:\s*/i, '').trim();
-        } else if (raw.toLowerCase().includes('academic') || raw.toLowerCase().includes('degree') || raw.toLowerCase().includes('bachelor')) {
+        } else if (raw.toLowerCase().includes('academic qualification') || raw.toLowerCase().includes('bachelor') || raw.toLowerCase().includes('degree')) {
           if (wizAcademicQual) wizAcademicQual.value = raw.replace(/^Academic Qualification:\s*/i, '').trim();
         } else if (raw.toLowerCase().includes('secondary') || raw.toLowerCase().includes('ssc') || raw.toLowerCase().includes('school')) {
           if (wizSSCQual) wizSSCQual.value = raw.replace(/^Secondary Education:\s*/i, '').trim();
+        } else if (raw.toLowerCase().includes('safety') || raw.toLowerCase().includes('osha') || raw.toLowerCase().includes('course')) {
+          if (wizSafetyQual) wizSafetyQual.value = raw.replace(/^[a-zA-Z\s\(\),]+:\s*/i, '').trim();
         }
       });
 
-      // 5. Work Experience Summary
+      // 5. Work Experience Summary (IDs: wizForeignExp, wizIndianExp)
       const expItems = document.querySelectorAll('#secExpSummaryContent li');
-      const wizForeignYears = document.getElementById('wizForeignYears');
-      const wizIndianYears = document.getElementById('wizIndianYears');
+      const wizForeignExp = document.getElementById('wizForeignExp');
+      const wizIndianExp = document.getElementById('wizIndianExp');
 
       expItems.forEach(li => {
         const raw = li.innerText.trim();
-        if (raw.toLowerCase().includes('foreign') || raw.toLowerCase().includes('international')) {
-          if (wizForeignYears) wizForeignYears.value = raw.replace(/^[a-zA-Z\s\(\),]+:\s*/i, '').trim();
+        if (raw.toLowerCase().includes('foreign') || raw.toLowerCase().includes('international') || raw.toLowerCase().includes('gulf')) {
+          if (wizForeignExp) wizForeignExp.value = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
         } else if (raw.toLowerCase().includes('indian') || raw.toLowerCase().includes('domestic')) {
-          if (wizIndianYears) wizIndianYears.value = raw.replace(/^[a-zA-Z\s\(\),]+:\s*/i, '').trim();
+          if (wizIndianExp) wizIndianExp.value = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
         }
       });
 
-      // 6. Foreign / International Jobs
+      // 6. Foreign / International Jobs (Container: wizForeignJobsContainer)
       const foreignJobEls = document.querySelectorAll('#secForeignJobsContent .job');
       const foreignContainer = document.getElementById('wizForeignJobsContainer');
-      if (foreignContainer && foreignJobEls.length > 0) {
+      if (foreignContainer) {
         foreignContainer.innerHTML = '';
-        foreignJobEls.forEach(job => {
-          const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
-          const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
-          const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
-          const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
-          addWizardForeignJob(jTitle, jComp, jLoc, jDate);
-        });
+        if (foreignJobEls.length > 0) {
+          foreignJobEls.forEach(job => {
+            const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
+            const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
+            const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
+            const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+            addWizardForeignJob(jTitle, jComp, jLoc, jDate);
+          });
+        }
       }
 
-      // 7. Indian / Domestic Jobs
+      // 7. Indian / Domestic Jobs (Container: wizIndianJobsContainer)
       const indianJobEls = document.querySelectorAll('#secIndianJobsContent .job');
       const indianContainer = document.getElementById('wizIndianJobsContainer');
-      if (indianContainer && indianJobEls.length > 0) {
+      if (indianContainer) {
         indianContainer.innerHTML = '';
-        indianJobEls.forEach(job => {
-          const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
-          const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
-          const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
-          const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
-          addWizardIndianJob(jTitle, jComp, jLoc, jDate);
-        });
+        if (indianJobEls.length > 0) {
+          indianJobEls.forEach(job => {
+            const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
+            const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
+            const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
+            const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+            addWizardIndianJob(jTitle, jComp, jLoc, jDate);
+          });
+        }
       }
 
-      // 8. Key Responsibilities (Page 2)
+      // 8. Key Responsibilities (Container: wizRespContainer)
       const respItems = document.querySelectorAll('#secRespContent li');
       const respContainer = document.getElementById('wizRespContainer');
-      if (respContainer && respItems.length > 0) {
+      if (respContainer) {
         respContainer.innerHTML = '';
-        respItems.forEach(li => {
-          addWizardRespField(li.innerText.trim());
-        });
+        if (respItems.length > 0) {
+          respItems.forEach(li => {
+            addWizardRespField(li.innerText.trim());
+          });
+        }
       }
 
-      // 9. Personal Data (Page 2)
+      // 9. Personal Data Table (Page 2)
       const pdataRows = document.querySelectorAll('#secPersonalContent table.pdata tr');
       pdataRows.forEach(tr => {
         const label = tr.querySelector('.label')?.innerText.toLowerCase().trim() || '';
@@ -2838,81 +2861,19 @@
     } else {
       currentWizardStep = 1;
     }
+    
+    // Always sync active resume data into all wizard fields before opening!
+    syncResumeToWizardFields();
+
     updateWizardStepUI();
     const modal = document.getElementById('onboardingWizardModal');
     if (!modal) return;
-
-    // Prefill Contact Info
-    const nameEl = document.querySelector('.header-left h1.name');
-    const titleEl = document.querySelector('.header-left .title');
-    const addrEl = document.querySelector('.header-left .address');
-    const phoneEmailDivs = document.querySelectorAll('.header-right .contact div');
-
-    if (nameEl && document.getElementById('wizName')) {
-      const rawName = nameEl.innerText.replace(/[\r\n]+/g, ' ').trim();
-      document.getElementById('wizName').value = (rawName === 'FULL NAME') ? '' : rawName;
-    }
-    if (titleEl && document.getElementById('wizTitle')) {
-      const rawTitle = titleEl.innerText.trim();
-      document.getElementById('wizTitle').value = (rawTitle === 'PROFESSIONAL TITLE / ROLE') ? '' : rawTitle;
-    }
-    if (addrEl && document.getElementById('wizAddress')) {
-      let addr = addrEl.innerText.replace('Address:', '').trim();
-      if (addr.includes('City, State, Country')) addr = '';
-      document.getElementById('wizAddress').value = addr;
-    }
-    if (phoneEmailDivs && phoneEmailDivs.length >= 2) {
-      if (document.getElementById('wizPhone')) {
-        let p = phoneEmailDivs[0].innerText.replace('Phone:', '').trim();
-        if (p.includes('00000')) p = '';
-        document.getElementById('wizPhone').value = p;
-      }
-      if (document.getElementById('wizEmail')) {
-        let em = phoneEmailDivs[1].innerText.replace('Email:', '').trim();
-        if (em.includes('example.com')) em = '';
-        document.getElementById('wizEmail').value = em;
-      }
-    }
-
-    // Prefill Objective
-    const objEl = document.querySelector('.objective');
-    if (objEl && document.getElementById('wizObjectiveText')) {
-      document.getElementById('wizObjectiveText').value = objEl.innerText.trim();
-    }
-
-    // Populate Job Containers if empty
-    const foreignContainer = document.getElementById('wizForeignJobsContainer');
-    const indianContainer = document.getElementById('wizIndianJobsContainer');
-
-    if (foreignContainer && foreignContainer.children.length === 0) {
-      addWizardForeignJob('Operations Lead', 'Global Infrastructure Corp', 'International', '2022 - 2024');
-      addWizardForeignJob('Senior Technical Specialist', 'Apex Engineering Services', 'Overseas', '2018 - 2021');
-    }
-
-    if (indianContainer && indianContainer.children.length === 0) {
-      addWizardIndianJob('Operations Coordinator', 'Premier Technical Solutions', 'Domestic Hub', '2024 - Present');
-    }
-
-    // Prefill Responsibilities
-    const respContainer = document.getElementById('wizRespContainer');
-    if (respContainer && respContainer.children.length === 0) {
-      const existingBullets = document.querySelectorAll('#secRespContent li');
-      if (existingBullets.length > 0) {
-        existingBullets.forEach(li => {
-          addWizardRespField(li.innerText.trim());
-        });
-      } else {
-        addWizardRespField('Operational Excellence: Spearheaded execution of high-impact technical operations adhering to strict quality benchmarks.');
-        addWizardRespField('Team Leadership: Supervised cross-functional specialists with zero workplace incidents and 100% compliance.');
-        addWizardRespField('Drawing Interpretation: Read and interpreted P&IDs, isometric drawings, and spool fabrication blueprints.');
-        addWizardRespField('Safety & Quality: Strict compliance with refinery safety protocols, hot work permits, and ASME codes.');
-      }
-    }
 
     openModal(modal);
     updatePhotoButtonsLabel();
     if (window.lucide) lucide.createIcons();
   }
+
 
   function closeOnboardingWizard() {
     const modal = document.getElementById('onboardingWizardModal');
