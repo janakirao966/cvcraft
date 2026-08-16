@@ -2703,6 +2703,14 @@
     }, 3200);
   }
 
+  function dataUrlToBytes(dataUrl) {
+    const base64 = dataUrl.split(',')[1];
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
   function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
@@ -4189,6 +4197,9 @@
     rawFilename = rawFilename.replace(/\.pdf$/i, '').replace(/[^a-zA-Z0-9_-]/g, '_');
     if (!rawFilename) rawFilename = 'My_CVCraft_Resume';
 
+    // Persist to storage
+    localStorage.setItem('cvcraft_download_filename', rawFilename);
+
     const stepConfirm = document.getElementById('downloadStepConfirm');
     const stepLoading = document.getElementById('downloadStepLoading');
     const stepSuccess = document.getElementById('downloadStepSuccess');
@@ -4196,40 +4207,173 @@
     if (stepConfirm) stepConfirm.style.display = 'none';
     if (stepLoading) stepLoading.style.display = 'block';
 
+    saveState();
+
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
+
     try {
       // Save current resume as recent preset automatically
       await saveCurrentResumeAsPreset(rawFilename, false);
 
-      // Inject attachments for native print
-      const printContainer = document.getElementById('printAttachmentsContainer');
-      if (printContainer) {
-        printContainer.innerHTML = '';
-        attachments.forEach(doc => {
-          doc.pages.forEach(pData => {
-            const div = document.createElement('div');
-            div.className = 'print-att-page';
-            div.innerHTML = `<img src="${pData}">`;
-            printContainer.appendChild(div);
-          });
-        });
+      const { PDFDocument } = PDFLib;
+      const page1El = document.getElementById('resume');
+      const page2El = document.getElementById('resume-page2');
+
+      // Temporarily reset any mobile scale transform so html2canvas captures at full unscaled 1:1 geometry
+      const origTransform1 = page1El ? page1El.style.transform : '';
+      const origTransform2 = page2El ? page2El.style.transform : '';
+      if (page1El) page1El.style.transform = 'none';
+      if (page2El) page2El.style.transform = 'none';
+
+      // High-definition 300 DPI render options
+      const opts = {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        imageTimeout: 0,
+        windowWidth: 794,
+        width: 794
+      };
+
+      const canvas1 = await html2canvas(page1El, opts);
+      const canvas2 = await html2canvas(page2El, opts);
+
+      // Restore mobile transforms immediately
+      if (page1El) page1El.style.transform = origTransform1;
+      if (page2El) page2El.style.transform = origTransform2;
+
+      const pxToPt = 0.75;
+      const w1 = (page1El?.offsetWidth || 794) * pxToPt;
+      const h1 = (page1El?.offsetHeight || 1122) * pxToPt;
+      const w2 = (page2El?.offsetWidth || 794) * pxToPt;
+      const h2 = (page2El?.offsetHeight || 1122) * pxToPt;
+
+      const pdfDoc = await PDFDocument.create();
+
+      // Page 1 Embed
+      const png1 = await pdfDoc.embedPng(dataUrlToBytes(canvas1.toDataURL('image/png')));
+      const p1 = pdfDoc.addPage([w1, h1]);
+      p1.drawImage(png1, { x: 0, y: 0, width: w1, height: h1 });
+
+      // Page 2 Embed
+      const png2 = await pdfDoc.embedPng(dataUrlToBytes(canvas2.toDataURL('image/png')));
+      const p2 = pdfDoc.addPage([w2, h2]);
+      p2.drawImage(png2, { x: 0, y: 0, width: w2, height: h2 });
+
+      // Attached Certificates & Documents Embed
+      for (const att of attachments) {
+        if (att.type === 'image') {
+          const imgData = att.dataUrl || (att.pages && att.pages[0]);
+          if (imgData) {
+            const bytes = dataUrlToBytes(imgData);
+            const embedded = (att.mime === 'image/png' || imgData.startsWith('data:image/png'))
+              ? await pdfDoc.embedPng(bytes)
+              : await pdfDoc.embedJpg(bytes);
+
+            const a4W = w1;
+            const a4H = h1;
+            const pad = 24;
+            const maxAvailW = a4W - (pad * 2);
+            const maxAvailH = a4H - (pad * 2);
+
+            const imgAspect = embedded.width / embedded.height;
+            let drawW = maxAvailW;
+            let drawH = drawW / imgAspect;
+
+            if (drawH > maxAvailH) {
+              drawH = maxAvailH;
+              drawW = drawH * imgAspect;
+            }
+
+            const drawX = pad + (maxAvailW - drawW) / 2;
+            const drawY = pad + (maxAvailH - drawH) / 2;
+
+            const page = pdfDoc.addPage([a4W, a4H]);
+            page.drawImage(embedded, { x: drawX, y: drawY, width: drawW, height: drawH });
+          }
+        } else if (att.type === 'pdf') {
+          if (att.dataUrl) {
+            try {
+              const bytes = dataUrlToBytes(att.dataUrl);
+              const srcDoc = await PDFDocument.load(bytes);
+              const copiedPages = await pdfDoc.copyPages(srcDoc, srcDoc.getPageIndices());
+              copiedPages.forEach((pg) => pdfDoc.addPage(pg));
+            } catch (pdfErr) {
+              console.warn('Direct PDF copy failed, embedding rendered pages:', pdfErr);
+              if (att.pages && Array.isArray(att.pages)) {
+                for (const pData of att.pages) {
+                  const pBytes = dataUrlToBytes(pData);
+                  const pImg = await pdfDoc.embedJpg(pBytes);
+                  const a4W = w1;
+                  const a4H = h1;
+                  const pad = 24;
+                  const maxAvailW = a4W - (pad * 2);
+                  const maxAvailH = a4H - (pad * 2);
+                  const imgAspect = pImg.width / pImg.height;
+                  let drawW = maxAvailW;
+                  let drawH = drawW / imgAspect;
+                  if (drawH > maxAvailH) {
+                    drawH = maxAvailH;
+                    drawW = drawH * imgAspect;
+                  }
+                  const drawX = pad + (maxAvailW - drawW) / 2;
+                  const drawY = pad + (maxAvailH - drawH) / 2;
+                  const page = pdfDoc.addPage([a4W, a4H]);
+                  page.drawImage(pImg, { x: drawX, y: drawY, width: drawW, height: drawH });
+                }
+              }
+            }
+          } else if (att.pages && Array.isArray(att.pages)) {
+            for (const pData of att.pages) {
+              const pBytes = dataUrlToBytes(pData);
+              const pImg = await pdfDoc.embedJpg(pBytes);
+              const a4W = w1;
+              const a4H = h1;
+              const pad = 24;
+              const maxAvailW = a4W - (pad * 2);
+              const maxAvailH = a4H - (pad * 2);
+              const imgAspect = pImg.width / pImg.height;
+              let drawW = maxAvailW;
+              let drawH = drawW / imgAspect;
+              if (drawH > maxAvailH) {
+                drawH = maxAvailH;
+                drawW = drawH * imgAspect;
+              }
+              const drawX = pad + (maxAvailW - drawW) / 2;
+              const drawY = pad + (maxAvailH - drawH) / 2;
+              const page = pdfDoc.addPage([a4W, a4H]);
+              page.drawImage(pImg, { x: drawX, y: drawY, width: drawW, height: drawH });
+            }
+          }
+        }
       }
 
-      const originalTitle = document.title;
-      document.title = rawFilename;
+      // Save and trigger real file download
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = rawFilename + '.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
 
-      setTimeout(() => {
-        window.print();
-        document.title = originalTitle;
-        if (stepLoading) stepLoading.style.display = 'none';
-        if (stepSuccess) stepSuccess.style.display = 'block';
-        if (window.lucide) lucide.createIcons();
-      }, 300);
+      // Transition to Success confirmation step
+      if (stepLoading) stepLoading.style.display = 'none';
+      if (stepSuccess) stepSuccess.style.display = 'block';
+      if (window.lucide) lucide.createIcons();
 
+      showToast('PDF downloaded successfully!', 'success');
     } catch (err) {
-      console.error('Print generation failed:', err);
-      alert('Could not trigger print dialog: ' + err.message);
+      console.error('PDF generation error:', err);
       if (stepLoading) stepLoading.style.display = 'none';
       if (stepConfirm) stepConfirm.style.display = 'block';
+      alert('Could not generate the PDF: ' + err.message);
     }
   }
 
