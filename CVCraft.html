@@ -2251,7 +2251,7 @@
           </div>
         </div>
 
-        <input type="file" id="jsonFileInput" accept=".json,application/json,text/plain,text/json,*/*" style="display:none;">
+        <input type="file" id="jsonFileInput" accept=".json,application/json,text/plain" style="display:none;">
 
         <div class="header-divider"></div>
 
@@ -3336,6 +3336,7 @@
     closeMobileMenu();
     updatePhotoButtonsLabel();
     updateUserGreeting();
+    syncResumeToWizardFields();
     showToast(`Loaded preset: ${target.name}`, 'success');
   }
 
@@ -3522,6 +3523,154 @@
     `;
     container.appendChild(card);
     if (window.lucide) lucide.createIcons();
+  }
+
+    // ---------- Synchronize Active Resume Content to Wizard Fields ----------
+  function syncResumeToWizardFields() {
+    try {
+      // 1. Name & Title
+      const nameEl = document.querySelector('.header-left h1.name');
+      const titleEl = document.querySelector('.header-left .title');
+      const addrEl = document.querySelector('.header-left .address');
+      
+      const wizName = document.getElementById('wizName');
+      const wizTitle = document.getElementById('wizTitle');
+      const wizAddress = document.getElementById('wizAddress');
+
+      if (nameEl && wizName) wizName.value = nameEl.innerText.replace(/\s+/g, ' ').trim();
+      if (titleEl && wizTitle) wizTitle.value = titleEl.innerText.replace(/\s+/g, ' ').trim();
+      if (addrEl && wizAddress) {
+        let addrText = addrEl.innerText.replace(/\s+/g, ' ').trim();
+        addrText = addrText.replace(/^Address:\s*/i, '');
+        wizAddress.value = addrText;
+      }
+
+      // 2. Contact Phone & Email
+      const contactDivs = document.querySelectorAll('.header-right .contact div');
+      const wizPhone = document.getElementById('wizPhone');
+      const wizEmail = document.getElementById('wizEmail');
+
+      contactDivs.forEach(div => {
+        const txt = div.innerText.trim();
+        if (txt.toLowerCase().includes('phone:') || txt.toLowerCase().includes('mob:') || txt.startsWith('+')) {
+          if (wizPhone) wizPhone.value = txt.replace(/^(phone|mob|tel):\s*/i, '').trim();
+        } else if (txt.toLowerCase().includes('email:') || txt.includes('@')) {
+          if (wizEmail) wizEmail.value = txt.replace(/^email:\s*/i, '').trim();
+        }
+      });
+
+      // 3. Objective
+      const objEl = document.querySelector('.objective');
+      const wizObj = document.getElementById('wizObjective');
+      if (objEl && wizObj) wizObj.value = objEl.innerText.trim();
+
+      // 4. Qualifications
+      const qualItems = document.querySelectorAll('#secQualContent li');
+      const wizTechQual = document.getElementById('wizTechQual');
+      const wizAcademicQual = document.getElementById('wizAcademicQual');
+      const wizSSCQual = document.getElementById('wizSSCQual');
+
+      qualItems.forEach(li => {
+        const raw = li.innerText.trim();
+        if (raw.toLowerCase().includes('technical')) {
+          if (wizTechQual) wizTechQual.value = raw.replace(/^Technical Qualification:\s*/i, '').trim();
+        } else if (raw.toLowerCase().includes('academic') || raw.toLowerCase().includes('degree') || raw.toLowerCase().includes('bachelor')) {
+          if (wizAcademicQual) wizAcademicQual.value = raw.replace(/^Academic Qualification:\s*/i, '').trim();
+        } else if (raw.toLowerCase().includes('secondary') || raw.toLowerCase().includes('ssc') || raw.toLowerCase().includes('school')) {
+          if (wizSSCQual) wizSSCQual.value = raw.replace(/^Secondary Education:\s*/i, '').trim();
+        }
+      });
+
+      // 5. Work Experience Summary
+      const expItems = document.querySelectorAll('#secExpSummaryContent li');
+      const wizForeignYears = document.getElementById('wizForeignYears');
+      const wizIndianYears = document.getElementById('wizIndianYears');
+
+      expItems.forEach(li => {
+        const raw = li.innerText.trim();
+        if (raw.toLowerCase().includes('foreign') || raw.toLowerCase().includes('international')) {
+          if (wizForeignYears) wizForeignYears.value = raw.replace(/^[a-zA-Z\s\(\),]+:\s*/i, '').trim();
+        } else if (raw.toLowerCase().includes('indian') || raw.toLowerCase().includes('domestic')) {
+          if (wizIndianYears) wizIndianYears.value = raw.replace(/^[a-zA-Z\s\(\),]+:\s*/i, '').trim();
+        }
+      });
+
+      // 6. Foreign / International Jobs
+      const foreignJobEls = document.querySelectorAll('#secForeignJobsContent .job');
+      const foreignContainer = document.getElementById('wizForeignJobsContainer');
+      if (foreignContainer && foreignJobEls.length > 0) {
+        foreignContainer.innerHTML = '';
+        foreignJobEls.forEach(job => {
+          const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
+          const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
+          const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
+          const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+          addWizardForeignJob(jTitle, jComp, jLoc, jDate);
+        });
+      }
+
+      // 7. Indian / Domestic Jobs
+      const indianJobEls = document.querySelectorAll('#secIndianJobsContent .job');
+      const indianContainer = document.getElementById('wizIndianJobsContainer');
+      if (indianContainer && indianJobEls.length > 0) {
+        indianContainer.innerHTML = '';
+        indianJobEls.forEach(job => {
+          const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
+          const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
+          const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
+          const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+          addWizardIndianJob(jTitle, jComp, jLoc, jDate);
+        });
+      }
+
+      // 8. Key Responsibilities (Page 2)
+      const respItems = document.querySelectorAll('#secRespContent li');
+      const respContainer = document.getElementById('wizRespContainer');
+      if (respContainer && respItems.length > 0) {
+        respContainer.innerHTML = '';
+        respItems.forEach(li => {
+          addWizardRespField(li.innerText.trim());
+        });
+      }
+
+      // 9. Personal Data (Page 2)
+      const pdataRows = document.querySelectorAll('#secPersonalContent table.pdata tr');
+      pdataRows.forEach(tr => {
+        const label = tr.querySelector('.label')?.innerText.toLowerCase().trim() || '';
+        const val = tr.querySelectorAll('td')[1]?.innerText.trim() || '';
+        if (label.includes('father')) {
+          const el = document.getElementById('wizFatherName');
+          if (el && val) el.value = val;
+        } else if (label.includes('birth') || label.includes('dob')) {
+          const el = document.getElementById('wizDOB');
+          if (el && val) el.value = val;
+        } else if (label.includes('marital')) {
+          const el = document.getElementById('wizMarital');
+          if (el && val) el.value = val;
+        } else if (label.includes('nationality')) {
+          const el = document.getElementById('wizNationality');
+          if (el && val) el.value = val;
+        } else if (label.includes('gender')) {
+          const el = document.getElementById('wizGender');
+          if (el && val) el.value = val;
+        } else if (label.includes('language')) {
+          const el = document.getElementById('wizLanguages');
+          if (el && val) el.value = val;
+        } else if (label.includes('passport')) {
+          const el = document.getElementById('wizPassportDetails');
+          if (el && val) el.value = val;
+        }
+      });
+
+      // 10. Declaration
+      const declEl = document.querySelector('.declaration-text');
+      const wizDecl = document.getElementById('wizDeclaration');
+      if (declEl && wizDecl) wizDecl.value = declEl.innerText.trim();
+
+      if (window.lucide) lucide.createIcons();
+    } catch (e) {
+      console.warn('Error syncing resume to wizard fields:', e);
+    }
   }
 
   function openOnboardingWizard(forceIntro = false) {
@@ -3965,6 +4114,7 @@
     saveState();
     await saveAsOriginalResume(false);
     updateUserGreeting();
+    syncResumeToWizardFields();
     updatePhotoButtonsLabel();
     showToast('Master resume generated and saved ✓', 'success');
   }
@@ -4129,6 +4279,7 @@
       saveState();
       updatePhotoButtonsLabel();
       updateUserGreeting();
+    syncResumeToWizardFields();
       showToast('Resume imported successfully!', 'success');
     } catch (e) {
       console.error('Error importing JSON:', e);
@@ -4187,6 +4338,7 @@
       saveState();
       updatePhotoButtonsLabel();
       updateUserGreeting();
+    syncResumeToWizardFields();
       showToast('Template reset to clean profile.', 'info');
     }
   }
@@ -4500,6 +4652,7 @@
     saveState();
     updatePhotoButtonsLabel();
     updateUserGreeting();
+    syncResumeToWizardFields();
     showToast('Loaded profile: ' + sourceLabel, 'success');
   }
 
@@ -4751,6 +4904,36 @@
     }
   }
 
+
+  // ---------- Attachment Document Lightbox Preview Engine ----------
+  let currentLightboxDocId = null;
+  let currentLightboxPageIdx = 0;
+
+  function openLightbox(docId, pageIdx = 0) {
+    const doc = attachments.find(d => d.id === docId);
+    if (!doc || !doc.pages || !doc.pages[pageIdx]) return;
+    
+    currentLightboxDocId = docId;
+    currentLightboxPageIdx = pageIdx;
+
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCaption = document.getElementById('lightboxCaption');
+    const lb = document.getElementById('pageLightbox');
+
+    if (lbImg) lbImg.src = doc.pages[pageIdx];
+    if (lbCaption) lbCaption.textContent = `${doc.name} — Page ${pageIdx + 1} of ${doc.pages.length}`;
+    
+    if (lb) openModal(lb);
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target && e.target.closest('.lightbox-inner') && e.target.tagName !== 'BUTTON') {
+      return;
+    }
+    const lb = document.getElementById('pageLightbox');
+    if (lb) closeModal(lb);
+  }
 
   // ---------- Download PDF Generation ----------
   function openDownloadModal() {
@@ -5019,6 +5202,29 @@
   }
 
 
+    // ---------- Mobile Keyboard Dismiss & Viewport Auto-Reset Engine ----------
+  function handleMobileKeyboardReset() {
+    setTimeout(() => {
+      // Re-center window scroll smoothly
+      window.scrollTo(0, window.scrollY);
+      scheduleMobileLayoutUpdate();
+    }, 120);
+  }
+
+  // Global blur listener for all contenteditable and input fields
+  document.addEventListener('focusout', (e) => {
+    if (e.target.isContentEditable || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      handleMobileKeyboardReset();
+    }
+  });
+
+  // Listen to Visual Viewport resize (triggered when virtual keyboard hides/shows)
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      scheduleMobileLayoutUpdate();
+    });
+  }
+
   window.addEventListener('DOMContentLoaded', async () => {
     // Clean URL query parameters immediately
     if (window.history && window.history.replaceState && window.location.search) {
@@ -5037,6 +5243,7 @@
     await refreshPresetsUI();
     updatePhotoButtonsLabel();
     updateUserGreeting();
+    syncResumeToWizardFields();
     scheduleMobileLayoutUpdate();
 
     // If user clicked "Import Backup JSON" from landing page
