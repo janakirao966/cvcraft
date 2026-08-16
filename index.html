@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  if (window.history && window.history.replaceState && window.location.search) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CVCraft &mdash; Professional Resume Architect</title>
@@ -526,7 +531,7 @@
         <a href="#privacy" class="nav-link">Privacy First</a>
       </div>
 
-      <a href="CVCraft.html?start=1" class="nav-cta-btn">
+      <a href="CVCraft.html" class="nav-cta-btn">
         <i data-lucide="play" style="width:14px;height:14px;"></i> Launch Builder
       </a>
     </div>
@@ -548,10 +553,10 @@
       </p>
 
       <div class="hero-cta-group">
-        <a href="CVCraft.html?start=1" class="btn-primary">
+        <a href="CVCraft.html" class="btn-primary">
           <i data-lucide="edit-3" style="width:18px;height:18px;"></i> Start Building Free &rarr;
         </a>
-        <a href="CVCraft.html?start=1&mode=import" class="btn-secondary">
+        <a href="CVCraft.html?mode=import" class="btn-secondary">
           <i data-lucide="upload" style="width:18px;height:18px;"></i> Import Backup JSON
         </a>
       </div>
@@ -674,7 +679,7 @@
       <div class="cta-banner" id="privacy">
         <h3>Ready to Craft Your Master Resume?</h3>
         <p>No subscriptions, no accounts, no watermarks. Open CVCraft and start building immediately.</p>
-        <a href="CVCraft.html?start=1" class="btn-primary" style="font-size:17px;padding:16px 36px;">
+        <a href="CVCraft.html" class="btn-primary" style="font-size:17px;padding:16px 36px;">
           <i data-lucide="sparkles" style="width:20px;height:20px;"></i> Launch CVCraft Now &rarr;
         </a>
       </div>

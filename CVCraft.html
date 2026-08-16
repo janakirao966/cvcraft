@@ -9,14 +9,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 <script>
-  // ---------- Brand New User First-Time Redirection ----------
+  // ---------- Clean URL & First-Time Redirection Handler ----------
   (function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const isDirectStart = urlParams.get('start') === '1' || urlParams.get('mode') === 'wizard' || urlParams.get('mode') === 'import';
     const hasProfile = localStorage.getItem('cvcraft_profile_created') === 'true';
     const hasState = !!localStorage.getItem('cvcraft_resume_state_v1');
+    const isDirectStart = urlParams.get('start') === '1' || urlParams.get('mode') === 'wizard' || urlParams.get('mode') === 'import';
 
-    // If first time open and no profile created yet and not explicitly started from landing CTA -> open landing page first
+    // Clean URL bar immediately (removes ?start=1, ?from=builder, etc.) without reloading
+    if (window.history && window.history.replaceState && window.location.search) {
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+
+    // If brand new user with no profile and not opened from landing CTA -> open landing page first
     if (!hasProfile && !hasState && !isDirectStart) {
       window.location.replace('index.html');
       return;
@@ -1354,22 +1360,161 @@
   .dropzone-title { font-size: 24px; font-weight: 800; }
   .dropzone-desc { font-size: 14px; opacity: 0.9; }
 
-  /* Single-Line Welcome Cards */
+    /* Universal Modal Action Buttons & Responsive Layout */
+  .confirm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .confirm-actions button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    min-height: 38px;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+  }
+  .confirm-cancel {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+  }
+  .confirm-cancel:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    color: #0f172a;
+  }
+  .confirm-primary {
+    background: #dc2626;
+    border: 1px solid #dc2626;
+    color: #ffffff;
+  }
+  .confirm-primary:hover {
+    background: #b91c1c;
+  }
+  .download-btn-blue {
+    background: #0284c7;
+    border: 1px solid #0284c7;
+    color: #ffffff;
+  }
+  .download-btn-blue:hover {
+    background: #0369a1;
+  }
+
+  /* Wizard Footer Responsive 2-Way Balanced Layout */
+  .wizard-footer {
+    padding: 14px 22px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .wizard-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wizard-footer-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .wizard-btn-pri, .wizard-btn-sec {
+    min-height: 38px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.15s ease;
+  }
+  .wizard-btn-pri {
+    background: #0284c7;
+    border: 1px solid #0284c7;
+    color: #ffffff;
+  }
+  .wizard-btn-pri:hover {
+    background: #0369a1;
+  }
+  .wizard-btn-sec {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+  }
+  .wizard-btn-sec:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+  }
+
+  @media (max-width: 600px) {
+    .confirm-actions {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+    }
+    .confirm-actions button {
+      flex: 1;
+      min-width: 0;
+      padding: 9px 10px;
+      font-size: 12px;
+    }
+    .wizard-footer {
+      padding: 12px 14px;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .wizard-footer-left, .wizard-footer-right {
+      flex: 1;
+    }
+    .wizard-btn-pri, .wizard-btn-sec {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+  }
+
+  /* Single-Line Welcome Option Cards */
   .wiz-intro-card-row {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin: 12px 0 8px 0;
+    gap: 10px;
+    margin: 14px 0 10px 0;
+    width: 100%;
   }
   .wiz-intro-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 14px;
-    border-radius: 8px;
+    padding: 12px 16px;
+    border-radius: 9px;
     cursor: pointer;
     transition: all 0.18s ease;
     text-align: left;
+    text-decoration: none;
+    box-sizing: border-box;
   }
   .wiz-intro-card.primary {
     background: #f0f9ff;
@@ -1379,7 +1524,7 @@
     background: #e0f2fe;
     border-color: #0284c7;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.14);
   }
   .wiz-intro-card.secondary {
     background: #f8fafc;
@@ -1394,19 +1539,22 @@
   .wiz-intro-left {
     display: flex;
     align-items: center;
-    gap: 9px;
-    flex-wrap: wrap;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
   }
   .wiz-intro-title {
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 700;
     color: #0f172a;
+    white-space: nowrap;
   }
   .wiz-intro-badge {
-    font-size: 10.5px;
-    padding: 2px 7px;
+    font-size: 11px;
+    padding: 2px 8px;
     border-radius: 12px;
     font-weight: 600;
+    white-space: nowrap;
   }
   .wiz-intro-badge.blue {
     background: #e0f2fe;
@@ -1417,15 +1565,171 @@
     color: #64748b;
   }
   .wiz-intro-action {
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 700;
     display: flex;
     align-items: center;
     gap: 4px;
     white-space: nowrap;
+    margin-left: 10px;
   }
   .wiz-intro-action.blue { color: #0284c7; }
   .wiz-intro-action.gray { color: #64748b; }
+
+  @media (max-width: 600px) {
+    .wiz-intro-card {
+      padding: 10px 12px;
+    }
+    .wiz-intro-left {
+      gap: 6px;
+    }
+    .wiz-intro-title {
+      font-size: 12px;
+    }
+    .wiz-intro-badge {
+      display: none; /* Hide secondary sub-badge on small mobile to ensure 1 clean line */
+    }
+    .wiz-intro-action {
+      font-size: 11.5px;
+      margin-left: 6px;
+    }
+  }
+
+    /* Attachment Page Thumbnails, Reorder, Delete & Processing Overlay */
+  .doc-pages {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
+    padding: 12px 14px;
+    background: #ffffff;
+  }
+  .doc-page-thumb-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 6px;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+  .doc-page-thumb-wrap:hover {
+    border-color: #0284c7;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+  }
+  .doc-page-thumb-wrap.drag-over {
+    border: 2px dashed #0284c7;
+    background: #e0f2fe;
+    transform: scale(1.03);
+  }
+  .doc-page-thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1.35;
+    background: #ffffff;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+  }
+  .doc-page-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .doc-page-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 6px;
+    padding: 0 2px;
+  }
+  .doc-page-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+  }
+  .doc-page-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .doc-page-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    border-radius: 4px;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    font-size: 10px;
+    transition: all 0.1s ease;
+  }
+  .doc-page-btn:hover {
+    background: #e0f2fe;
+    border-color: #0284c7;
+    color: #0284c7;
+  }
+  .doc-page-btn.del:hover {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #dc2626;
+  }
+  .doc-page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* Document Processing Loading Overlay */
+  .doc-processing-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 13000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #ffffff;
+    gap: 16px;
+  }
+  .doc-processing-overlay.open { display: flex; }
+  .doc-processing-card {
+    background: #ffffff;
+    color: #0f172a;
+    padding: 24px 32px;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    max-width: 380px;
+    text-align: center;
+  }
+  .doc-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #e2e8f0;
+    border-top: 3px solid #0284c7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
   /* Enhanced Comprehensive Wizard Modal */
   .wizard-card {
@@ -1936,7 +2240,7 @@
                 </div>
               </button>
 
-              <button class="more-menu-item" onclick="window.location.href='index.html?from=builder'; closeMoreDropdown();">
+              <button class="more-menu-item" onclick="window.location.href='index.html'; closeMoreDropdown();">
                 <i data-lucide="home" class="btn-icon" style="color:#64748b;"></i>
                 <div class="more-item-text">
                   <span class="more-item-title">Landing Page</span>
@@ -2224,6 +2528,17 @@
     </div>
   </div>
 
+  <!-- Document Processing Loading Spinner Modal -->
+  <div class="doc-processing-overlay" id="docProcessingOverlay">
+    <div class="doc-processing-card">
+      <div class="doc-spinner"></div>
+      <div>
+        <div style="font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 4px;" id="docProcessingTitle">Processing Document...</div>
+        <div style="font-size: 12px; color: #64748b;" id="docProcessingDesc">Rendering high-resolution pages, please wait.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Custom Confirm Dialog -->
   <div class="confirm-overlay" id="confirmOverlay" onclick="if (event.target === event.currentTarget) resolveConfirm(false)">
     <div class="confirm-card">
@@ -2236,64 +2551,51 @@
     </div>
   </div>
 
-  <!-- Import JSON Backup & Profile Modal (Optimized for Mobile & Desktop) -->
+    <!-- Import JSON Backup & Profile Modal (Optimized for Mobile & Desktop) -->
   <div class="confirm-overlay" id="importJsonModalOverlay" onclick="if (event.target === event.currentTarget) closeImportJsonModal()">
-    <div class="confirm-card" style="max-width: 520px; text-align: left;">
+    <div class="confirm-card" style="max-width: 480px; text-align: left;">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <i data-lucide="upload-cloud" style="width: 20px; height: 20px; color: #0284c7;"></i>
-          <h3 style="margin: 0; font-size: 16.5px; font-weight: 800; color: #0f172a;">Import Resume Profile</h3>
+          <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #0f172a;">Import Resume Profile</h3>
         </div>
         <button type="button" onclick="closeImportJsonModal()" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:18px;padding:2px 6px;">&times;</button>
       </div>
 
       <p style="font-size: 12.5px; color: #64748b; margin: 0 0 14px 0; line-height: 1.45;">
-        Easily restore your master resume on mobile or desktop using any of the methods below:
+        Restore your complete resume layout and attachments from a backup file or code:
       </p>
 
-      <!-- Method 1: Choose File (Broadened for all mobile pickers) -->
-      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; cursor: pointer; transition: all 0.15s ease;" onclick="triggerMobileJsonPicker()" onmouseover="this.style.borderColor='#0284c7'" onmouseout="this.style.borderColor='#e2e8f0'">
+      <!-- Option 1: Direct File Manager Picker -->
+      <div style="background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; cursor: pointer; transition: all 0.15s ease;" onclick="triggerMobileJsonPicker()">
         <div style="display: flex; align-items: center; justify-content: space-between;">
           <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 34px; height: 34px; border-radius: 6px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <i data-lucide="file-up" style="width: 18px; height: 18px;"></i>
+            <div style="width: 36px; height: 36px; border-radius: 6px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i data-lucide="folder-open" style="width: 18px; height: 18px;"></i>
             </div>
             <div>
-              <div style="font-size: 13px; font-weight: 700; color: #0f172a;">Browse from Phone / Computer</div>
-              <div style="font-size: 11px; color: #64748b;">Select any .json or text file from Downloads/Files</div>
+              <div style="font-size: 13px; font-weight: 700; color: #0f172a;">Select File from Device</div>
+              <div style="font-size: 11px; color: #64748b;">Browse your phone or computer for .json files</div>
             </div>
           </div>
-          <span style="font-size: 12px; font-weight: 700; color: #0284c7; background: #ffffff; border: 1px solid #bae6fd; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">Choose File</span>
+          <span style="font-size: 12px; font-weight: 700; color: #0284c7; background: #ffffff; border: 1px solid #bae6fd; padding: 5px 12px; border-radius: 6px; white-space: nowrap;">Browse Files</span>
         </div>
       </div>
 
-      <!-- Method 2: Paste JSON Text -->
-      <div style="margin-bottom: 12px;">
+      <!-- Option 2: Paste JSON Text -->
+      <div>
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
           <label style="font-size: 12px; font-weight: 700; color: #334155; display: flex; align-items: center; gap: 4px;">
-            <i data-lucide="clipboard" style="width: 13px; height: 13px; color: #0284c7;"></i> Or Paste JSON Code / Text:
+            <i data-lucide="clipboard" style="width: 13px; height: 13px; color: #0284c7;"></i> Or Paste Backup JSON Text:
           </label>
-          <button type="button" onclick="pasteFromClipboardToInput()" style="background:none; border:none; color:#0284c7; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;">Paste from Clipboard</button>
+          <button type="button" onclick="pasteFromClipboardToInput()" style="background:none; border:none; color:#0284c7; font-size:11px; font-weight:700; cursor:pointer; text-decoration:underline;">Paste Clipboard</button>
         </div>
-        <textarea id="jsonPasteTextarea" rows="3" class="wizard-input" placeholder='Paste your {"app":"CVCraft", ...} code here' style="font-family: monospace; font-size: 11px; width: 100%; box-sizing: border-box; resize: vertical;"></textarea>
-        <button type="button" class="download-btn-blue" onclick="loadPastedJSONText()" style="width: 100%; margin-top: 6px; justify-content: center; padding: 8px 12px; font-size: 12.5px;">
-          <i data-lucide="check" class="btn-icon"></i> Load Pasted Profile
-        </button>
+        <textarea id="jsonPasteTextarea" rows="3" class="wizard-input" placeholder='Paste your backup JSON code here...' style="font-family: monospace; font-size: 11px; width: 100%; box-sizing: border-box; resize: vertical; margin-bottom: 8px;"></textarea>
       </div>
 
-      <!-- Method 3: Ready Master Profiles -->
-      <div style="border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
-        <div style="font-size: 11.5px; font-weight: 700; color: #64748b; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;">
-          Or Load Sample Master Profile:
-        </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button type="button" class="wizard-btn-sec" onclick="loadSampleProfile('janni')" style="flex: 1; min-width: 180px; justify-content: center; font-size: 12px; padding: 6px 10px;">
-            <i data-lucide="user" class="btn-icon"></i> Janni Mohana Rao
-          </button>
-          <button type="button" class="wizard-btn-sec" onclick="loadSampleProfile('kogeshwar')" style="flex: 1; min-width: 180px; justify-content: center; font-size: 12px; padding: 6px 10px;">
-            <i data-lucide="user" class="btn-icon"></i> Lingam Kogeshwar Rao
-          </button>
-        </div>
+      <div class="confirm-actions" style="margin-top: 10px;">
+        <button type="button" class="confirm-cancel" onclick="closeImportJsonModal()">Cancel</button>
+        <button type="button" class="download-btn-blue" onclick="loadPastedJSONText()"><i data-lucide="check" class="btn-icon"></i> Load Backup</button>
       </div>
     </div>
   </div>
@@ -2399,14 +2701,14 @@
       </div>
 
       <div class="wizard-body">
-        <!-- STEP 0: Welcome & Introduction Screen -->
+                <!-- STEP 0: Welcome & Introduction Screen -->
         <div class="wizard-step-panel" id="wizardStep0">
-          <div style="text-align:center;padding:4px 4px 6px 4px;">
-            <h3 style="font-family:'Outfit', Arial, sans-serif;font-size:20px;font-weight:800;color:#1a5276;margin:0 0 4px 0;display:flex;align-items:center;justify-content:center;gap:8px;">
-              <i data-lucide="sparkles" style="width:20px;height:20px;color:#0284c7;flex-shrink:0;"></i>
+          <div style="text-align:center;padding:10px 6px 12px 6px;">
+            <h3 style="font-family:'Outfit', Arial, sans-serif;font-size:21px;font-weight:800;color:#1a5276;margin:0 0 6px 0;display:flex;align-items:center;justify-content:center;gap:8px;">
+              <i data-lucide="sparkles" style="width:22px;height:22px;color:#0284c7;flex-shrink:0;"></i>
               <span>Welcome to CVCraft</span>
             </h3>
-            <p style="font-size:12.5px;color:#64748b;margin:0 auto 10px auto;max-width:440px;line-height:1.45;">
+            <p style="font-size:13px;color:#64748b;margin:0 auto 16px auto;max-width:460px;line-height:1.45;">
               Choose how you would like to create your ATS-compliant master resume:
             </p>
 
@@ -2414,29 +2716,29 @@
             <div class="wiz-intro-card-row">
               <div class="wiz-intro-card primary" onclick="nextWizardStep()" title="Click to start guided setup">
                 <div class="wiz-intro-left">
-                  <i data-lucide="wand-2" style="width:15px;height:15px;color:#0284c7;"></i>
+                  <i data-lucide="wand-2" style="width:16px;height:16px;color:#0284c7;flex-shrink:0;"></i>
                   <span class="wiz-intro-title">Start Guided Profile Wizard</span>
                   <span class="wiz-intro-badge blue">Recommended &bull; 2 Mins</span>
                 </div>
                 <div class="wiz-intro-action blue">
-                  <span>Get Started</span> <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                  <span>Get Started</span> <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
                 </div>
               </div>
 
               <div class="wiz-intro-card secondary" onclick="closeOnboardingWizard()" title="Click to edit directly on the page">
                 <div class="wiz-intro-left">
-                  <i data-lucide="edit-3" style="width:15px;height:15px;color:#64748b;"></i>
+                  <i data-lucide="edit-3" style="width:16px;height:16px;color:#64748b;flex-shrink:0;"></i>
                   <span class="wiz-intro-title">Edit Directly on Resume Template</span>
                   <span class="wiz-intro-badge gray">Manual Typing</span>
                 </div>
                 <div class="wiz-intro-action gray">
-                  <span>Open Editor</span> <i data-lucide="x" style="width:13px;height:13px;"></i>
+                  <span>Open Editor</span> <i data-lucide="x" style="width:14px;height:14px;"></i>
                 </div>
               </div>
             </div>
 
             <!-- Single-Line Feature Highlights Strip -->
-            <div style="display:flex;justify-content:center;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;font-size:11px;color:#64748b;">
+            <div style="display:flex;justify-content:center;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap;font-size:11.5px;color:#64748b;">
               <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check-circle-2" style="width:13px;height:13px;color:#16a34a;"></i> ATS-Ready A4</span>
               <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="paperclip" style="width:13px;height:13px;color:#0284c7;"></i> Document Merger</span>
               <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="shield-check" style="width:13px;height:13px;color:#6366f1;"></i> 100% Client-Side Private</span>
@@ -3123,15 +3425,26 @@
     }
   }
 
-  function updateUserGreeting() {
+      // ---------- User Personalization Helper ----------
+  function getUserDisplayName() {
+    const saved = localStorage.getItem('cvcraft_user_name');
+    if (saved && saved !== 'FULL NAME' && saved !== 'User') return saved;
     const nameEl = document.querySelector('.header-left h1.name');
-    let userName = 'Guest';
     if (nameEl) {
-      const text = nameEl.innerText.replace(/[\r\n]+/g, ' ').trim();
+      const text = (nameEl.innerText || '').replace(/\s+/g, ' ').trim();
       if (text && text !== 'FULL NAME') {
-        userName = text.split(' ')[0] || 'Guest';
+        const first = text.split(' ')[0] || '';
+        if (first) {
+          localStorage.setItem('cvcraft_user_name', first);
+          return first;
+        }
       }
     }
+    return 'User';
+  }
+
+  function updateUserGreeting() {
+    const userName = getUserDisplayName();
     const greetingEl = document.getElementById('mobileGreetingText');
     if (greetingEl) {
       greetingEl.textContent = 'Welcome, ' + userName;
@@ -3292,7 +3605,7 @@
     if (modal) closeModal(modal);
   }
 
-  function updateWizardStepUI() {
+    function updateWizardStepUI() {
     const step0Panel = document.getElementById('wizardStep0');
     if (step0Panel) step0Panel.classList.toggle('active', currentWizardStep === 0);
 
@@ -3309,16 +3622,17 @@
     const titleEl = document.getElementById('wizardStepTitle');
     const backBtn = document.getElementById('wizBackBtn');
     const nextBtn = document.getElementById('wizNextBtn');
+    const closeDirectBtn = document.getElementById('wizCloseDirectBtn');
     const greetingBanner = document.getElementById('wizUserGreetingBanner');
     const greetingName = document.getElementById('wizGreetingName');
 
     const hasProfile = localStorage.getItem('cvcraft_profile_created') === 'true';
-    const userName = localStorage.getItem('cvcraft_user_name') || 'Guest';
+    const userName = getUserDisplayName();
 
     if (greetingBanner && greetingName) {
       if (hasProfile && currentWizardStep === 1) {
         greetingBanner.style.display = 'block';
-        greetingName.textContent = 'Welcome back, ' + userName + '! You can review and update your master resume below:';
+        greetingName.textContent = 'Welcome, ' + userName + '! Update your master resume below:';
       } else {
         greetingBanner.style.display = 'none';
       }
@@ -3335,11 +3649,15 @@
 
     if (currentWizardStep === 0) {
       if (titleEl) titleEl.textContent = 'Welcome to CVCraft';
-      if (backBtn) backBtn.style.visibility = 'hidden';
+      if (backBtn) backBtn.style.display = 'none';
+      if (closeDirectBtn) closeDirectBtn.style.display = 'inline-flex';
       if (nextBtn) nextBtn.innerHTML = '<i data-lucide="play" style="width:14px;height:14px;margin-right:4px;"></i> Get Started &rarr;';
     } else {
       if (titleEl) titleEl.textContent = stepTitles[currentWizardStep - 1] || 'Resume Setup';
-      if (backBtn) backBtn.style.visibility = currentWizardStep > 1 ? 'visible' : 'hidden';
+      if (closeDirectBtn) closeDirectBtn.style.display = 'none';
+      if (backBtn) {
+        backBtn.style.display = currentWizardStep > 1 ? 'inline-flex' : 'none';
+      }
 
       if (currentWizardStep < TOTAL_WIZARD_STEPS) {
         if (nextBtn) nextBtn.innerHTML = 'Next &rarr;';
@@ -4077,10 +4395,6 @@
   }
 
   // ---------- Mobile & Desktop Import JSON Helpers ----------
-  const SAMPLE_PROFILES = {
-    janni: {"app": "CVCraft", "version": "1.0", "exportedAt": "2026-08-16T10:22:00.000Z", "filename": "Janni_Mohana_Rao_Resume", "profileName": "Janni Mohana Rao \u2014 Pipe & Structural Fabricator", "page1HTML": "\n<div class=\"page-badge\">Page 1 of 2</div>\n\n    <!-- Header -->\n    <div class=\"header\">\n      <div class=\"header-left\">\n        <h1 class=\"name\" contenteditable=\"true\">Janni Mohana<br>Rao</h1>\n        <div class=\"title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</div>\n        <div class=\"address\" contenteditable=\"true\">\n          <b>Address:</b> D.No: C-79, Poleru (V&amp;P), Kanchili Mandal,\n          Srikakulam Dist, Andhra Pradesh, India, PIN: 532291\n        </div>\n      </div>\n      <div class=\"header-right\">\n        <div class=\"photo-wrap\" id=\"photoWrap\" role=\"button\" tabindex=\"0\" aria-label=\"Upload Profile Photo\" onclick=\"document.getElementById('photoInput').click()\">\n          <span class=\"placeholder\">Click to<br>upload photo</span>\n        </div>\n        <div class=\"contact\">\n          <div contenteditable=\"true\">Phone: +91 8179771433</div>\n          <div contenteditable=\"true\">Email: chotumohan2024@gmail.com</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Career Objective -->\n    <div class=\"section-title\" contenteditable=\"true\">Career Objective</div>\n    <div class=\"objective\" contenteditable=\"true\">\n      To secure a position as a Pipe &amp; Structural Fabricator utilizing my skills and abilities in the technical field that offers professional growth while being resourceful, innovative, and flexible to meet organizational goals.\n    </div>\n\n    <!-- Qualifications -->\n    <div class=\"section-title\" contenteditable=\"true\">Qualifications</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Technical Qualification:</b> Practical experience as a Pipe &amp; Structural Fabricator &amp; Fitter</li>\n      <li><b>Academic:</b> ITI Fitter from Siddharth ITC Bhimavaram, A.P.</li>\n      <li><b>Secondary School:</b> SSC from High school DG Puram, Kanchili, Srikakulam, A.P.</li>\n    </ul>\n\n    <!-- Work Experience Summary -->\n    <div class=\"section-title\" contenteditable=\"true\">Work Experience Summary</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Foreign Work Experience (Europe, UAE, Turkey, Africa):</b> Approx. 10+ Years</li>\n      <li><b>Indian Work Experience:</b> Approx. 5 Years</li>\n    </ul>\n\n    <!-- Detailed Work Experience -->\n    <div class=\"section-title\" contenteditable=\"true\">International Experience</div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2022 &ndash; Dec 2023</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Innova b2b europa kft. &mdash; SK Battery Plant &amp; Energop sp Zoo &amp; Lautec</span>\n        <span class=\"job-location\" contenteditable=\"true\">Europe</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Jul 2017 &ndash; Aug 2020</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Lamprell</span>\n        <span class=\"job-location\" contenteditable=\"true\">Dubai, UAE</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Nov 2016 &ndash; Mar 2017</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Ilk Insaat Taahhut San ve tic.a.s. &mdash; Start Refinery</span>\n        <span class=\"job-location\" contenteditable=\"true\">Turkey</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Dec 2014 &ndash; Jun 2016</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Lamprell</span>\n        <span class=\"job-location\" contenteditable=\"true\">Dubai, UAE</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2014 &ndash; Sep 2014</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Shayona Cement Corporation Ltd</span>\n        <span class=\"job-location\" contenteditable=\"true\">Africa</span>\n      </div>\n    </div>\n\n    <div class=\"section-title\" contenteditable=\"true\">Indian Experience</div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe &amp; Structural Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2024 &ndash; Jun 2025</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Samata Construction &mdash; HPCL / HCL Chemical Plant</span>\n        <span class=\"job-location\" contenteditable=\"true\">Visakhapatnam, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">Mar 2012 &ndash; Jan 2014</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Bhavani Erectors Private LTD</span>\n        <span class=\"job-location\" contenteditable=\"true\">Bellary, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">Mar 2009 &ndash; Jan 2011</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Indwell Pvt LTD</span>\n        <span class=\"job-location\" contenteditable=\"true\">Ramagundam, India</span>\n      </div>\n    </div>\n", "page2HTML": "\n<div class=\"page-badge\">Page 2 of 2</div>\n\n    <div class=\"section-title\" contenteditable=\"true\" style=\"margin-top:0;\">Key Responsibilities &amp; Competencies</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Piping Systems:</b> Fabrication, erection, and assembly of complex piping systems for upstream and downstream operations.</li>\n      <li><b>Material Expertise:</b> Worked with carbon steel and stainless steel.</li>\n      <li><b>Drawing Interpretation:</b> Read and interpreted P&amp;IDs, isometric drawings, and spool drawings to fabricate piping as per design.</li>\n      <li><b>Fabrication Techniques:</b> Carried out pipe fitting, beveling, threading, and tack welding to exact tolerances. Ensured compliance with ASME, API, and project-specific standards.</li>\n      <li><b>Refinery Operations:</b> Supported shutdown, turnaround, and maintenance activities with rapid fabrication and modification of pipework. Collaborated with engineers and welders to install high-pressure piping including steam, hydrocarbon, and chemical lines.</li>\n      <li><b>Safety &amp; Compliance:</b> Strict compliance with refinery safety protocols, hot work permits, and confined space procedures.</li>\n      <li><b>Marine &amp; Shipyards:</b> Fabricated and installed marine piping systems including fuel, ballast, fire-fighting, and bilge systems. Worked on shipbuilding, repair, and retrofitting jobs.</li>\n      <li><b>Tools &amp; Equipment:</b> Proficient in using hand tools, grinders, pipe benders, and orbital cutting machines.</li>\n      <li><b>Installation:</b> Installed pipe supports, brackets, valves, gaskets, and flanges; performed alignment before welding.</li>\n      <li><b>Rig Operations:</b> Performed fabrication, assembly, and installation of steel structures, pipe supports, platforms, and equipment skids on onshore and offshore rigs.</li>\n      <li><b>Refurbishment:</b> Successfully fabricated and installed over 50+ structural components during major rig refurbishment projects under safety regulations.</li>\n      <li><b>Rig Dismantling:</b> Experienced in rig dismantling using cutting torches, plasma cutters, grinders, and other metalworking tools to shape and modify components.</li>\n    </ul>\n\n    <div class=\"section-title\" contenteditable=\"true\">Personal Data</div>\n    <table class=\"pdata\" contenteditable=\"true\">\n      <tr><td class=\"label\">Father's Name</td><td>Mr. Linga Raju</td></tr>\n      <tr><td class=\"label\">Date of Birth</td><td>15th June 1991 (Age: 35)</td></tr>\n      <tr><td class=\"label\">Marital Status</td><td>Married</td></tr>\n      <tr><td class=\"label\">Nationality</td><td>Indian</td></tr>\n      <tr><td class=\"label\">Gender</td><td>Male</td></tr>\n      <tr><td class=\"label\">Languages Known</td><td>English, Hindi, Telugu</td></tr>\n      <tr><td class=\"label\">Current Passport</td><td>U8590763 (Issued: 08/07/2021, Expires: 07/07/2031)</td></tr>\n    </table>\n\n    <div class=\"section-title\" contenteditable=\"true\">Declaration</div>\n    <div class=\"declaration-text\" contenteditable=\"true\">\n      I hereby declare that all the details furnished above are true to the best of my knowledge.\n    </div>\n\n    <div class=\"sign-row\">\n      <div class=\"place-date\" contenteditable=\"true\">\n        Place: <span class=\"line\">&nbsp;</span><br>\n        Date: <span class=\"line\">&nbsp;</span>\n      </div>\n      <div class=\"sign-name\" contenteditable=\"true\">(JANNI MOHANA RAO)</div>\n    </div>\n", "photo": null, "attachments": []},
-    kogeshwar: {"app": "CVCraft", "version": "1.0", "exportedAt": "2026-08-16T10:22:00.000Z", "filename": "Lingam_Kogeshwar_Rao_Resume", "profileName": "Lingam Kogeshwar Rao \u2014 Mechanical Technician", "page1HTML": "\n<div class=\"page-badge\">Page 1 of 2</div>\n\n    <!-- Header -->\n    <div class=\"header\">\n      <div class=\"header-left\">\n        <h1 class=\"name\" contenteditable=\"true\">Lingam Kogeshwar<br>Rao</h1>\n        <div class=\"title\" contenteditable=\"true\">Mechanical Technician</div>\n        <div class=\"address\" contenteditable=\"true\">\n          <b>Address:</b> Door No: 1-123, Poleru (V&amp;P), Kanchili Mandal,\n          Srikakulam Dist, Andhra Pradesh, India\n        </div>\n      </div>\n      <div class=\"header-right\">\n        <div class=\"photo-wrap\" id=\"photoWrap\" role=\"button\" tabindex=\"0\" aria-label=\"Upload Profile Photo\" onclick=\"document.getElementById('photoInput').click()\">\n          <span class=\"placeholder\">Click to<br>upload photo</span>\n        </div>\n        <div class=\"contact\">\n          <div contenteditable=\"true\">Phone: +91 7337249877</div>\n          <div contenteditable=\"true\">Email: Kogeshwarsantu@gmail.com</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Career Objective -->\n    <div class=\"section-title\" contenteditable=\"true\">Career Objective</div>\n    <div class=\"objective\" contenteditable=\"true\">\n      To secure a position as a Mechanical Technician utilizing my skills and abilities in the technical field that offers professional growth while being resourceful, innovative, and flexible to meet organizational goals.\n    </div>\n\n    <!-- Qualifications -->\n    <div class=\"section-title\" contenteditable=\"true\">Qualifications</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Technical Qualification:</b> Practical experience as a Pipe Fitter / Pipe Fabricator / Mechanical Technician</li>\n      <li><b>Licensing:</b> GCC Qatar Valid Light Driving License (Manual)</li>\n      <li><b>Academic:</b> 10th Standard (SSC) | ZPHS High School, Hyd Bollaram</li>\n    </ul>\n\n    <!-- Work Experience Summary -->\n    <div class=\"section-title\" contenteditable=\"true\">Work Experience Summary</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Foreign Work Experience (Qatar):</b> Approx. 9 Years</li>\n      <li><b>Indian Work Experience:</b> Approx. 5+ Years</li>\n    </ul>\n\n    <!-- Detailed Work Experience -->\n    <div class=\"section-title\" contenteditable=\"true\">Detailed Work Experience</div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Piping Foreman</span>\n        <span class=\"job-date\" contenteditable=\"true\">Dec 2023 &ndash; Present</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">M/s. Apex Infralink Limited &mdash; RUF Unit, HPCL VRMP</span>\n        <span class=\"job-location\" contenteditable=\"true\">Visakhapatnam, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fabricator</span>\n        <span class=\"job-date\" contenteditable=\"true\">Feb 2014 &ndash; Jun 2023</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Elite International Trading Maintenance &amp; Contracting Co. W.L.L</span>\n        <span class=\"job-location\" contenteditable=\"true\">Doha, Qatar</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">Dec 2012 &ndash; Jan 2014</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Rowan Drilling / Tech-Sharp Engineers (P) Ltd &mdash; Kattupalli Shipyard</span>\n        <span class=\"job-location\" contenteditable=\"true\">Tamil Nadu, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">May 2011 &ndash; Nov 2012</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Nowell Construction Ltd / Indwell Constructions &mdash; KTPS New Paloncha</span>\n        <span class=\"job-location\" contenteditable=\"true\">Khammam, India</span>\n      </div>\n    </div>\n\n    <div class=\"job\">\n      <div class=\"job-row\">\n        <span class=\"job-title\" contenteditable=\"true\">Pipe Fitter</span>\n        <span class=\"job-date\" contenteditable=\"true\">May 2009 &ndash; Mar 2011</span>\n      </div>\n      <div class=\"job-row-2\">\n        <span class=\"job-company\" contenteditable=\"true\">Nicco Corporation Limited &mdash; Nalco Expansion Project, Damanjodi</span>\n        <span class=\"job-location\" contenteditable=\"true\">Odisha, India</span>\n      </div>\n    </div>\n", "page2HTML": "\n<div class=\"page-badge\">Page 2 of 2</div>\n\n    <div class=\"section-title\" contenteditable=\"true\" style=\"margin-top:0;\">Key Responsibilities &amp; Competencies</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li>Fabrication, erection &amp; pre-commissioning activities of various above-ground (A/G) piping systems.</li>\n      <li>Erection &amp; alignment of pipe routing from various equipment according to standard codes.</li>\n      <li>Line check activities prior to hydro-testing as per isometric drawings and P&amp;ID diagrams.</li>\n      <li>Punch closing activities and Walkthrough checks for Test Packages to verify and close out system punches.</li>\n      <li>Coordination with client inspection departments at various fabrication and erection stages to obtain QA/QC approvals.</li>\n      <li>Material receiving inspection of pipe, fittings, and fabricated systems to verify alignment with specifications.</li>\n      <li>Installation of supports as per isometric and construction drawings.</li>\n      <li>Gasket verification, bolt tightening as per rating and dimensions, hydraulic torque applications, and visual inspection after tightening.</li>\n      <li>Co-ordination with other mechanical departments (QA/QC, Equipment, Steel Structure) for seamless project delivery.</li>\n      <li>Interpreted work orders, mechanical drawings, maps, and technical instructions to perform assigned maintenance, inspection, installation, and asset-tagging activities accurately.</li>\n      <li>Performed mechanical equipment inspections and maintenance, verified asset information, and reported equipment conditions and discrepancies to the Supervisor.</li>\n      <li>Completed work orders, inspection records, and field documentation accurately while ensuring compliance with established safety procedures and quality standards.</li>\n      <li>Led and guided assigned Helpers during field activities, ensuring proper use of tools and materials and maintaining a clean, organized, and safe work environment.</li>\n    </ul>\n\n    <div class=\"section-title\" contenteditable=\"true\">Awards &amp; Key Highlights</div>\n    <ul class=\"bullets\" contenteditable=\"true\">\n      <li><b>Most Productive Employee of the Month (June 2014):</b> Awarded by Exterran / Belleli Energy Srl / Fichtner / TTQA for outstanding performance and productivity at the RAF-A2 Project Site.</li>\n    </ul>\n\n    <div class=\"section-title\" contenteditable=\"true\">Personal Data</div>\n    <table class=\"pdata\" contenteditable=\"true\">\n      <tr><td class=\"label\">Father's Name</td><td>Mr. L. Sri Ramulu</td></tr>\n      <tr><td class=\"label\">Date of Birth</td><td>16th January 1992 (Age: 33)</td></tr>\n      <tr><td class=\"label\">Marital Status</td><td>Married</td></tr>\n      <tr><td class=\"label\">Nationality</td><td>Indian</td></tr>\n      <tr><td class=\"label\">Gender</td><td>Male</td></tr>\n      <tr><td class=\"label\">Languages Known</td><td>English, Hindi, Telugu, Malayalam</td></tr>\n      <tr><td class=\"label\">Current Passport</td><td>A E380237 (Issued: 06/08/2025, Expires: 05/08/2035)</td></tr>\n      <tr><td class=\"label\">Qatar ID (QID)</td><td>29235615380</td></tr>\n      <tr><td class=\"label\">Driving License</td><td>GCC Qatar Valid Light Driving License (Manual) (Valid till 2028)</td></tr>\n    </table>\n\n    <div class=\"section-title\" contenteditable=\"true\">Declaration</div>\n    <div class=\"declaration-text\" contenteditable=\"true\">\n      I hereby certify that the above particulars are true and correct according to the best of my knowledge and belief.\n    </div>\n\n    <div class=\"sign-row\">\n      <div class=\"place-date\" contenteditable=\"true\">\n        Place: <span class=\"line\">&nbsp;</span><br>\n        Date: <span class=\"line\">&nbsp;</span>\n      </div>\n      <div class=\"sign-name\" contenteditable=\"true\">(Lingam Kogeshwar Rao)</div>\n    </div>\n", "photo": null, "attachments": []}
-  };
 
   function openImportJsonModal() {
     const overlay = document.getElementById('importJsonModalOverlay');
@@ -4133,14 +4447,7 @@
     }
   }
 
-  async function loadSampleProfile(key) {
-    const data = SAMPLE_PROFILES[key];
-    if (!data) return;
-    closeImportJsonModal();
-    await applyImportedJSONData(data, data.filename || 'Sample Profile');
-  }
-
-  async function applyImportedJSONData(data, sourceLabel) {
+    async function applyImportedJSONData(data, sourceLabel) {
     if (!data.page1HTML && !data.page2HTML && !data.page1 && !data.page2) {
       alert('The data is not a valid CVCraft resume backup.');
       return;
@@ -4177,7 +4484,7 @@
     showToast('Loaded profile: ' + sourceLabel, 'success');
   }
 
-  // ---------- Attachments Shelf Manager ----------
+    // ---------- Attachments Shelf Manager with Individual Page Deletion & Reordering ----------
   async function loadAttachments() {
     const saved = await dbGet('doc_attachments');
     if (saved && Array.isArray(saved)) {
@@ -4186,17 +4493,39 @@
     }
   }
 
+  function showDocProcessing(title = 'Processing Document...', desc = 'Rendering high-resolution pages, please wait.') {
+    const overlay = document.getElementById('docProcessingOverlay');
+    const titleEl = document.getElementById('docProcessingTitle');
+    const descEl = document.getElementById('docProcessingDesc');
+    if (titleEl) titleEl.textContent = title;
+    if (descEl) descEl.textContent = desc;
+    if (overlay) overlay.classList.add('open');
+  }
+
+  function hideDocProcessing() {
+    const overlay = document.getElementById('docProcessingOverlay');
+    if (overlay) overlay.classList.remove('open');
+  }
+
   const attachInput = document.getElementById('attachInput');
   if (attachInput) {
     attachInput.addEventListener('change', async (e) => {
       const files = Array.from(e.target.files);
       if (!files || files.length === 0) return;
-      for (const file of files) {
-        await processAttachedFile(file);
+      
+      showDocProcessing('Processing Document Pages...', `Loading ${files.length} attached file(s)...`);
+      // Allow DOM to render spinner before heavy canvas/pdf rendering
+      await new Promise(r => setTimeout(r, 60));
+
+      for (let i = 0; i < files.length; i++) {
+        showDocProcessing(`Processing File ${i + 1} of ${files.length}`, files[i].name);
+        await processAttachedFile(files[i]);
       }
+      
       attachInput.value = '';
       await dbSet('doc_attachments', attachments);
       renderAttachmentsList();
+      hideDocProcessing();
       showToast('Attached documents updated.', 'success');
     });
   }
@@ -4209,8 +4538,9 @@
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const pages = [];
         for (let i = 1; i <= pdf.numPages; i++) {
+          showDocProcessing(`Rendering PDF Page ${i} of ${pdf.numPages}`, file.name);
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 1.5 });
+          const viewport = page.getViewport({ scale: 1.6 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -4245,6 +4575,8 @@
     }
   }
 
+  let draggedPageInfo = null;
+
   function renderAttachmentsList() {
     const container = document.getElementById('attachmentsList');
     const emptyMsg = document.getElementById('attachmentsEmpty');
@@ -4270,18 +4602,30 @@
             <span class="doc-meta">(${doc.pages.length} ${doc.pages.length === 1 ? 'page' : 'pages'} &bull; ${sizeStr})</span>
           </div>
           <div class="doc-card-actions">
-            <button onclick="moveAttachment(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up"><i data-lucide="chevron-up" style="width:13px;height:13px;"></i> Up</button>
-            <button onclick="moveAttachment(${idx}, 1)" ${idx === attachments.length - 1 ? 'disabled' : ''} title="Move Down"><i data-lucide="chevron-down" style="width:13px;height:13px;"></i> Down</button>
-            <button class="del" onclick="removeAttachment(${idx})" title="Remove document"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Remove</button>
+            <button onclick="moveAttachment(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Doc Up"><i data-lucide="chevron-up" style="width:13px;height:13px;"></i> Up</button>
+            <button onclick="moveAttachment(${idx}, 1)" ${idx === attachments.length - 1 ? 'disabled' : ''} title="Move Doc Down"><i data-lucide="chevron-down" style="width:13px;height:13px;"></i> Down</button>
+            <button class="del" onclick="removeAttachment(${idx})" title="Remove entire document"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Remove</button>
           </div>
         </div>
         <div class="doc-pages">
           ${doc.pages.map((p, pIdx) => `
-            <div class="doc-page-thumb-wrap">
-              <div class="doc-page-thumb" onclick="openLightbox('${doc.id}', ${pIdx})">
+            <div class="doc-page-thumb-wrap" 
+                 draggable="true" 
+                 ondragstart="onDragStartPage(event, '${doc.id}', ${pIdx})"
+                 ondragover="onDragOverPage(event)"
+                 ondragleave="onDragLeavePage(event)"
+                 ondrop="onDropPage(event, '${doc.id}', ${pIdx})">
+              <div class="doc-page-thumb" onclick="openLightbox('${doc.id}', ${pIdx})" title="Click to enlarge">
                 <img src="${p}" alt="Page ${pIdx + 1} preview" loading="lazy">
               </div>
-              <span class="doc-page-num">Page ${pIdx + 1}</span>
+              <div class="doc-page-footer">
+                <span class="doc-page-num">Page ${pIdx + 1}</span>
+                <div class="doc-page-actions">
+                  <button type="button" class="doc-page-btn" onclick="moveAttachmentPage('${doc.id}', ${pIdx}, -1)" ${pIdx === 0 ? 'disabled' : ''} title="Move page left">&larr;</button>
+                  <button type="button" class="doc-page-btn" onclick="moveAttachmentPage('${doc.id}', ${pIdx}, 1)" ${pIdx === doc.pages.length - 1 ? 'disabled' : ''} title="Move page right">&rarr;</button>
+                  <button type="button" class="doc-page-btn del" onclick="deleteAttachmentPage('${doc.id}', ${pIdx})" title="Delete this page"><i data-lucide="trash-2" style="width:11px;height:11px;"></i></button>
+                </div>
+              </div>
             </div>
           `).join('')}
         </div>
@@ -4289,6 +4633,83 @@
       container.appendChild(card);
     });
     if (window.lucide) lucide.createIcons();
+  }
+
+  // Individual Page Deletion
+  async function deleteAttachmentPage(docId, pageIdx) {
+    const docIdx = attachments.findIndex(d => d.id === docId);
+    if (docIdx === -1) return;
+    const doc = attachments[docIdx];
+
+    const confirmed = await showConfirmModal('Delete Page', `Delete page ${pageIdx + 1} from "${doc.name}"?`);
+    if (!confirmed) return;
+
+    doc.pages.splice(pageIdx, 1);
+    if (doc.pages.length === 0) {
+      attachments.splice(docIdx, 1);
+    }
+    await dbSet('doc_attachments', attachments);
+    renderAttachmentsList();
+    showToast('Page removed from document.', 'info');
+  }
+
+  // Page Move & Reorder
+  async function moveAttachmentPage(docId, pageIdx, dir) {
+    const doc = attachments.find(d => d.id === docId);
+    if (!doc) return;
+    const targetIdx = pageIdx + dir;
+    if (targetIdx < 0 || targetIdx >= doc.pages.length) return;
+
+    const temp = doc.pages[pageIdx];
+    doc.pages[pageIdx] = doc.pages[targetIdx];
+    doc.pages[targetIdx] = temp;
+
+    await dbSet('doc_attachments', attachments);
+    renderAttachmentsList();
+  }
+
+  // Drag and Drop Page Reordering Handlers
+  function onDragStartPage(e, docId, pageIdx) {
+    draggedPageInfo = { docId, pageIdx };
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  function onDragOverPage(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const wrap = e.currentTarget.closest('.doc-page-thumb-wrap');
+    if (wrap) wrap.classList.add('drag-over');
+  }
+
+  function onDragLeavePage(e) {
+    const wrap = e.currentTarget.closest('.doc-page-thumb-wrap');
+    if (wrap) wrap.classList.remove('drag-over');
+  }
+
+  async function onDropPage(e, targetDocId, targetPageIdx) {
+    e.preventDefault();
+    const wrap = e.currentTarget.closest('.doc-page-thumb-wrap');
+    if (wrap) wrap.classList.remove('drag-over');
+
+    if (!draggedPageInfo || draggedPageInfo.docId !== targetDocId) {
+      draggedPageInfo = null;
+      return;
+    }
+
+    const srcPageIdx = draggedPageInfo.pageIdx;
+    draggedPageInfo = null;
+
+    if (srcPageIdx === targetPageIdx) return;
+
+    const doc = attachments.find(d => d.id === targetDocId);
+    if (!doc) return;
+
+    const movedPage = doc.pages.splice(srcPageIdx, 1)[0];
+    doc.pages.splice(targetPageIdx, 0, movedPage);
+
+    await dbSet('doc_attachments', attachments);
+    renderAttachmentsList();
+    showToast('Page order updated.', 'success');
   }
 
   async function moveAttachment(idx, dir) {
@@ -4311,21 +4732,6 @@
     }
   }
 
-  function openLightbox(docId, pageIdx) {
-    const doc = attachments.find(d => d.id === docId);
-    if (!doc || !doc.pages[pageIdx]) return;
-    const lbImg = document.getElementById('lightboxImg');
-    const lbCaption = document.getElementById('lightboxCaption');
-    const lb = document.getElementById('pageLightbox');
-    if (lbImg) lbImg.src = doc.pages[pageIdx];
-    if (lbCaption) lbCaption.textContent = `${doc.name} - Page ${pageIdx + 1} of ${doc.pages.length}`;
-    openModal(lb);
-  }
-
-  function closeLightbox() {
-    const lb = document.getElementById('pageLightbox');
-    closeModal(lb);
-  }
 
   // ---------- Download PDF Generation ----------
   function openDownloadModal() {
@@ -4426,15 +4832,16 @@
       const p2 = pdfDoc.addPage([w2, h2]);
       p2.drawImage(png2, { x: 0, y: 0, width: w2, height: h2 });
 
-      // Attached Certificates & Documents Embed
+            // Attached Certificates & Documents Embed (strictly in user-defined custom order)
       for (const att of attachments) {
-        if (att.type === 'image') {
-          const imgData = att.dataUrl || (att.pages && att.pages[0]);
-          if (imgData) {
-            const bytes = dataUrlToBytes(imgData);
-            const embedded = (att.mime === 'image/png' || imgData.startsWith('data:image/png'))
-              ? await pdfDoc.embedPng(bytes)
-              : await pdfDoc.embedJpg(bytes);
+        if (att.pages && Array.isArray(att.pages)) {
+          for (let pIdx = 0; pIdx < att.pages.length; pIdx++) {
+            const pageData = att.pages[pIdx];
+            if (!pageData) continue;
+            
+            const isPng = pageData.startsWith('data:image/png');
+            const bytes = dataUrlToBytes(pageData);
+            const embedded = isPng ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
 
             const a4W = w1;
             const a4H = h1;
@@ -4456,60 +4863,6 @@
 
             const page = pdfDoc.addPage([a4W, a4H]);
             page.drawImage(embedded, { x: drawX, y: drawY, width: drawW, height: drawH });
-          }
-        } else if (att.type === 'pdf') {
-          if (att.dataUrl) {
-            try {
-              const bytes = dataUrlToBytes(att.dataUrl);
-              const srcDoc = await PDFDocument.load(bytes);
-              const copiedPages = await pdfDoc.copyPages(srcDoc, srcDoc.getPageIndices());
-              copiedPages.forEach((pg) => pdfDoc.addPage(pg));
-            } catch (pdfErr) {
-              console.warn('Direct PDF copy failed, embedding rendered pages:', pdfErr);
-              if (att.pages && Array.isArray(att.pages)) {
-                for (const pData of att.pages) {
-                  const pBytes = dataUrlToBytes(pData);
-                  const pImg = await pdfDoc.embedJpg(pBytes);
-                  const a4W = w1;
-                  const a4H = h1;
-                  const pad = 24;
-                  const maxAvailW = a4W - (pad * 2);
-                  const maxAvailH = a4H - (pad * 2);
-                  const imgAspect = pImg.width / pImg.height;
-                  let drawW = maxAvailW;
-                  let drawH = drawW / imgAspect;
-                  if (drawH > maxAvailH) {
-                    drawH = maxAvailH;
-                    drawW = drawH * imgAspect;
-                  }
-                  const drawX = pad + (maxAvailW - drawW) / 2;
-                  const drawY = pad + (maxAvailH - drawH) / 2;
-                  const page = pdfDoc.addPage([a4W, a4H]);
-                  page.drawImage(pImg, { x: drawX, y: drawY, width: drawW, height: drawH });
-                }
-              }
-            }
-          } else if (att.pages && Array.isArray(att.pages)) {
-            for (const pData of att.pages) {
-              const pBytes = dataUrlToBytes(pData);
-              const pImg = await pdfDoc.embedJpg(pBytes);
-              const a4W = w1;
-              const a4H = h1;
-              const pad = 24;
-              const maxAvailW = a4W - (pad * 2);
-              const maxAvailH = a4H - (pad * 2);
-              const imgAspect = pImg.width / pImg.height;
-              let drawW = maxAvailW;
-              let drawH = drawW / imgAspect;
-              if (drawH > maxAvailH) {
-                drawH = maxAvailH;
-                drawW = drawH * imgAspect;
-              }
-              const drawX = pad + (maxAvailW - drawW) / 2;
-              const drawY = pad + (maxAvailH - drawH) / 2;
-              const page = pdfDoc.addPage([a4W, a4H]);
-              page.drawImage(pImg, { x: drawX, y: drawY, width: drawW, height: drawH });
-            }
           }
         }
       }
@@ -4580,10 +4933,15 @@
   window.addEventListener('resize', scheduleMobileLayoutUpdate);
 
   // ---------- Page Initialization ----------
-  window.addEventListener('DOMContentLoaded', async () => {
+    window.addEventListener('DOMContentLoaded', async () => {
+    // Clean URL query parameters immediately
+    if (window.history && window.history.replaceState && window.location.search) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     await initDB();
-    const hasProfile = localStorage.getItem('cvcraft_profile_created');
-    const hasSavedState = localStorage.getItem(STORAGE_KEY);
+    const hasProfile = localStorage.getItem('cvcraft_profile_created') === 'true';
+    const hasSavedState = !!localStorage.getItem(STORAGE_KEY);
 
     if (hasSavedState) {
       await loadState();
@@ -4595,16 +4953,11 @@
     updateUserGreeting();
     scheduleMobileLayoutUpdate();
 
-    // Handle URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('mode') === 'import') {
+    // Only open onboarding wizard if brand new user with no saved profile and no edits
+    if (!hasProfile && !hasSavedState) {
       setTimeout(() => {
-        document.getElementById('jsonFileInput')?.click();
+        openOnboardingWizard(true);
       }, 400);
-    } else if (!hasProfile && !hasSavedState) {
-      setTimeout(() => {
-        openOnboardingWizard();
-      }, 500);
     }
     if (window.lucide) lucide.createIcons();
   });
