@@ -1370,10 +1370,11 @@
   .dropzone-title { font-size: 24px; font-weight: 800; }
   .dropzone-desc { font-size: 14px; opacity: 0.9; }
 
-      /* Universal Modal Action Buttons & Responsive 50/50 Grid */
+        /* Universal Modal Action Buttons (Desktop: 2-Way Left/Right Pinning | Mobile: Centered 50/50 Grid) */
   .confirm-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 12px;
     margin-top: 18px;
     width: 100%;
@@ -1383,7 +1384,7 @@
     font-family: 'Inter', Arial, sans-serif;
     font-size: 13px;
     font-weight: 700;
-    padding: 10px 14px;
+    padding: 10px 22px;
     min-height: 40px;
     border-radius: 8px;
     cursor: pointer;
@@ -1394,7 +1395,6 @@
     gap: 6px;
     transition: all 0.15s ease;
     box-sizing: border-box;
-    width: 100%;
   }
   .confirm-cancel {
     background: #f8fafc;
@@ -1423,27 +1423,31 @@
     background: #0369a1;
   }
 
-  /* Wizard Footer Responsive Symmetrical 50/50 Grid */
+  /* Wizard Footer (Desktop: Left Close/Back, Right Next/Generate | Mobile: Centered 50/50) */
   .wizard-footer {
-    padding: 14px 20px;
+    padding: 14px 22px;
     background: #f8fafc;
     border-top: 1px solid #e2e8f0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    box-sizing: border-box;
-    width: 100%;
-  }
-  .wizard-footer-left, .wizard-footer-right {
-    width: 100%;
     display: flex;
-  }
-  .wizard-footer-left button, .wizard-footer-right button {
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
+    box-sizing: border-box;
+  }
+  .wizard-footer-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .wizard-footer-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
   }
   .wizard-btn-pri, .wizard-btn-sec {
     min-height: 40px;
-    padding: 10px 14px;
+    padding: 10px 22px;
     font-size: 13px;
     font-weight: 700;
     border-radius: 8px;
@@ -1455,7 +1459,6 @@
     cursor: pointer;
     box-sizing: border-box;
     transition: all 0.15s ease;
-    width: 100%;
   }
   .wizard-btn-pri {
     background: #0284c7;
@@ -1475,15 +1478,32 @@
     border-color: #94a3b8;
   }
 
+  /* Mobile Responsive 50/50 Centered Layout */
   @media (max-width: 600px) {
     .confirm-actions, .wizard-footer {
-      gap: 10px;
-      padding: 12px 14px;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 10px !important;
+      padding: 12px 14px !important;
+      justify-content: stretch !important;
+      align-items: stretch !important;
     }
-    .confirm-actions button, .wizard-btn-pri, .wizard-btn-sec {
-      min-height: 40px;
-      padding: 9px 8px;
-      font-size: 12px;
+    .wizard-footer-left, .wizard-footer-right {
+      width: 100% !important;
+      margin: 0 !important;
+      display: flex !important;
+    }
+    .confirm-actions button, .wizard-btn-pri, .wizard-btn-sec,
+    .wizard-footer-left button, .wizard-footer-right button {
+      width: 100% !important;
+      min-height: 42px !important;
+      padding: 9px 8px !important;
+      font-size: 12.5px !important;
+      font-weight: 700 !important;
+      border-radius: 8px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
     }
   }
 
