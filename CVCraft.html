@@ -2336,6 +2336,28 @@
     }
   }
 
+
+  /* Attachments Shelf Clear Isolation & Spacing */
+  .attachments-shelf-container {
+    max-width: 794px;
+    margin: 36px auto 32px auto;
+    position: relative;
+    z-index: 10;
+    clear: both;
+    box-sizing: border-box;
+  }
+  @media (max-width: 768px) {
+    .attachments-shelf-container {
+      margin: 36px 12px 28px 12px !important;
+      clear: both !important;
+      position: relative !important;
+      z-index: 10 !important;
+    }
+    .page-frame {
+      margin: 0 auto 24px auto !important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -3626,12 +3648,10 @@
 
       // ---------- User Personalization Helper ----------
   function getUserDisplayName() {
-    const saved = localStorage.getItem('cvcraft_user_name');
-    if (saved && saved !== 'FULL NAME' && saved !== 'User') return saved;
     const nameEl = document.querySelector('.header-left h1.name');
     if (nameEl) {
       const text = (nameEl.innerText || '').replace(/\s+/g, ' ').trim();
-      if (text && text !== 'FULL NAME') {
+      if (text && text !== 'FULL NAME' && text !== 'User') {
         const first = text.split(' ')[0] || '';
         if (first) {
           localStorage.setItem('cvcraft_user_name', first);
@@ -3639,6 +3659,8 @@
         }
       }
     }
+    const saved = localStorage.getItem('cvcraft_user_name');
+    if (saved && saved !== 'FULL NAME' && saved !== 'User') return saved;
     return 'User';
   }
 
@@ -3717,9 +3739,10 @@
   }
 
       // ---------- Synchronize Active Resume Content to Wizard Fields ----------
+  // ---------- Comprehensive Robust Resume-to-Wizard Synchronization Engine ----------
   function syncResumeToWizardFields() {
     try {
-      // 1. Name, Title & Address
+      // 1. Full Name, Title & Address
       const nameEl = document.querySelector('.header-left h1.name');
       const titleEl = document.querySelector('.header-left .title');
       const addrEl = document.querySelector('.header-left .address');
@@ -3729,17 +3752,27 @@
       const wizAddress = document.getElementById('wizAddress');
 
       if (nameEl && wizName) {
-        const val = nameEl.innerText.replace(/[\r\n]+/g, ' ').trim();
-        wizName.value = (val === 'FULL NAME') ? '' : val;
+        let val = (nameEl.innerText || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (val && val !== 'FULL NAME') {
+          wizName.value = val;
+          const first = val.split(' ')[0];
+          if (first) localStorage.setItem('cvcraft_user_name', first);
+        }
       }
+
       if (titleEl && wizTitle) {
-        const val = titleEl.innerText.replace(/[\r\n]+/g, ' ').trim();
-        wizTitle.value = (val === 'PROFESSIONAL TITLE / ROLE') ? '' : val;
+        let val = (titleEl.innerText || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (val && !val.includes('PROFESSIONAL TITLE')) {
+          wizTitle.value = val;
+        }
       }
+
       if (addrEl && wizAddress) {
-        let addrText = addrEl.innerText.replace(/[\r\n]+/g, ' ').trim();
+        let addrText = (addrEl.innerText || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
         addrText = addrText.replace(/^Address:\s*/i, '').trim();
-        wizAddress.value = (addrText.includes('City, State, Country')) ? '' : addrText;
+        if (addrText && !addrText.includes('City, State, Country')) {
+          wizAddress.value = addrText;
+        }
       }
 
       // 2. Contact Phone & Email
@@ -3748,28 +3781,34 @@
       const wizEmail = document.getElementById('wizEmail');
 
       contactDivs.forEach(div => {
-        const txt = div.innerText.trim();
-        if (txt.toLowerCase().includes('phone:') || txt.toLowerCase().includes('mob:') || txt.startsWith('+')) {
-          if (wizPhone) {
-            let p = txt.replace(/^(phone|mob|tel):\s*/i, '').trim();
-            wizPhone.value = p.includes('00000') ? '' : p;
+        const txt = (div.innerText || '').trim();
+        if (!txt) return;
+
+        // Check for Email
+        if (txt.includes('@')) {
+          let em = txt.replace(/^email:\s*/i, '').trim();
+          if (wizEmail && !em.includes('example.com')) {
+            wizEmail.value = em;
           }
-        } else if (txt.toLowerCase().includes('email:') || txt.includes('@')) {
-          if (wizEmail) {
-            let em = txt.replace(/^email:\s*/i, '').trim();
-            wizEmail.value = em.includes('example.com') ? '' : em;
+        }
+        // Check for Phone
+        else if (/\d{5,}/.test(txt) || txt.toLowerCase().includes('phone:') || txt.toLowerCase().includes('mob:') || txt.startsWith('+')) {
+          let p = txt.replace(/^(phone|mob|tel):\s*/i, '').trim();
+          if (wizPhone && !p.includes('00000')) {
+            wizPhone.value = p;
           }
         }
       });
 
-      // 3. Objective Text (ID: wizObjectiveText)
-      const objEl = document.querySelector('.objective');
-      const wizObj = document.getElementById('wizObjectiveText') || document.getElementById('wizObjective');
+      // 3. Career Objective
+      const objEl = document.getElementById('secObjectiveContent') || document.querySelector('.objective');
+      const wizObj = document.getElementById('wizObjectiveText');
       if (objEl && wizObj) {
-        wizObj.value = objEl.innerText.trim();
+        const objVal = (objEl.innerText || '').trim();
+        if (objVal) wizObj.value = objVal;
       }
 
-      // 4. Qualifications (IDs: wizTechQual, wizAcademicQual, wizSSCQual, wizSafetyQual)
+      // 4. Academic & Technical Qualifications
       const qualItems = document.querySelectorAll('#secQualContent li');
       const wizTechQual = document.getElementById('wizTechQual');
       const wizAcademicQual = document.getElementById('wizAcademicQual');
@@ -3777,113 +3816,178 @@
       const wizSafetyQual = document.getElementById('wizSafetyQual');
 
       qualItems.forEach(li => {
-        const raw = li.innerText.trim();
-        if (raw.toLowerCase().includes('technical qualification')) {
-          if (wizTechQual) wizTechQual.value = raw.replace(/^Technical Qualification:\s*/i, '').trim();
-        } else if (raw.toLowerCase().includes('academic qualification') || raw.toLowerCase().includes('bachelor') || raw.toLowerCase().includes('degree')) {
-          if (wizAcademicQual) wizAcademicQual.value = raw.replace(/^Academic Qualification:\s*/i, '').trim();
-        } else if (raw.toLowerCase().includes('secondary') || raw.toLowerCase().includes('ssc') || raw.toLowerCase().includes('school')) {
-          if (wizSSCQual) wizSSCQual.value = raw.replace(/^Secondary Education:\s*/i, '').trim();
-        } else if (raw.toLowerCase().includes('safety') || raw.toLowerCase().includes('osha') || raw.toLowerCase().includes('course')) {
-          if (wizSafetyQual) wizSafetyQual.value = raw.replace(/^[a-zA-Z\s\(\),]+:\s*/i, '').trim();
+        const raw = (li.innerText || '').trim();
+        const boldText = li.querySelector('b')?.innerText || '';
+        let val = raw;
+        if (boldText) {
+          val = raw.replace(boldText, '').replace(/^:\s*/, '').trim();
+        } else {
+          val = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
+        }
+
+        const lower = raw.toLowerCase();
+        if (lower.includes('technical') || lower.includes('vocational') || lower.includes('diploma in tech')) {
+          if (wizTechQual && val) wizTechQual.value = val;
+        } else if (lower.includes('academic') || lower.includes('bachelor') || lower.includes('degree') || lower.includes('b.e') || lower.includes('b.tech') || lower.includes('college')) {
+          if (wizAcademicQual && val) wizAcademicQual.value = val;
+        } else if (lower.includes('secondary') || lower.includes('ssc') || lower.includes('s.s.c') || lower.includes('10th') || lower.includes('matric')) {
+          if (wizSSCQual && val) wizSSCQual.value = val;
+        } else if (lower.includes('safety') || lower.includes('osha') || lower.includes('nebosh') || lower.includes('certification') || lower.includes('course')) {
+          if (wizSafetyQual && val) wizSafetyQual.value = val;
         }
       });
 
-      // 5. Work Experience Summary (IDs: wizForeignExp, wizIndianExp)
+      // 5. Work Experience Mode & Summary
+      const foreignBlock = document.getElementById('secForeignJobsBlock');
+      const foreignJobEls = document.querySelectorAll('#secForeignJobsContent .job');
+      const indianJobEls = document.querySelectorAll('#secIndianJobsContent .job');
+
+      if (foreignBlock && foreignBlock.style.display === 'none' && indianJobEls.length > 0 && foreignJobEls.length === 0) {
+        setWizardExpMode('india');
+      } else {
+        setWizardExpMode('both');
+      }
+
       const expItems = document.querySelectorAll('#secExpSummaryContent li');
       const wizForeignExp = document.getElementById('wizForeignExp');
       const wizIndianExp = document.getElementById('wizIndianExp');
 
       expItems.forEach(li => {
-        const raw = li.innerText.trim();
-        if (raw.toLowerCase().includes('foreign') || raw.toLowerCase().includes('international') || raw.toLowerCase().includes('gulf')) {
-          if (wizForeignExp) wizForeignExp.value = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
-        } else if (raw.toLowerCase().includes('indian') || raw.toLowerCase().includes('domestic')) {
-          if (wizIndianExp) wizIndianExp.value = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
+        const raw = (li.innerText || '').trim();
+        const boldText = li.querySelector('b')?.innerText || '';
+        let val = raw;
+        if (boldText) {
+          val = raw.replace(boldText, '').replace(/^:\s*/, '').trim();
+        } else {
+          val = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
+        }
+
+        const lower = raw.toLowerCase();
+        if (lower.includes('foreign') || lower.includes('international') || lower.includes('gulf') || lower.includes('europe') || lower.includes('uae')) {
+          if (wizForeignExp && val) wizForeignExp.value = val;
+        } else if (lower.includes('indian') || lower.includes('domestic')) {
+          if (wizIndianExp && val) wizIndianExp.value = val;
+        } else if (lower.includes('work experience summary') || lower.includes('total experience')) {
+          if (wizIndianExp && val) {
+            wizIndianExp.value = val;
+            setWizardExpMode('india');
+          }
         }
       });
 
-      // 6. Foreign / International Jobs (Container: wizForeignJobsContainer)
-      const foreignJobEls = document.querySelectorAll('#secForeignJobsContent .job');
+      // 6. Foreign / International Jobs List
       const foreignContainer = document.getElementById('wizForeignJobsContainer');
       if (foreignContainer) {
         foreignContainer.innerHTML = '';
-        if (foreignJobEls.length > 0) {
-          foreignJobEls.forEach(job => {
-            const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
-            const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
-            const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
-            const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+        foreignJobEls.forEach(job => {
+          const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
+          const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
+          const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
+          const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+          if (jTitle || jComp) {
             addWizardForeignJob(jTitle, jComp, jLoc, jDate);
-          });
-        }
+          }
+        });
       }
 
-      // 7. Indian / Domestic Jobs (Container: wizIndianJobsContainer)
-      const indianJobEls = document.querySelectorAll('#secIndianJobsContent .job');
+      // 7. Indian / Domestic Jobs List
       const indianContainer = document.getElementById('wizIndianJobsContainer');
       if (indianContainer) {
         indianContainer.innerHTML = '';
-        if (indianJobEls.length > 0) {
-          indianJobEls.forEach(job => {
-            const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
-            const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
-            const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
-            const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+        indianJobEls.forEach(job => {
+          const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
+          const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
+          const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
+          const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+          if (jTitle || jComp) {
             addWizardIndianJob(jTitle, jComp, jLoc, jDate);
-          });
-        }
+          }
+        });
       }
 
-      // 8. Key Responsibilities (Container: wizRespContainer)
+      // 8. Key Responsibilities List (Page 2)
       const respItems = document.querySelectorAll('#secRespContent li');
       const respContainer = document.getElementById('wizRespContainer');
       if (respContainer) {
         respContainer.innerHTML = '';
-        if (respItems.length > 0) {
-          respItems.forEach(li => {
-            addWizardRespField(li.innerText.trim());
-          });
-        }
+        respItems.forEach(li => {
+          const txt = (li.innerText || '').trim();
+          if (txt) {
+            addWizardRespField(txt);
+          }
+        });
       }
 
-      // 9. Personal Data Table (Page 2)
+      // 9. Personal Data & Passport Table (Page 2)
       const pdataRows = document.querySelectorAll('#secPersonalContent table.pdata tr');
       pdataRows.forEach(tr => {
         const label = tr.querySelector('.label')?.innerText.toLowerCase().trim() || '';
-        const val = tr.querySelectorAll('td')[1]?.innerText.trim() || '';
+        const tds = tr.querySelectorAll('td');
+        const val = tds.length >= 2 ? tds[1].innerText.trim() : '';
+        if (!val) return;
+
         if (label.includes('father')) {
           const el = document.getElementById('wizFatherName');
-          if (el && val) el.value = val;
-        } else if (label.includes('birth') || label.includes('dob')) {
+          if (el) el.value = val;
+        } else if (label.includes('birth') || label.includes('dob') || label.includes('age')) {
           const el = document.getElementById('wizDOB');
-          if (el && val) el.value = val;
+          if (el) el.value = val;
         } else if (label.includes('marital')) {
           const el = document.getElementById('wizMarital');
-          if (el && val) el.value = val;
+          if (el) el.value = val;
         } else if (label.includes('nationality')) {
           const el = document.getElementById('wizNationality');
-          if (el && val) el.value = val;
-        } else if (label.includes('gender')) {
+          if (el) el.value = val;
+        } else if (label.includes('gender') || label.includes('sex')) {
           const el = document.getElementById('wizGender');
-          if (el && val) el.value = val;
+          if (el) el.value = val;
         } else if (label.includes('language')) {
           const el = document.getElementById('wizLanguages');
-          if (el && val) el.value = val;
+          if (el) el.value = val;
         } else if (label.includes('passport')) {
           const el = document.getElementById('wizPassportDetails');
-          if (el && val) el.value = val;
+          if (el) el.value = val;
         }
       });
 
-      // 10. Declaration
+      // 10. Declaration Statement
       const declEl = document.querySelector('.declaration-text');
       const wizDecl = document.getElementById('wizDeclaration');
-      if (declEl && wizDecl) wizDecl.value = declEl.innerText.trim();
+      if (declEl && wizDecl) {
+        const declText = (declEl.innerText || '').trim();
+        if (declText) wizDecl.value = declText;
+      }
+
+      // 11. Section Checkboxes (Step 6)
+      const secObjEl = document.getElementById('secObjectiveTitle');
+      const secQualEl = document.getElementById('secQualTitle');
+      const secExpEl = document.getElementById('secExpSummaryTitle');
+      const secDetExpEl = document.getElementById('secDetailedExpWrap');
+      const secRespEl = document.getElementById('secRespTitle');
+      const secPersEl = document.getElementById('secPersonalTitle');
+
+      if (document.getElementById('secObjective')) {
+        document.getElementById('secObjective').checked = secObjEl ? secObjEl.style.display !== 'none' : true;
+      }
+      if (document.getElementById('secQualifications')) {
+        document.getElementById('secQualifications').checked = secQualEl ? secQualEl.style.display !== 'none' : true;
+      }
+      if (document.getElementById('secExpSummary')) {
+        document.getElementById('secExpSummary').checked = secExpEl ? secExpEl.style.display !== 'none' : true;
+      }
+      if (document.getElementById('secDetailedExp')) {
+        document.getElementById('secDetailedExp').checked = secDetExpEl ? secDetExpEl.style.display !== 'none' : true;
+      }
+      if (document.getElementById('secResponsibilities')) {
+        document.getElementById('secResponsibilities').checked = secRespEl ? secRespEl.style.display !== 'none' : true;
+      }
+      if (document.getElementById('secPersonalData')) {
+        document.getElementById('secPersonalData').checked = secPersEl ? secPersEl.style.display !== 'none' : true;
+      }
 
       if (window.lucide) lucide.createIcons();
     } catch (e) {
-      console.warn('Error syncing resume to wizard fields:', e);
+      console.warn('Error in syncResumeToWizardFields:', e);
     }
   }
 
@@ -5284,7 +5388,7 @@
     }
   }
 
-  // ---------- Responsive Layout Scaler for Mobile View ----------
+  // ---------- Responsive Layout Scaler for Mobile View (Dynamic Real-Height Engine) ----------
   function scheduleMobileLayoutUpdate() {
     const p1 = document.getElementById('resume');
     const p2 = document.getElementById('resume-page2');
@@ -5295,19 +5399,25 @@
       const availableWidth = window.innerWidth - 24;
       const targetScale = Math.min(1, Math.max(0.35, availableWidth / 794));
 
-      [p1, p2].forEach(p => {
-        if (p) {
-          p.style.transform = `scale(${targetScale})`;
-          p.style.transformOrigin = 'top center';
-        }
-      });
+      if (p1) {
+        p1.style.transform = `scale(${targetScale})`;
+        p1.style.transformOrigin = 'top center';
+      }
+      if (p2) {
+        p2.style.transform = `scale(${targetScale})`;
+        p2.style.transformOrigin = 'top center';
+      }
 
-      const scaledHeight = 1122 * targetScale;
-      [f1, f2].forEach(f => {
-        if (f) {
-          f.style.height = `${scaledHeight + 16}px`;
-        }
-      });
+      // Calculate DYNAMIC real content heights for both frames to prevent ANY overlap!
+      const p1RealHeight = p1 ? Math.max(1122, p1.scrollHeight, p1.offsetHeight) : 1122;
+      const p2RealHeight = p2 ? Math.max(1122, p2.scrollHeight, p2.offsetHeight) : 1122;
+
+      if (f1) {
+        f1.style.height = `${(p1RealHeight * targetScale) + 20}px`;
+      }
+      if (f2) {
+        f2.style.height = `${(p2RealHeight * targetScale) + 32}px`;
+      }
     } else {
       [p1, p2].forEach(p => {
         if (p) {
@@ -5341,6 +5451,7 @@
   // Monitor DOM edits and resize events
   const page2Observer = new MutationObserver(() => {
     checkPage2Overflow();
+    scheduleMobileLayoutUpdate();
   });
   const p2El = document.getElementById('resume-page2');
   if (p2El) {
