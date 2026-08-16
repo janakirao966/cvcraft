@@ -2450,6 +2450,9 @@
     <!-- PAGE 2 Frame -->
     <div class="page-frame" id="page2Frame">
       <div class="page page-break" id="resume-page2">
+        <div class="a4-overflow-indicator" id="a4Page2OverflowGuide" style="display:none;">
+          <span class="a4-overflow-badge"><i data-lucide="info" style="width:12px;height:12px;"></i> Content below here exports to Page 3</span>
+        </div>
         <div class="page-badge">Page 2 of 2</div>
 
         <div class="section-title" id="secRespTitle" contenteditable="true" style="margin-top:0;">Key Responsibilities &amp; Competencies</div>
@@ -4976,7 +4979,31 @@
   window.addEventListener('resize', scheduleMobileLayoutUpdate);
 
   // ---------- Page Initialization ----------
-    window.addEventListener('DOMContentLoaded', async () => {
+      // Live A4 Page Height Monitor & Overflow Guide
+  function checkPage2Overflow() {
+    const page2 = document.getElementById('resume-page2');
+    const guide = document.getElementById('a4Page2OverflowGuide');
+    if (!page2 || !guide) return;
+    
+    // 1122px is standard A4 height
+    if (page2.scrollHeight > 1135) {
+      guide.style.display = 'flex';
+    } else {
+      guide.style.display = 'none';
+    }
+  }
+
+  // Monitor DOM edits and resize events
+  const page2Observer = new MutationObserver(() => {
+    checkPage2Overflow();
+  });
+  const p2El = document.getElementById('resume-page2');
+  if (p2El) {
+    page2Observer.observe(p2El, { childList: true, subtree: true, characterData: true });
+  }
+
+
+  window.addEventListener('DOMContentLoaded', async () => {
     // Clean URL query parameters immediately
     if (window.history && window.history.replaceState && window.location.search) {
       window.history.replaceState({}, document.title, window.location.pathname);
