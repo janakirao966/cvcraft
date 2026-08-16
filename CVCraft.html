@@ -2264,8 +2264,47 @@
       </div>
 
       <div class="wizard-body">
+        <!-- STEP 0: Welcome & Introduction Screen -->
+        <div class="wizard-step-panel" id="wizardStep0">
+          <div style="text-align:center;padding:12px 6px 14px 6px;">
+            <div style="width:68px;height:68px;margin:0 auto 14px auto;border-radius:50%;background:linear-gradient(135deg, #e0f2fe, #bae6fd);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(2, 132, 199, 0.22);">
+              <i data-lucide="sparkles" style="width:34px;height:34px;color:#0284c7;"></i>
+            </div>
+            <h3 style="font-family:'Outfit', Arial, sans-serif;font-size:22px;font-weight:800;color:#1a5276;margin:0 0 6px 0;">Welcome to CVCraft</h3>
+            <p style="font-size:13.5px;color:#64748b;margin:0 auto 20px auto;max-width:480px;line-height:1.5;">
+              Your intelligent resume architect. In a few quick steps, we will craft your print-perfect, ATS-compliant master resume.
+            </p>
+
+            <div class="wizard-grid-3" style="text-align:left;margin-bottom:12px;">
+              <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 10px;">
+                <div style="font-size:12.5px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                  <i data-lucide="file-check-2" style="width:15px;height:15px;color:#16a34a;"></i> ATS-Compliant
+                </div>
+                <p style="font-size:11px;color:#64748b;margin:0;line-height:1.35;">Standardized 2-page A4 vector layout with crisp typography.</p>
+              </div>
+
+              <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 10px;">
+                <div style="font-size:12.5px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                  <i data-lucide="paperclip" style="width:15px;height:15px;color:#0284c7;"></i> Merge Documents
+                </div>
+                <p style="font-size:11px;color:#64748b;margin:0;line-height:1.35;">Attach trade certificates, passport scans, and multi-page PDFs.</p>
+              </div>
+
+              <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 10px;">
+                <div style="font-size:12.5px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                  <i data-lucide="shield-check" style="width:15px;height:15px;color:#6366f1;"></i> 100% Private
+                </div>
+                <p style="font-size:11px;color:#64748b;margin:0;line-height:1.35;">Stored safely in your browser. Zero cloud tracking.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- STEP 1: Personal Info & Contact Details -->
         <div class="wizard-step-panel active" id="wizardStep1">
+          <div id="wizUserGreetingBanner" style="display:none;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:12.5px;font-weight:700;color:#0369a1;">
+            <i data-lucide="user-check" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"></i> <span id="wizGreetingName">Welcome back!</span>
+          </div>
           <p class="wizard-instructions">Enter your full identity, professional designation, and contact details:</p>
           
           <div class="wizard-grid-2">
@@ -3013,8 +3052,13 @@
     if (window.lucide) lucide.createIcons();
   }
 
-  function openOnboardingWizard() {
-    currentWizardStep = 1;
+  function openOnboardingWizard(forceIntro = false) {
+    const hasProfile = localStorage.getItem('cvcraft_profile_created') === 'true';
+    if (forceIntro || !hasProfile) {
+      currentWizardStep = 0;
+    } else {
+      currentWizardStep = 1;
+    }
     updateWizardStepUI();
     const modal = document.getElementById('onboardingWizardModal');
     if (!modal) return;
@@ -3097,19 +3141,36 @@
   }
 
   function updateWizardStepUI() {
+    const step0Panel = document.getElementById('wizardStep0');
+    if (step0Panel) step0Panel.classList.toggle('active', currentWizardStep === 0);
+
     for (let i = 1; i <= TOTAL_WIZARD_STEPS; i++) {
       const panel = document.getElementById('wizardStep' + i);
       const dot = document.getElementById('wizardDot' + i);
       if (panel) panel.classList.toggle('active', i === currentWizardStep);
       if (dot) {
         dot.classList.toggle('active', i === currentWizardStep);
-        dot.classList.toggle('completed', i < currentWizardStep);
+        dot.classList.toggle('completed', currentWizardStep > 0 && i < currentWizardStep);
       }
     }
 
     const titleEl = document.getElementById('wizardStepTitle');
     const backBtn = document.getElementById('wizBackBtn');
     const nextBtn = document.getElementById('wizNextBtn');
+    const greetingBanner = document.getElementById('wizUserGreetingBanner');
+    const greetingName = document.getElementById('wizGreetingName');
+
+    const hasProfile = localStorage.getItem('cvcraft_profile_created') === 'true';
+    const userName = localStorage.getItem('cvcraft_user_name') || 'Guest';
+
+    if (greetingBanner && greetingName) {
+      if (hasProfile && currentWizardStep === 1) {
+        greetingBanner.style.display = 'block';
+        greetingName.textContent = 'Welcome back, ' + userName + '! You can review and update your master resume below:';
+      } else {
+        greetingBanner.style.display = 'none';
+      }
+    }
 
     const stepTitles = [
       '1. Contact & Identity',
@@ -3120,13 +3181,19 @@
       '6. Choose Sections & Generate'
     ];
 
-    if (titleEl) titleEl.textContent = stepTitles[currentWizardStep - 1] || 'Resume Setup';
-    if (backBtn) backBtn.style.visibility = currentWizardStep > 1 ? 'visible' : 'hidden';
-
-    if (currentWizardStep < TOTAL_WIZARD_STEPS) {
-      if (nextBtn) nextBtn.innerHTML = 'Next &rarr;';
+    if (currentWizardStep === 0) {
+      if (titleEl) titleEl.textContent = 'Welcome to CVCraft';
+      if (backBtn) backBtn.style.visibility = 'hidden';
+      if (nextBtn) nextBtn.innerHTML = '<i data-lucide="play" style="width:14px;height:14px;margin-right:4px;"></i> Get Started &rarr;';
     } else {
-      if (nextBtn) nextBtn.innerHTML = '<i data-lucide="sparkles" style="width:14px;height:14px;margin-right:4px;"></i> Generate Resume';
+      if (titleEl) titleEl.textContent = stepTitles[currentWizardStep - 1] || 'Resume Setup';
+      if (backBtn) backBtn.style.visibility = currentWizardStep > 1 ? 'visible' : 'hidden';
+
+      if (currentWizardStep < TOTAL_WIZARD_STEPS) {
+        if (nextBtn) nextBtn.innerHTML = 'Next &rarr;';
+      } else {
+        if (nextBtn) nextBtn.innerHTML = '<i data-lucide="sparkles" style="width:14px;height:14px;margin-right:4px;"></i> Generate Resume';
+      }
     }
     if (window.lucide) lucide.createIcons();
   }
