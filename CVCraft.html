@@ -1354,6 +1354,79 @@
   .dropzone-title { font-size: 24px; font-weight: 800; }
   .dropzone-desc { font-size: 14px; opacity: 0.9; }
 
+  /* Single-Line Welcome Cards */
+  .wiz-intro-card-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0 8px 0;
+  }
+  .wiz-intro-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+  }
+  .wiz-intro-card.primary {
+    background: #f0f9ff;
+    border: 1.5px solid #bae6fd;
+  }
+  .wiz-intro-card.primary:hover {
+    background: #e0f2fe;
+    border-color: #0284c7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+  }
+  .wiz-intro-card.secondary {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+  }
+  .wiz-intro-card.secondary:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  .wiz-intro-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+  .wiz-intro-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .wiz-intro-badge {
+    font-size: 10.5px;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+  .wiz-intro-badge.blue {
+    background: #e0f2fe;
+    color: #0284c7;
+  }
+  .wiz-intro-badge.gray {
+    background: #e2e8f0;
+    color: #64748b;
+  }
+  .wiz-intro-action {
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .wiz-intro-action.blue { color: #0284c7; }
+  .wiz-intro-action.gray { color: #64748b; }
+
   /* Enhanced Comprehensive Wizard Modal */
   .wizard-card {
     max-width: 680px;
@@ -2266,36 +2339,45 @@
       <div class="wizard-body">
         <!-- STEP 0: Welcome & Introduction Screen -->
         <div class="wizard-step-panel" id="wizardStep0">
-          <div style="text-align:center;padding:12px 6px 14px 6px;">
-            <div style="width:68px;height:68px;margin:0 auto 14px auto;border-radius:50%;background:linear-gradient(135deg, #e0f2fe, #bae6fd);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(2, 132, 199, 0.22);">
-              <i data-lucide="sparkles" style="width:34px;height:34px;color:#0284c7;"></i>
+          <div style="text-align:center;padding:6px 4px 10px 4px;">
+            <div style="width:48px;height:48px;margin:0 auto 10px auto;border-radius:50%;background:linear-gradient(135deg, #e0f2fe, #bae6fd);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(2, 132, 199, 0.2);">
+              <i data-lucide="sparkles" style="width:24px;height:24px;color:#0284c7;"></i>
             </div>
-            <h3 style="font-family:'Outfit', Arial, sans-serif;font-size:22px;font-weight:800;color:#1a5276;margin:0 0 6px 0;">Welcome to CVCraft</h3>
-            <p style="font-size:13.5px;color:#64748b;margin:0 auto 20px auto;max-width:480px;line-height:1.5;">
-              Your intelligent resume architect. In a few quick steps, we will craft your print-perfect, ATS-compliant master resume.
+            <h3 style="font-family:'Outfit', Arial, sans-serif;font-size:19px;font-weight:800;color:#1a5276;margin:0 0 4px 0;">Welcome to CVCraft</h3>
+            <p style="font-size:12.5px;color:#64748b;margin:0 auto 12px auto;max-width:440px;line-height:1.45;">
+              Choose how you would like to create your ATS-compliant master resume:
             </p>
 
-            <div class="wizard-grid-3" style="text-align:left;margin-bottom:12px;">
-              <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 10px;">
-                <div style="font-size:12.5px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-                  <i data-lucide="file-check-2" style="width:15px;height:15px;color:#16a34a;"></i> ATS-Compliant
+            <!-- Single-Line Clean Option Cards -->
+            <div class="wiz-intro-card-row">
+              <div class="wiz-intro-card primary" onclick="nextWizardStep()" title="Click to start guided setup">
+                <div class="wiz-intro-left">
+                  <i data-lucide="wand-2" style="width:15px;height:15px;color:#0284c7;"></i>
+                  <span class="wiz-intro-title">Start Guided Profile Wizard</span>
+                  <span class="wiz-intro-badge blue">Recommended &bull; 2 Mins</span>
                 </div>
-                <p style="font-size:11px;color:#64748b;margin:0;line-height:1.35;">Standardized 2-page A4 vector layout with crisp typography.</p>
+                <div class="wiz-intro-action blue">
+                  <span>Get Started</span> <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                </div>
               </div>
 
-              <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 10px;">
-                <div style="font-size:12.5px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-                  <i data-lucide="paperclip" style="width:15px;height:15px;color:#0284c7;"></i> Merge Documents
+              <div class="wiz-intro-card secondary" onclick="closeOnboardingWizard()" title="Click to edit directly on the page">
+                <div class="wiz-intro-left">
+                  <i data-lucide="edit-3" style="width:15px;height:15px;color:#64748b;"></i>
+                  <span class="wiz-intro-title">Edit Directly on Resume Template</span>
+                  <span class="wiz-intro-badge gray">Manual Typing</span>
                 </div>
-                <p style="font-size:11px;color:#64748b;margin:0;line-height:1.35;">Attach trade certificates, passport scans, and multi-page PDFs.</p>
+                <div class="wiz-intro-action gray">
+                  <span>Open Editor</span> <i data-lucide="x" style="width:13px;height:13px;"></i>
+                </div>
               </div>
+            </div>
 
-              <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 10px;">
-                <div style="font-size:12.5px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-                  <i data-lucide="shield-check" style="width:15px;height:15px;color:#6366f1;"></i> 100% Private
-                </div>
-                <p style="font-size:11px;color:#64748b;margin:0;line-height:1.35;">Stored safely in your browser. Zero cloud tracking.</p>
-              </div>
+            <!-- Single-Line Feature Highlights Strip -->
+            <div style="display:flex;justify-content:center;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;font-size:11px;color:#64748b;">
+              <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="check-circle-2" style="width:13px;height:13px;color:#16a34a;"></i> ATS-Ready A4</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="paperclip" style="width:13px;height:13px;color:#0284c7;"></i> Document Merger</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="shield-check" style="width:13px;height:13px;color:#6366f1;"></i> 100% Client-Side Private</span>
             </div>
           </div>
         </div>
