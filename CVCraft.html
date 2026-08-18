@@ -618,14 +618,22 @@
     font-weight: 700;
     margin-left: 6px;
   }
-
-  .page-scroll { display: block; }
+  .page-scroll { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden;
+  }
   .page-frame {
     position: relative;
-    padding: 20px 0;
+    padding: 16px 0;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     box-sizing: border-box;
+    width: 100%;
+    overflow: visible;
   }
 
   /* Page / Resume container - matches exact original A4 proportions */
@@ -638,6 +646,7 @@
     transform-origin: top center;
     flex-shrink: 0;
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s ease;
   }
 
   .page-badge { display: none; }
@@ -645,11 +654,15 @@
   [contenteditable="true"] {
     outline: none;
     cursor: text;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    border-radius: 3px;
   }
-  [contenteditable="true"]:hover,
+  [contenteditable="true"]:hover {
+    background: rgba(2, 132, 199, 0.04);
+  }
   [contenteditable="true"]:focus {
-    background: transparent;
-    box-shadow: none;
+    background: rgba(2, 132, 199, 0.06);
+    box-shadow: 0 0 0 1.5px rgba(2, 132, 199, 0.25);
   }
 
   /* Exact Original Resume Header */
@@ -4691,11 +4704,67 @@
     }
   }
 
-  // Auto-save on edits & live sync trigger
+  // ---------- Responsive Page Auto-Scaler for Mobile & Tablets ----------
+  function layoutMobilePages() {
+    const screenW = window.innerWidth;
+    const page1 = document.getElementById('resume');
+    const page2 = document.getElementById('resume-page2');
+    const frame1 = document.getElementById('page1Frame');
+    const frame2 = document.getElementById('page2Frame');
+
+    if (screenW < 830) {
+      // Calculate responsive scale factor so the 794px A4 page fits cleanly into the screen width
+      const availW = Math.max(300, screenW - 20);
+      const scale = availW / 794;
+
+      if (page1 && frame1) {
+        page1.style.transform = `scale(${scale})`;
+        page1.style.transformOrigin = 'top center';
+        frame1.style.height = `${Math.ceil((page1.offsetHeight || 1122) * scale) + 12}px`;
+      }
+      if (page2 && frame2) {
+        page2.style.transform = `scale(${scale})`;
+        page2.style.transformOrigin = 'top center';
+        frame2.style.height = `${Math.ceil((page2.offsetHeight || 1122) * scale) + 12}px`;
+      }
+    } else {
+      if (page1 && frame1) {
+        page1.style.transform = 'none';
+        frame1.style.height = 'auto';
+      }
+      if (page2 && frame2) {
+        page2.style.transform = 'none';
+        frame2.style.height = 'auto';
+      }
+    }
+  }
+
+  window.addEventListener('resize', layoutMobilePages);
+  window.addEventListener('orientationchange', () => setTimeout(layoutMobilePages, 120));
+  document.addEventListener('DOMContentLoaded', layoutMobilePages);
+  setTimeout(layoutMobilePages, 200);
+
+  // High-Performance Debounced Auto-Save on edits (Zero Keystroke Latency)
+  let saveDebounceTimer = null;
   document.addEventListener('input', (e) => {
     if (e.target && e.target.isContentEditable) {
-      saveState();
-      updateUserGreeting();
+      clearTimeout(saveDebounceTimer);
+      saveDebounceTimer = setTimeout(() => {
+        saveState();
+        updateUserGreeting();
+        layoutMobilePages();
+      }, 350);
+    }
+  });
+
+  // Gentle Smooth Focus Scrolling into View
+  document.addEventListener('focusin', function(e) {
+    if (e.target && e.target.isContentEditable) {
+      setTimeout(() => {
+        if (typeof e.target.scrollIntoView === 'function') {
+          e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
+      }, 60);
     }
   });
 
