@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="description" content="CVCraft is a professional ATS-compliant resume builder and document architect with multi-PDF merging, fine-grained page reordering, and lossless vector export.">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -35,23 +36,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
+  :root {
+    --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-resume: Arial, Helvetica, sans-serif;
+  }
 
   @page { size: A4; margin: 0; }
 
-  * { box-sizing: border-box; }
+  * { 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent;
+  }
 
   html {
     overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: #f0f2f5;
     margin: 0;
     padding: 0 0 60px 0;
     color: #222;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+  }
+
+  input, textarea, select, button, [contenteditable="true"] {
+    touch-action: manipulation;
   }
 
   /* Lucide Vector Icons */
@@ -114,7 +131,7 @@
     flex-direction: column;
   }
   .brand-title {
-    font-family: 'Outfit', Arial, sans-serif;
+    font-family: var(--font-primary);
     font-size: 18px;
     font-weight: 800;
     color: #1a5276;
@@ -137,7 +154,7 @@
     flex-wrap: wrap;
   }
   .nav-btn {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     font-size: 12.5px;
     font-weight: 600;
     padding: 7px 12px;
@@ -348,7 +365,7 @@
     gap: 2px;
   }
   .more-menu-item {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: transparent;
     border: none;
     border-radius: 8px;
@@ -482,7 +499,7 @@
     line-height: 1.4;
   }
   .mobile-welcome-wizard-btn {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     margin-top: 4px;
     background: #ffffff;
     border: 1px solid #0284c7;
@@ -508,7 +525,7 @@
     gap: 8px;
   }
   .mobile-menu-item {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     font-size: 13px;
     font-weight: 700;
     padding: 10px 14px;
@@ -914,7 +931,7 @@
     line-height: 1.5;
   }
   .attach-btn {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     font-size: 12.5px;
     font-weight: 700;
     padding: 7px 14px;
@@ -989,7 +1006,7 @@
     flex-shrink: 0;
   }
   .doc-card-actions button {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     font-size: 11.5px;
     font-weight: 600;
     padding: 4px 8px;
@@ -1150,7 +1167,7 @@
     gap: 10px;
   }
   .confirm-cancel {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: #ffffff;
     border: 1px solid #cbd5e1;
     color: #475569;
@@ -1162,7 +1179,7 @@
   }
   .confirm-cancel:hover { background: #f1f5f9; }
   .download-btn-blue, .confirm-primary {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: linear-gradient(135deg, #1a5276, #0284c7);
     border: none;
     color: #ffffff;
@@ -1191,7 +1208,7 @@
     background: #ffffff;
   }
   .filename-input-container input {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     font-size: 14px;
     font-weight: 600;
     border: none;
@@ -1238,7 +1255,7 @@
     margin: 10px 0;
   }
   .lightbox-close {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: #334155;
     border: none;
     color: #fff;
@@ -1295,7 +1312,7 @@
     gap: 8px;
   }
   .crop-tool-btn {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: #f1f5f9;
     border: 1px solid #cbd5e1;
     color: #334155;
@@ -1369,11 +1386,11 @@
     box-sizing: border-box;
   }
   .confirm-actions button {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     font-size: 13px;
     font-weight: 600;
     padding: 9px 18px;
-    min-height: 38px;
+    min-height: 44px;
     border-radius: 6px;
     cursor: pointer;
     white-space: nowrap;
@@ -1435,7 +1452,7 @@
     margin-left: auto;
   }
   .wizard-btn-pri, .wizard-btn-sec {
-    min-height: 38px;
+    min-height: 44px;
     padding: 8px 18px;
     font-size: 13px;
     font-weight: 700;
@@ -1802,7 +1819,7 @@
     width: 100%;
     padding: 8px 12px;
     font-size: 13px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     border: 1.5px solid #cbd5e1;
     border-radius: 8px;
     outline: none;
@@ -1919,7 +1936,7 @@
     gap: 2px;
   }
   .wizard-add-btn {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: #ffffff;
     border: 1.5px dashed #0284c7;
     color: #0284c7;
@@ -1939,6 +1956,33 @@
   }
   .wizard-add-btn:hover {
     background: #f0f9ff;
+  }
+
+  .wiz-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+  .wiz-quick-tag-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0369a1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    transition: all 0.15s ease;
+  }
+  .wiz-quick-tag-btn:hover {
+    background: #e0f2fe;
+    border-color: #0284c7;
+    transform: translateY(-1px);
   }
 
   .section-toggle-list {
@@ -1983,7 +2027,7 @@
     gap: 10px;
   }
   .wizard-btn-sec {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: #ffffff;
     border: 1px solid #cbd5e1;
     color: #475569;
@@ -1995,7 +2039,7 @@
   }
   .wizard-btn-sec:hover { background: #f1f5f9; }
   .wizard-btn-pri {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-primary);
     background: linear-gradient(135deg, #1a5276, #0284c7);
     border: none;
     color: #ffffff;
@@ -2036,6 +2080,17 @@
       font-size: 11px;
     }
 
+    /* Banish Mobile Browser Auto-Zoom Jump on Input Focus */
+    input, textarea, select,
+    .wizard-input,
+    .wiz-pdata-label, .wiz-pdata-val,
+    .wiz-exp-input, .wiz-qual-detail,
+    .wiz-qual-category-select,
+    .filename-input-container input,
+    #jsonPasteTextarea, #presetNameInput {
+      font-size: 16px !important;
+    }
+
     .page-frame {
       display: flex;
       justify-content: center;
@@ -2045,12 +2100,13 @@
       overflow: visible;
       box-sizing: border-box;
       position: relative;
+      width: 100%;
     }
     .page-frame.mobile-editing-mode { z-index: 60; }
     .page-frame.mobile-editing-mode .page {
-      transform: scale(1.04) !important;
-      box-shadow: 0 10px 36px rgba(2, 132, 199, 0.28), 0 0 0 2.5px #0284c7 !important;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
+      transform: none !important;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.18), 0 0 0 2px #0284c7 !important;
+      transition: box-shadow 0.2s ease !important;
     }
     .page-badge {
       display: inline-flex;
@@ -2268,7 +2324,7 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     font-size: 13px;
     font-weight: 700;
-    min-height: 40px;
+    min-height: 44px;
     padding: 9px 18px;
     border-radius: 8px;
     cursor: pointer;
@@ -2915,7 +2971,7 @@
                         <!-- STEP 0: Welcome & Introduction Screen -->
         <div class="wizard-step-panel" id="wizardStep0">
           <div style="text-align:center;padding:10px 4px 12px 4px;">
-            <h3 style="font-family:'Outfit', Arial, sans-serif;font-size:21px;font-weight:800;color:#1a5276;margin:0 0 6px 0;display:flex;align-items:center;justify-content:center;gap:8px;">
+            <h3 style="font-family: var(--font-primary);font-size:21px;font-weight:800;color:#1a5276;margin:0 0 6px 0;display:flex;align-items:center;justify-content:center;gap:8px;">
               <i data-lucide="sparkles" style="width:22px;height:22px;color:#0284c7;flex-shrink:0;"></i>
               <span>Welcome to CVCraft</span>
             </h3>
@@ -2938,13 +2994,26 @@
                 </div>
               </div>
 
+              <div class="wiz-intro-card secondary" onclick="openImportJsonModal()" title="Click to paste text or upload resume backup" style="background:#f0fdf4;border-color:#bbf7d0;">
+                <div class="wiz-card-icon green" style="background:#dcfce7;color:#16a34a;">
+                  <i data-lucide="clipboard-paste" style="width:18px;height:18px;"></i>
+                </div>
+                <div class="wiz-card-content">
+                  <div class="wiz-card-title" style="color:#15803d;">Paste or Import Resume</div>
+                  <div class="wiz-card-sub">Instant &bull; Auto-fill from text or JSON backup</div>
+                </div>
+                <div class="wiz-card-arrow" style="color:#16a34a;">
+                  <i data-lucide="chevron-right" style="width:18px;height:18px;"></i>
+                </div>
+              </div>
+
               <div class="wiz-intro-card secondary" onclick="closeOnboardingWizard()" title="Click to edit directly on the resume template">
                 <div class="wiz-card-icon gray">
                   <i data-lucide="edit-3" style="width:18px;height:18px;"></i>
                 </div>
                 <div class="wiz-card-content">
                   <div class="wiz-card-title">Edit Directly on Resume Template</div>
-                  <div class="wiz-card-sub">Fast &bull; Manual typing directly on page</div>
+                  <div class="wiz-card-sub">Manual &bull; Direct typing on page</div>
                 </div>
                 <div class="wiz-card-arrow">
                   <i data-lucide="chevron-right" style="width:18px;height:18px;"></i>
@@ -3005,32 +3074,30 @@
 
         <!-- STEP 2: Career Objective & Qualifications -->
         <div class="wizard-step-panel" id="wizardStep2">
-          <p class="wizard-instructions">Set your career objective and educational qualifications:</p>
+          <p class="wizard-instructions">Set your career objective and educational &amp; technical qualifications:</p>
 
           <div class="wizard-form-group">
             <label>Career Objective Statement</label>
-            <textarea class="wizard-input" id="wizObjectiveText" rows="3" placeholder="To secure a position utilizing my skills and abilities in the technical field..."></textarea>
+            <textarea class="wizard-input" id="wizObjectiveText" rows="3" placeholder="To secure a challenging position utilizing my technical skills and extensive experience to contribute to organizational success..."></textarea>
           </div>
 
-          <div class="wizard-form-group">
-            <label>Technical / Vocational Qualification</label>
-            <input type="text" class="wizard-input" id="wizTechQual" placeholder="e.g. Professional Diploma in Technical Operations &amp; Management">
-          </div>
-
-          <div class="wizard-grid-2">
-            <div class="wizard-form-group">
-              <label>Academic Degree / ITI / Diploma</label>
-              <input type="text" class="wizard-input" id="wizAcademicQual" placeholder="e.g. Bachelor of Science / Advanced Technical Certification">
+          <div style="margin-top:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <label style="font-size:12.5px;font-weight:700;color:#1e293b;margin:0;">Academic &amp; Technical Qualifications</label>
+              <span style="font-size:11px;color:#64748b;">Add all degrees, diplomas &amp; certifications</span>
             </div>
-            <div class="wizard-form-group">
-              <label>Secondary School (SSC / 10th)</label>
-              <input type="text" class="wizard-input" id="wizSSCQual" placeholder="e.g. Higher Secondary Certificate (Honors / Distinction)">
+            
+            <!-- Quick Preset Buttons -->
+            <div class="wiz-tag-row" style="margin-bottom:8px;">
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardQualField('Technical Qualification', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Technical</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardQualField('Academic Qualification', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Degree / Diploma</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardQualField('Secondary School', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> SSC / 10th</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardQualField('Safety &amp; Certifications', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Safety / Certs</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardQualField('Vocational Training', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> ITI / Trade</button>
             </div>
-          </div>
 
-          <div class="wizard-form-group">
-            <label>Safety &amp; Industry Certifications (Optional)</label>
-            <input type="text" class="wizard-input" id="wizSafetyQual" placeholder="e.g. Offshore Safety, Confined Space Entry, Working at Heights, Gas Testing">
+            <div id="wizQualContainer"></div>
+            <button type="button" class="wizard-add-btn" onclick="addWizardQualField('Qualification', '')"><i data-lucide="plus" style="width:14px;height:14px;"></i> + Add Qualification Item</button>
           </div>
         </div>
 
@@ -3052,13 +3119,15 @@
           <div class="wizard-grid-2" id="wizSummaryGrid">
             <div class="wizard-form-group" id="wizForeignSummaryGroup">
               <label>Foreign / International Work Experience</label>
-              <input type="text" class="wizard-input" id="wizForeignExp" placeholder="e.g. Approx. 8+ Years (Global &amp; Regional Projects)">
+              <input type="text" class="wizard-input" id="wizForeignExp" placeholder="e.g. Approx. 8+ Years (Europe, UAE, Gulf)">
             </div>
             <div class="wizard-form-group" id="wizIndianSummaryGroup">
               <label id="wizIndianSummaryLabel">Indian / Domestic Work Experience</label>
               <input type="text" class="wizard-input" id="wizIndianExp" placeholder="e.g. Approx. 5 Years in Industrial Projects">
             </div>
           </div>
+
+          <div id="wizSummaryExtraContainer"></div>
 
           <!-- Section 3A: Foreign / International Jobs (Shown in 'both' mode) -->
           <div id="wizForeignJobsWrapper" style="margin-top:6px;">
@@ -3089,48 +3158,45 @@
 
         <!-- STEP 5: Personal Data & Passport Information -->
         <div class="wizard-step-panel" id="wizardStep5">
-          <p class="wizard-instructions">Enter your personal details and passport verification for official submissions:</p>
+          <p class="wizard-instructions">Enter your personal details, passport, and verification details for official submissions:</p>
 
-          <div class="wizard-grid-2">
-            <div class="wizard-form-group">
-              <label>Father's Name</label>
-              <input type="text" class="wizard-input" id="wizFatherName" placeholder="e.g. Mr. Robert Morgan">
+          <div style="margin-bottom:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <label style="font-size:12.5px;font-weight:700;color:#1e293b;margin:0;">Personal Data Table Fields (Page 2)</label>
+              <span style="font-size:11px;color:#64748b;">Add or edit any row in the official table</span>
             </div>
-            <div class="wizard-form-group">
-              <label>Date of Birth (with Age)</label>
-              <input type="text" class="wizard-input" id="wizDOB" placeholder="e.g. 15th August 1990 (Age: 35)">
-            </div>
-          </div>
 
-          <div class="wizard-grid-3">
-            <div class="wizard-form-group">
-              <label>Marital Status</label>
-              <input type="text" class="wizard-input" id="wizMarital" placeholder="e.g. Married / Single">
+            <!-- Quick Add Attribute Buttons -->
+            <div class="wiz-tag-row" style="margin-bottom:8px;">
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Father\'s Name', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Father's Name</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Date of Birth', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> DOB / Age</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Marital Status', 'Married')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Marital Status</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Nationality', 'Indian')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Nationality</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Gender', 'Male')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Gender</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Languages Known', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Languages</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Current Passport', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Passport</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Driving License', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> License</button>
+              <button type="button" class="wiz-quick-tag-btn" onclick="addWizardPersonalRow('Permanent Address', '')"><i data-lucide="plus" style="width:11px;height:11px;"></i> Perm. Address</button>
             </div>
-            <div class="wizard-form-group">
-              <label>Nationality</label>
-              <input type="text" class="wizard-input" id="wizNationality" placeholder="e.g. Indian">
-            </div>
-            <div class="wizard-form-group">
-              <label>Gender</label>
-              <input type="text" class="wizard-input" id="wizGender" placeholder="e.g. Male / Female">
-            </div>
-          </div>
 
-          <div class="wizard-grid-2">
-            <div class="wizard-form-group">
-              <label>Languages Known</label>
-              <input type="text" class="wizard-input" id="wizLanguages" placeholder="e.g. English, Fluent Regional Languages">
-            </div>
-            <div class="wizard-form-group">
-              <label>Passport Number &amp; Validity</label>
-              <input type="text" class="wizard-input" id="wizPassportDetails" placeholder="e.g. P12345678 (Issued: 01/01/2022, Expires: 31/12/2032)">
-            </div>
+            <div id="wizPersonalContainer"></div>
+            <button type="button" class="wizard-add-btn" onclick="addWizardPersonalRow('Custom Detail', '')"><i data-lucide="plus" style="width:14px;height:14px;"></i> + Add Personal Detail Row</button>
           </div>
 
           <div class="wizard-form-group" style="margin-top:6px;">
             <label>Declaration Statement</label>
-            <input type="text" class="wizard-input" id="wizDeclaration" placeholder="I hereby declare that all the details furnished above are true to the best of my knowledge.">
+            <textarea class="wizard-input" id="wizDeclaration" rows="2" placeholder="I hereby declare that all the details furnished above are true to the best of my knowledge."></textarea>
+          </div>
+
+          <div class="wizard-grid-2" style="margin-top:6px;">
+            <div class="wizard-form-group">
+              <label>Place &amp; Date Line</label>
+              <input type="text" class="wizard-input" id="wizPlaceDate" placeholder="e.g. Place: Hyderabad | Date: 17/08/2026">
+            </div>
+            <div class="wizard-form-group">
+              <label>Signature Name</label>
+              <input type="text" class="wizard-input" id="wizSignName" placeholder="e.g. (ALEXANDER MORGAN)">
+            </div>
           </div>
         </div>
 
@@ -3362,6 +3428,18 @@
       if (window.lucide) lucide.createIcons();
     }
   }
+
+  // ---------- Smooth Virtual Keyboard Dismiss & Viewport Recovery ----------
+  document.addEventListener('focusout', function(e) {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) {
+      document.querySelectorAll('.mobile-editing-mode').forEach(el => el.classList.remove('mobile-editing-mode'));
+      if (window.innerWidth <= 768) {
+        setTimeout(() => {
+          window.scrollTo({ top: window.scrollY, left: 0, behavior: 'smooth' });
+        }, 60);
+      }
+    }
+  });
 
   // ---------- Presets Management Engine (Max 5 Slots) ----------
   async function getAllPresets() {
@@ -3672,6 +3750,66 @@
     }
   }
 
+  // ---------- Dynamic Repeatable Card Creators for Profile Wizard ----------
+
+  function createQualCardHTML(category = 'Technical Qualification', detail = '') {
+    return `
+      <div class="wizard-repeat-card wiz-qual-card">
+        <div class="wizard-repeat-header">
+          <span class="wizard-repeat-title"><i data-lucide="graduation-cap" style="width:13px;height:13px;"></i> Qualification Item</span>
+          <button type="button" class="wizard-repeat-del-btn" onclick="this.closest('.wizard-repeat-card').remove()"><i data-lucide="trash-2" style="width:12px;height:12px;"></i> Remove</button>
+        </div>
+        <div class="wizard-form-group">
+          <label>Qualification Category / Level</label>
+          <input type="text" class="wizard-input wiz-qual-category" value="${escapeHtml(category)}" placeholder="e.g. Technical Qualification / Academic / Secondary School">
+        </div>
+        <div class="wizard-form-group">
+          <label>Degree / Certificate &amp; Details</label>
+          <textarea class="wizard-input wiz-qual-detail" rows="2" placeholder="e.g. Diploma in Mechanical Engineering (First Class Honours)">${escapeHtml(detail)}</textarea>
+        </div>
+      </div>
+    `;
+  }
+
+  function addWizardQualField(category = 'Technical Qualification', detail = '') {
+    const container = document.getElementById('wizQualContainer');
+    if (!container) return;
+    const div = document.createElement('div');
+    div.innerHTML = createQualCardHTML(category, detail);
+    container.appendChild(div.firstElementChild);
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function createPersonalRowHTML(label = "Father's Name", val = '') {
+    return `
+      <div class="wizard-repeat-card wiz-pdata-card" style="padding:10px 12px;">
+        <div class="wizard-repeat-header" style="margin-bottom:6px;">
+          <span class="wizard-repeat-title"><i data-lucide="id-card" style="width:13px;height:13px;"></i> Official Detail</span>
+          <button type="button" class="wizard-repeat-del-btn" onclick="this.closest('.wizard-repeat-card').remove()"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+        </div>
+        <div class="wizard-grid-2">
+          <div class="wizard-form-group">
+            <label>Field Name / Label</label>
+            <input type="text" class="wizard-input wiz-pdata-label" value="${escapeHtml(label)}" placeholder="e.g. Father's Name / Driving License / Religion">
+          </div>
+          <div class="wizard-form-group">
+            <label>Value / Details</label>
+            <input type="text" class="wizard-input wiz-pdata-val" value="${escapeHtml(val)}" placeholder="e.g. Value or Details">
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function addWizardPersonalRow(label = "Father's Name", val = '') {
+    const container = document.getElementById('wizPersonalContainer');
+    if (!container) return;
+    const div = document.createElement('div');
+    div.innerHTML = createPersonalRowHTML(label, val);
+    container.appendChild(div.firstElementChild);
+    if (window.lucide) lucide.createIcons();
+  }
+
   function createJobCardHTML(title = '', company = '', location = '', dates = '', typeLabel = 'Job') {
     return `
       <div class="wizard-repeat-card">
@@ -3691,7 +3829,7 @@
         </div>
         <div class="wizard-grid-2">
           <div class="wizard-form-group">
-            <label>Company & Major Project</label>
+            <label>Company &amp; Major Project</label>
             <input type="text" class="wizard-input wiz-job-company" value="${escapeHtml(company)}" placeholder="e.g. Global Infrastructure Corp &mdash; Energy Project">
           </div>
           <div class="wizard-form-group">
@@ -3716,7 +3854,7 @@
     const container = document.getElementById('wizIndianJobsContainer');
     if (!container) return;
     const div = document.createElement('div');
-    div.innerHTML = createJobCardHTML(title, company, location, dates, 'Indian Job Entry');
+    div.innerHTML = createJobCardHTML(title, company, location, dates, 'Indian / Domestic Job Entry');
     container.appendChild(div.firstElementChild);
     if (window.lucide) lucide.createIcons();
   }
@@ -3738,7 +3876,6 @@
     if (window.lucide) lucide.createIcons();
   }
 
-      // ---------- Synchronize Active Resume Content to Wizard Fields ----------
   // ---------- Comprehensive Robust Resume-to-Wizard Synchronization Engine ----------
   function syncResumeToWizardFields() {
     try {
@@ -3770,7 +3907,7 @@
       if (addrEl && wizAddress) {
         let addrText = (addrEl.innerText || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
         addrText = addrText.replace(/^Address:\s*/i, '').trim();
-        if (addrText && !addrText.includes('City, State, Country')) {
+        if (addrText && !addrText.includes('City, State, Country, PIN')) {
           wizAddress.value = addrText;
         }
       }
@@ -3787,13 +3924,13 @@
         // Check for Email
         if (txt.includes('@')) {
           let em = txt.replace(/^email:\s*/i, '').trim();
-          if (wizEmail && !em.includes('example.com')) {
+          if (wizEmail && !em.includes('example.com') && !em.includes('alex.morgan')) {
             wizEmail.value = em;
           }
         }
         // Check for Phone
         else if (/\d{5,}/.test(txt) || txt.toLowerCase().includes('phone:') || txt.toLowerCase().includes('mob:') || txt.startsWith('+')) {
-          let p = txt.replace(/^(phone|mob|tel):\s*/i, '').trim();
+          let p = txt.replace(/^(phone|mob|tel|contact):\s*/i, '').trim();
           if (wizPhone && !p.includes('00000')) {
             wizPhone.value = p;
           }
@@ -3808,49 +3945,122 @@
         if (objVal) wizObj.value = objVal;
       }
 
-      // 4. Academic & Technical Qualifications
-      const qualItems = document.querySelectorAll('#secQualContent li');
-      const wizTechQual = document.getElementById('wizTechQual');
-      const wizAcademicQual = document.getElementById('wizAcademicQual');
-      const wizSSCQual = document.getElementById('wizSSCQual');
-      const wizSafetyQual = document.getElementById('wizSafetyQual');
-
-      qualItems.forEach(li => {
-        const raw = (li.innerText || '').trim();
-        const boldText = li.querySelector('b')?.innerText || '';
-        let val = raw;
-        if (boldText) {
-          val = raw.replace(boldText, '').replace(/^:\s*/, '').trim();
-        } else {
-          val = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
+      // 4. Dynamic Academic & Technical Qualifications
+      let qualItems = Array.from(document.querySelectorAll('#secQualContent li'));
+      if (qualItems.length === 0) {
+        const titles = document.querySelectorAll('#resume .section-title');
+        for (const st of titles) {
+          if (/qualification|education|academic/i.test(st.innerText)) {
+            let next = st.nextElementSibling;
+            while (next && !next.classList.contains('section-title')) {
+              if (next.tagName === 'UL') {
+                qualItems = Array.from(next.querySelectorAll('li'));
+                break;
+              }
+              next = next.nextElementSibling;
+            }
+            if (qualItems.length > 0) break;
+          }
         }
-
-        const lower = raw.toLowerCase();
-        if (lower.includes('technical') || lower.includes('vocational') || lower.includes('diploma in tech')) {
-          if (wizTechQual && val) wizTechQual.value = val;
-        } else if (lower.includes('academic') || lower.includes('bachelor') || lower.includes('degree') || lower.includes('b.e') || lower.includes('b.tech') || lower.includes('college')) {
-          if (wizAcademicQual && val) wizAcademicQual.value = val;
-        } else if (lower.includes('secondary') || lower.includes('ssc') || lower.includes('s.s.c') || lower.includes('10th') || lower.includes('matric')) {
-          if (wizSSCQual && val) wizSSCQual.value = val;
-        } else if (lower.includes('safety') || lower.includes('osha') || lower.includes('nebosh') || lower.includes('certification') || lower.includes('course')) {
-          if (wizSafetyQual && val) wizSafetyQual.value = val;
+        if (qualItems.length === 0) {
+          qualItems = Array.from(document.querySelectorAll('#resume ul.bullets:not(#secExpSummaryContent):first-of-type li'));
         }
-      });
+      }
+
+      const qualContainer = document.getElementById('wizQualContainer');
+      if (qualContainer) {
+        qualContainer.innerHTML = '';
+        if (qualItems && qualItems.length > 0) {
+          qualItems.forEach(li => {
+            const raw = (li.innerText || '').trim();
+            if (!raw) return;
+            const boldText = li.querySelector('b')?.innerText.replace(/:\s*$/, '').trim() || '';
+            let cat = boldText || 'Technical Qualification';
+            let detail = raw;
+            if (boldText) {
+              detail = raw.replace(li.querySelector('b').innerText, '').replace(/^:\s*/, '').trim();
+            } else if (raw.includes(':')) {
+              const colonIdx = raw.indexOf(':');
+              cat = raw.substring(0, colonIdx).trim();
+              detail = raw.substring(colonIdx + 1).trim();
+            }
+            addWizardQualField(cat, detail);
+          });
+        }
+      }
 
       // 5. Work Experience Mode & Summary
       const foreignBlock = document.getElementById('secForeignJobsBlock');
-      const foreignJobEls = document.querySelectorAll('#secForeignJobsContent .job');
-      const indianJobEls = document.querySelectorAll('#secIndianJobsContent .job');
+      let foreignJobEls = Array.from(document.querySelectorAll('#secForeignJobsContent .job'));
+      let indianJobEls = Array.from(document.querySelectorAll('#secIndianJobsContent .job'));
+      const allJobs = Array.from(document.querySelectorAll('#secDetailedExpWrap .job, #resume .job'));
 
-      if (foreignBlock && foreignBlock.style.display === 'none' && indianJobEls.length > 0 && foreignJobEls.length === 0) {
+      // If wrapper containers were not present, traverse #resume elements
+      if (foreignJobEls.length === 0 && indianJobEls.length === 0 && allJobs.length > 0) {
+        let currentGroup = 'indian';
+        const resumeChildren = document.querySelectorAll('#resume > *');
+        
+        resumeChildren.forEach(child => {
+          if (child.classList.contains('section-title')) {
+            const txt = (child.innerText || '').toLowerCase();
+            if (txt.includes('international') || txt.includes('foreign') || txt.includes('overseas') || txt.includes('gulf')) {
+              currentGroup = 'foreign';
+            } else if (txt.includes('indian') || txt.includes('domestic') || txt.includes('work experience')) {
+              currentGroup = 'indian';
+            }
+          } else if (child.classList.contains('job')) {
+            const loc = (child.querySelector('.job-location')?.innerText || '').toLowerCase();
+            const comp = (child.querySelector('.job-company')?.innerText || '').toLowerCase();
+            if (currentGroup === 'foreign' || detectIsForeign(`${loc} ${comp}`)) {
+              foreignJobEls.push(child);
+            } else {
+              indianJobEls.push(child);
+            }
+          }
+        });
+
+        // Fallback: classify from allJobs if direct child search did not match
+        if (foreignJobEls.length === 0 && indianJobEls.length === 0) {
+          allJobs.forEach(job => {
+            const loc = (job.querySelector('.job-location')?.innerText || '').toLowerCase();
+            const comp = (job.querySelector('.job-company')?.innerText || '').toLowerCase();
+            if (detectIsForeign(`${loc} ${comp}`)) {
+              foreignJobEls.push(job);
+            } else {
+              indianJobEls.push(job);
+            }
+          });
+        }
+      }
+
+      if ((foreignBlock && foreignBlock.style.display === 'none') || (foreignJobEls.length === 0 && (indianJobEls.length > 0 || allJobs.length > 0))) {
         setWizardExpMode('india');
       } else {
         setWizardExpMode('both');
       }
 
-      const expItems = document.querySelectorAll('#secExpSummaryContent li');
+      let expItems = Array.from(document.querySelectorAll('#secExpSummaryContent li'));
+      if (expItems.length === 0) {
+        const titles = document.querySelectorAll('#resume .section-title');
+        for (const st of titles) {
+          if (/experience\s+summary|work\s+summary/i.test(st.innerText)) {
+            let next = st.nextElementSibling;
+            while (next && !next.classList.contains('section-title')) {
+              if (next.tagName === 'UL') {
+                expItems = Array.from(next.querySelectorAll('li'));
+                break;
+              }
+              next = next.nextElementSibling;
+            }
+            if (expItems.length > 0) break;
+          }
+        }
+      }
+
       const wizForeignExp = document.getElementById('wizForeignExp');
       const wizIndianExp = document.getElementById('wizIndianExp');
+      if (wizForeignExp) wizForeignExp.value = '';
+      if (wizIndianExp) wizIndianExp.value = '';
 
       expItems.forEach(li => {
         const raw = (li.innerText || '').trim();
@@ -3858,8 +4068,8 @@
         let val = raw;
         if (boldText) {
           val = raw.replace(boldText, '').replace(/^:\s*/, '').trim();
-        } else {
-          val = raw.replace(/^[a-zA-Z\s\(\),/]+:\s*/i, '').trim();
+        } else if (raw.includes(':')) {
+          val = raw.substring(raw.indexOf(':') + 1).trim();
         }
 
         const lower = raw.toLowerCase();
@@ -3894,68 +4104,92 @@
       const indianContainer = document.getElementById('wizIndianJobsContainer');
       if (indianContainer) {
         indianContainer.innerHTML = '';
-        indianJobEls.forEach(job => {
-          const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
-          const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
-          const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
-          const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
-          if (jTitle || jComp) {
-            addWizardIndianJob(jTitle, jComp, jLoc, jDate);
-          }
-        });
+        if (indianJobEls.length > 0) {
+          indianJobEls.forEach(job => {
+            const jTitle = job.querySelector('.job-title')?.innerText.trim() || '';
+            const jDate = job.querySelector('.job-date')?.innerText.trim() || '';
+            const jComp = job.querySelector('.job-company')?.innerText.trim() || '';
+            const jLoc = job.querySelector('.job-location')?.innerText.trim() || '';
+            if (jTitle || jComp) {
+              addWizardIndianJob(jTitle, jComp, jLoc, jDate);
+            }
+          });
+        }
       }
 
       // 8. Key Responsibilities List (Page 2)
-      const respItems = document.querySelectorAll('#secRespContent li');
+      let respItems = Array.from(document.querySelectorAll('#secRespContent li'));
+      if (respItems.length === 0) {
+        const titles = document.querySelectorAll('#resume-page2 .section-title');
+        for (const st of titles) {
+          if (/responsibilit|competenc|skill|duties|areas\s+of\s+expertise/i.test(st.innerText)) {
+            let next = st.nextElementSibling;
+            while (next && !next.classList.contains('section-title')) {
+              if (next.tagName === 'UL') {
+                respItems = Array.from(next.querySelectorAll('li'));
+                break;
+              }
+              next = next.nextElementSibling;
+            }
+            if (respItems.length > 0) break;
+          }
+        }
+        if (respItems.length === 0) {
+          respItems = Array.from(document.querySelectorAll('#resume-page2 ul.bullets li'));
+        }
+      }
+
       const respContainer = document.getElementById('wizRespContainer');
       if (respContainer) {
         respContainer.innerHTML = '';
-        respItems.forEach(li => {
-          const txt = (li.innerText || '').trim();
-          if (txt) {
-            addWizardRespField(txt);
-          }
-        });
+        if (respItems && respItems.length > 0) {
+          respItems.forEach(li => {
+            const txt = (li.innerText || '').trim();
+            if (txt) {
+              addWizardRespField(txt);
+            }
+          });
+        }
       }
 
-      // 9. Personal Data & Passport Table (Page 2)
-      const pdataRows = document.querySelectorAll('#secPersonalContent table.pdata tr');
-      pdataRows.forEach(tr => {
-        const label = tr.querySelector('.label')?.innerText.toLowerCase().trim() || '';
-        const tds = tr.querySelectorAll('td');
-        const val = tds.length >= 2 ? tds[1].innerText.trim() : '';
-        if (!val) return;
-
-        if (label.includes('father')) {
-          const el = document.getElementById('wizFatherName');
-          if (el) el.value = val;
-        } else if (label.includes('birth') || label.includes('dob') || label.includes('age')) {
-          const el = document.getElementById('wizDOB');
-          if (el) el.value = val;
-        } else if (label.includes('marital')) {
-          const el = document.getElementById('wizMarital');
-          if (el) el.value = val;
-        } else if (label.includes('nationality')) {
-          const el = document.getElementById('wizNationality');
-          if (el) el.value = val;
-        } else if (label.includes('gender') || label.includes('sex')) {
-          const el = document.getElementById('wizGender');
-          if (el) el.value = val;
-        } else if (label.includes('language')) {
-          const el = document.getElementById('wizLanguages');
-          if (el) el.value = val;
-        } else if (label.includes('passport')) {
-          const el = document.getElementById('wizPassportDetails');
-          if (el) el.value = val;
+      // 9. Dynamic Personal Data & Passport Table (Page 2)
+      const pdataRows = Array.from(document.querySelectorAll('#secPersonalContent table.pdata tr, #resume-page2 table.pdata tr, table.pdata tr'));
+      const personalContainer = document.getElementById('wizPersonalContainer');
+      if (personalContainer) {
+        personalContainer.innerHTML = '';
+        if (pdataRows && pdataRows.length > 0) {
+          pdataRows.forEach(tr => {
+            const labelEl = tr.querySelector('.label') || tr.querySelectorAll('td')[0];
+            const valEl = tr.querySelectorAll('td')[1] || null;
+            const label = labelEl ? labelEl.innerText.trim() : '';
+            const val = valEl ? valEl.innerText.trim() : '';
+            if (label && val) {
+              addWizardPersonalRow(label, val);
+            }
+          });
         }
-      });
+      }
 
-      // 10. Declaration Statement
+      // 10. Declaration, Place/Date & Signature Statement
       const declEl = document.querySelector('.declaration-text');
       const wizDecl = document.getElementById('wizDeclaration');
       if (declEl && wizDecl) {
         const declText = (declEl.innerText || '').trim();
         if (declText) wizDecl.value = declText;
+      }
+
+      const signNameEl = document.querySelector('.sign-name');
+      const wizSignName = document.getElementById('wizSignName');
+      if (signNameEl && wizSignName) {
+        const signText = (signNameEl.innerText || '').trim();
+        if (signText) wizSignName.value = signText;
+      }
+
+      const placeDateEl = document.querySelector('.place-date');
+      const wizPlaceDate = document.getElementById('wizPlaceDate');
+      if (placeDateEl && wizPlaceDate) {
+        const pdText = (placeDateEl.innerText || '').replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (pdText) wizPlaceDate.value = pdText;
       }
 
       // 11. Section Checkboxes (Step 6)
@@ -4011,13 +4245,12 @@
     if (window.lucide) lucide.createIcons();
   }
 
-
   function closeOnboardingWizard() {
     const modal = document.getElementById('onboardingWizardModal');
     if (modal) closeModal(modal);
   }
 
-      function handleWizardLeftAction() {
+  function handleWizardLeftAction() {
     if (currentWizardStep === 0 || currentWizardStep === 1) {
       closeOnboardingWizard();
     } else {
@@ -4126,33 +4359,17 @@
     const email = (document.getElementById('wizEmail')?.value || 'your.email@example.com').trim();
     const address = (document.getElementById('wizAddress')?.value || 'City, State, Country').trim();
 
-    // 2. Objective & Qualifications
+    // 2. Objective
     const objective = (document.getElementById('wizObjectiveText')?.value || '').trim();
-    const techQual = (document.getElementById('wizTechQual')?.value || '').trim();
-    const academicQual = (document.getElementById('wizAcademicQual')?.value || '').trim();
-    const sscQual = (document.getElementById('wizSSCQual')?.value || '').trim();
-    const safetyQual = (document.getElementById('wizSafetyQual')?.value || '').trim();
 
     // 3. Work Experience Summary
     const foreignExp = (document.getElementById('wizForeignExp')?.value || '').trim();
     const indianExp = (document.getElementById('wizIndianExp')?.value || '').trim();
 
-    // 4. Personal Data & Passport
-    const fatherName = (document.getElementById('wizFatherName')?.value || '').trim();
-    const dob = (document.getElementById('wizDOB')?.value || '').trim();
-    const marital = (document.getElementById('wizMarital')?.value || '').trim();
-    const nationality = (document.getElementById('wizNationality')?.value || 'Indian').trim();
-    const gender = (document.getElementById('wizGender')?.value || 'Male').trim();
-    const languages = (document.getElementById('wizLanguages')?.value || 'English, Hindi').trim();
-    const passport = (document.getElementById('wizPassportDetails')?.value || '').trim();
+    // 4. Declaration & Signature
     const declaration = (document.getElementById('wizDeclaration')?.value || 'I hereby declare that all the details furnished above are true to the best of my knowledge.').trim();
-
-    // Format Name into 2 lines if long
-    const nameParts = name.split(' ');
-    let formattedName = name;
-    if (nameParts.length >= 2) {
-      formattedName = nameParts.slice(0, Math.ceil(nameParts.length / 2)).join(' ') + '<br>' + nameParts.slice(Math.ceil(nameParts.length / 2)).join(' ');
-    }
+    const customSignName = (document.getElementById('wizSignName')?.value || '').trim();
+    const customPlaceDate = (document.getElementById('wizPlaceDate')?.value || '').trim();
 
     // Apply Header
     const nameEl = document.querySelector('.header-left h1.name');
@@ -4160,28 +4377,36 @@
     const addrEl = document.querySelector('.header-left .address');
     const phoneEmailDivs = document.querySelectorAll('.header-right .contact div');
 
-    if (nameEl) nameEl.innerHTML = formattedName;
-    if (titleEl) titleEl.innerText = title;
+    if (nameEl) nameEl.textContent = name;
+    if (titleEl) titleEl.textContent = title;
     if (addrEl) addrEl.innerHTML = '<b>Address:</b> ' + escapeHtml(address);
     if (phoneEmailDivs && phoneEmailDivs.length >= 2) {
-      phoneEmailDivs[0].innerHTML = 'Phone: ' + escapeHtml(phone);
-      phoneEmailDivs[1].innerHTML = 'Email: ' + escapeHtml(email);
+      phoneEmailDivs[0].textContent = 'Phone: ' + phone;
+      phoneEmailDivs[1].textContent = 'Email: ' + email;
     }
 
     // Apply Career Objective
     if (objective) {
       const objEl = document.getElementById('secObjectiveContent');
-      if (objEl) objEl.innerText = objective;
+      if (objEl) objEl.textContent = objective;
     }
 
-    // Apply Qualifications
+    // Apply Dynamic Qualifications
+    const qualCards = document.querySelectorAll('#wizQualContainer .wiz-qual-card');
     const qualEl = document.getElementById('secQualContent');
-    if (qualEl) {
+    if (qualEl && qualCards.length > 0) {
       let qualHTML = '';
-      if (techQual) qualHTML += `<li><b>Technical Qualification:</b> ${escapeHtml(techQual)}</li>`;
-      if (academicQual) qualHTML += `<li><b>Academic:</b> ${escapeHtml(academicQual)}</li>`;
-      if (sscQual) qualHTML += `<li><b>Secondary School:</b> ${escapeHtml(sscQual)}</li>`;
-      if (safetyQual) qualHTML += `<li><b>Safety Certifications:</b> ${escapeHtml(safetyQual)}</li>`;
+      qualCards.forEach(card => {
+        const cat = card.querySelector('.wiz-qual-category')?.value.trim() || 'Qualification';
+        const detail = card.querySelector('.wiz-qual-detail')?.value.trim() || '';
+        if (detail) {
+          if (cat && cat.toLowerCase() !== 'qualification') {
+            qualHTML += `<li><b>${escapeHtml(cat)}:</b> ${escapeHtml(detail)}</li>`;
+          } else {
+            qualHTML += `<li>${escapeHtml(detail)}</li>`;
+          }
+        }
+      });
       if (qualHTML) qualEl.innerHTML = qualHTML;
     }
 
@@ -4192,8 +4417,8 @@
       if (wizardExpMode === 'india') {
         expHTML += `<li><b>Work Experience Summary:</b> ${escapeHtml(indianExp || 'Approx. 5+ Years in Domestic & Industrial Projects')}</li>`;
       } else {
-        if (foreignExp) expHTML += `<li><b>Foreign Work Experience (Europe, UAE, Turkey, Africa):</b> ${escapeHtml(foreignExp)}</li>`;
-        if (indianExp) expHTML += `<li><b>Indian Work Experience:</b> ${escapeHtml(indianExp)}</li>`;
+        if (foreignExp) expHTML += `<li><b>Foreign / International Experience:</b> ${escapeHtml(foreignExp)}</li>`;
+        if (indianExp) expHTML += `<li><b>Indian / Domestic Experience:</b> ${escapeHtml(indianExp)}</li>`;
       }
       if (expHTML) expSumEl.innerHTML = expHTML;
     }
@@ -4304,8 +4529,10 @@
         const txt = card.value.trim();
         if (txt) {
           if (txt.includes(':')) {
-            const parts = txt.split(':');
-            respHTML += `<li><b>${escapeHtml(parts[0].trim())}:</b> ${escapeHtml(parts.slice(1).join(':').trim())}</li>`;
+            const colonIdx = txt.indexOf(':');
+            const prefix = txt.substring(0, colonIdx).trim();
+            const rest = txt.substring(colonIdx + 1).trim();
+            respHTML += `<li><b>${escapeHtml(prefix)}:</b> ${escapeHtml(rest)}</li>`;
           } else {
             respHTML += `<li>${escapeHtml(txt)}</li>`;
           }
@@ -4314,26 +4541,34 @@
       if (respHTML) respEl.innerHTML = respHTML;
     }
 
-    // Apply Personal Data Table (Page 2)
+    // Apply Dynamic Personal Data Table (Page 2)
+    const personalCards = document.querySelectorAll('#wizPersonalContainer .wiz-pdata-card');
     const ptable = document.querySelector('.pdata');
-    if (ptable) {
-      ptable.innerHTML = `
-        <tr><td class="label">Father's Name</td><td>${escapeHtml(fatherName || 'Mr. Robert Morgan')}</td></tr>
-        <tr><td class="label">Date of Birth</td><td>${escapeHtml(dob || '15th June 1991 (Age: 35)')}</td></tr>
-        <tr><td class="label">Marital Status</td><td>${escapeHtml(marital || 'Married')}</td></tr>
-        <tr><td class="label">Nationality</td><td>${escapeHtml(nationality || 'Indian')}</td></tr>
-        <tr><td class="label">Gender</td><td>${escapeHtml(gender || 'Male')}</td></tr>
-        <tr><td class="label">Languages Known</td><td>${escapeHtml(languages || 'English, Fluent Regional Languages')}</td></tr>
-        <tr><td class="label">Current Passport</td><td>${escapeHtml(passport || 'Available Upon Request')}</td></tr>
-      `;
+    if (ptable && personalCards.length > 0) {
+      let pdataHTML = '';
+      personalCards.forEach(card => {
+        const label = card.querySelector('.wiz-pdata-label')?.value.trim() || '';
+        const val = card.querySelector('.wiz-pdata-val')?.value.trim() || '';
+        if (label) {
+          pdataHTML += `<tr><td class="label">${escapeHtml(label)}</td><td>${escapeHtml(val)}</td></tr>`;
+        }
+      });
+      if (pdataHTML) ptable.innerHTML = pdataHTML;
     }
 
-    // Apply Declaration & Sign Name
+    // Apply Declaration, Sign Name, and Place & Date
     const declEl = document.querySelector('.declaration-text');
-    if (declEl) declEl.innerText = declaration;
+    if (declEl) declEl.textContent = declaration;
 
     const signNameEl = document.querySelector('.sign-name');
-    if (signNameEl) signNameEl.innerText = '(' + name.toUpperCase() + ')';
+    if (signNameEl) {
+      signNameEl.textContent = customSignName || ('(' + name.toUpperCase() + ')');
+    }
+
+    const placeDateEl = document.querySelector('.place-date');
+    if (placeDateEl && customPlaceDate) {
+      placeDateEl.innerHTML = escapeHtml(customPlaceDate).replace(/\|/g, '<br>');
+    }
 
     const pdfFilenameInput = document.getElementById('pdfFilenameInput');
     if (pdfFilenameInput) {
@@ -4456,9 +4691,12 @@
     }
   }
 
-  // Auto-save on edits
+  // Auto-save on edits & live sync trigger
   document.addEventListener('input', (e) => {
-    if (e.target && e.target.isContentEditable) saveState();
+    if (e.target && e.target.isContentEditable) {
+      saveState();
+      updateUserGreeting();
+    }
   });
 
   // ---------- Full-Fidelity JSON Import & Export ----------
@@ -4494,46 +4732,26 @@
     if (!file) return;
     try {
       const text = await file.text();
-      const data = JSON.parse(text);
+      let isJSON = false;
+      let data = null;
+      try {
+        data = JSON.parse(text);
+        isJSON = true;
+      } catch (err) {}
 
-      if (!data.page1HTML && !data.page2HTML && !data.page1 && !data.page2) {
-        alert('The selected file is not a valid CVCraft resume backup.');
-        return;
+      if (isJSON && data) {
+        await applyImportedJSONData(data, file.name);
+      } else {
+        // Parse as raw resume text file
+        await applyRawPastedResumeText(text, file.name);
       }
 
-      if (data.page1HTML) document.getElementById('resume').innerHTML = data.page1HTML;
-      else if (data.page1) document.getElementById('resume').innerHTML = data.page1;
-
-      if (data.page2HTML) document.getElementById('resume-page2').innerHTML = data.page2HTML;
-      else if (data.page2) document.getElementById('resume-page2').innerHTML = data.page2;
-
-      const photoData = data.photo || null;
-      if (photoData) {
-        await dbSet('profile_photo', photoData);
-        const wrap = document.getElementById('photoWrap');
-        if (wrap) wrap.innerHTML = '<img src="' + photoData + '" alt="Profile Photo">';
-      }
-
-      if (data.filename && document.getElementById('pdfFilenameInput')) {
-        document.getElementById('pdfFilenameInput').value = data.filename;
-      }
-
-      if (data.attachments && Array.isArray(data.attachments)) {
-        attachments = data.attachments;
-        await dbSet('doc_attachments', attachments);
-        renderAttachmentsList();
-      }
-
-      localStorage.setItem('cvcraft_profile_created', 'true');
-      localStorage.setItem('cvcraft_last_page', 'builder');
-      saveState();
-      updatePhotoButtonsLabel();
-      updateUserGreeting();
-    syncResumeToWizardFields();
-      showToast('Resume imported successfully!', 'success');
+      setTimeout(() => {
+        openOnboardingWizard(false);
+      }, 150);
     } catch (e) {
-      console.error('Error importing JSON:', e);
-      alert('Error parsing JSON backup file.');
+      console.error('Error importing file:', e);
+      alert('Error parsing resume file: ' + e.message);
     }
   }
 
@@ -4818,6 +5036,7 @@
   // ---------- Mobile & Desktop Import JSON Helpers ----------
 
   function openImportJsonModal() {
+    closeOnboardingWizard();
     const overlay = document.getElementById('importJsonModalOverlay');
     const textarea = document.getElementById('jsonPasteTextarea');
     if (textarea) textarea.value = '';
@@ -4852,58 +5071,1064 @@
     }
   }
 
-  async function loadPastedJSONText() {
-    const textarea = document.getElementById('jsonPasteTextarea');
-    const raw = (textarea?.value || '').trim();
-    if (!raw) {
-      alert('Please paste valid JSON text first.');
-      return;
+  // ---------- Smart Resume Parser & Universal Importer Engine ----------
+
+  const FOREIGN_KEYWORDS = [
+    'europe', 'uae', 'dubai', 'qatar', 'saudi', 'arabia', 'oman', 'kuwait', 'bahrain',
+    'gulf', 'singapore', 'malaysia', 'uk', 'usa', 'canada', 'australia', 'germany',
+    'france', 'poland', 'russia', 'iraq', 'middle east', 'overseas', 'international',
+    'abroad', 'abu dhabi', 'sharjah', 'riyadh', 'jeddah', 'doha', 'muscat', 'dammam',
+    'khobar', 'al-khobar', 'jubail', 'yanbu', 'ras laffan', 'mesaieed', 'turkey', 'africa'
+  ];
+
+  const INDIAN_KEYWORDS = [
+    'india', 'hyderabad', 'bangalore', 'bengaluru', 'mumbai', 'chennai', 'delhi',
+    'pune', 'kolkata', 'visakhapatnam', 'vizag', 'gujarat', 'ahmedabad', 'noida',
+    'gurgaon', 'gurugram', 'tamil nadu', 'andhra', 'telangana', 'karnataka',
+    'maharashtra', 'kerala', 'hazira', 'dahej', 'jamnagar', 'domestic', 'secunderabad'
+  ];
+
+  function detectIsForeign(text) {
+    if (!text) return false;
+    const lower = text.toLowerCase();
+    for (const kw of FOREIGN_KEYWORDS) {
+      if (lower.includes(kw)) return true;
     }
-    try {
-      const data = JSON.parse(raw);
-      closeImportJsonModal();
-      await applyImportedJSONData(data, 'Pasted Profile');
-    } catch (e) {
-      alert('Invalid JSON format: ' + e.message);
-    }
+    return false;
   }
 
-    async function applyImportedJSONData(data, sourceLabel) {
-    if (!data.page1HTML && !data.page2HTML && !data.page1 && !data.page2) {
-      alert('The data is not a valid CVCraft resume backup.');
-      return;
+  function detectIsIndian(text) {
+    if (!text) return false;
+    const lower = text.toLowerCase();
+    for (const kw of INDIAN_KEYWORDS) {
+      if (lower.includes(kw)) return true;
+    }
+    return false;
+  }
+
+  function extractDateString(str) {
+    if (!str) return { cleanStr: '', dateStr: '' };
+    const dateRegex = /\(?\b(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?\d{4}\s*(?:–|-|—|to|till|until)\s*(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?(?:\d{4}|present|current|till date|now)\)?/i;
+    const match = str.match(dateRegex);
+    if (match) {
+      const dateStr = match[0].replace(/^\(|\)$/g, '').trim();
+      const cleanStr = str.replace(match[0], '').replace(/\s{2,}/g, ' ').trim();
+      return { cleanStr, dateStr };
+    }
+    const yearRangeRegex = /\(?\b(?:19|20)\d{2}\s*(?:–|-|—|to)\s*(?:(?:19|20)\d{2}|present|current|now)\b\)?/i;
+    const yMatch = str.match(yearRangeRegex);
+    if (yMatch) {
+      const dateStr = yMatch[0].replace(/^\(|\)$/g, '').trim();
+      const cleanStr = str.replace(yMatch[0], '').replace(/\s{2,}/g, ' ').trim();
+      return { cleanStr, dateStr };
+    }
+    return { cleanStr: str, dateStr: '' };
+  }
+
+  function parseJobEntry(rawText, defaultIsForeign = false) {
+    if (!rawText) return null;
+    let text = rawText.replace(/^[-*•\d.)\s]+/, '').trim();
+    if (!text || text.length < 3) return null;
+
+    let title = '';
+    let company = '';
+    let location = '';
+    let date = '';
+
+    // Check for explicit key-value patterns (e.g. Designation: ..., Company: ...)
+    if (/(?:designation|position|job\s*title|role):/i.test(text)) {
+      const titleMatch = text.match(/(?:designation|position|job\s*title|role):\s*([^,;|]+)/i);
+      const compMatch = text.match(/(?:company|employer|organization|client|project):\s*([^,;|]+)/i);
+      const locMatch = text.match(/(?:location|place|country|city):\s*([^,;|]+)/i);
+      const dateMatch = text.match(/(?:duration|period|dates?|time):\s*([^,;|]+)/i);
+
+      if (titleMatch) title = titleMatch[1].trim();
+      if (compMatch) company = compMatch[1].trim();
+      if (locMatch) location = locMatch[1].trim();
+      if (dateMatch) date = dateMatch[1].trim();
+
+      if (title || company) {
+        const fullCombo = `${location} ${company} ${title}`;
+        const isForeign = detectIsForeign(fullCombo) || (defaultIsForeign && !detectIsIndian(fullCombo));
+        return { title: title || company, company: company || title, location, date, isForeign };
+      }
     }
 
-    if (data.page1HTML) document.getElementById('resume').innerHTML = data.page1HTML;
-    else if (data.page1) document.getElementById('resume').innerHTML = data.page1;
-
-    if (data.page2HTML) document.getElementById('resume-page2').innerHTML = data.page2HTML;
-    else if (data.page2) document.getElementById('resume-page2').innerHTML = data.page2;
-
-    const photoData = data.photo || null;
-    if (photoData) {
-      await dbSet('profile_photo', photoData);
-      const wrap = document.getElementById('photoWrap');
-      if (wrap) wrap.innerHTML = '<img src="' + photoData + '" alt="Profile Photo">';
+    // Extract date if present in string
+    const dateExtract = extractDateString(text);
+    if (dateExtract.dateStr) {
+      date = dateExtract.dateStr;
+      text = dateExtract.cleanStr;
     }
 
-    if (data.filename && document.getElementById('pdfFilenameInput')) {
-      document.getElementById('pdfFilenameInput').value = data.filename;
+    // Strategy 1: Pipe (|) delimited
+    if (text.includes('|')) {
+      const parts = text.split('|').map(s => s.trim()).filter(Boolean);
+      if (parts.length >= 4) {
+        title = parts[0];
+        company = parts[1];
+        location = parts[2];
+        if (!date) date = parts[3];
+      } else if (parts.length === 3) {
+        title = parts[0];
+        company = parts[1];
+        if (!date && extractDateString(parts[2]).dateStr) {
+          date = parts[2];
+        } else {
+          location = parts[2];
+        }
+      } else if (parts.length === 2) {
+        title = parts[0];
+        company = parts[1];
+      }
+    }
+    // Strategy 2: " at " delimited
+    else if (/\s+at\s+/i.test(text)) {
+      const atSplit = text.split(/\s+at\s+/i);
+      title = atSplit[0].trim();
+      const rest = atSplit.slice(1).join(' at ').trim();
+      if (rest.includes(',')) {
+        const commaIdx = rest.indexOf(',');
+        company = rest.substring(0, commaIdx).trim();
+        location = rest.substring(commaIdx + 1).trim();
+      } else {
+        company = rest;
+      }
+    }
+    // Strategy 3: Dash / En-dash delimited (' - ' or ' – ')
+    else if (/\s+[-–—]\s+/.test(text)) {
+      const dashParts = text.split(/\s+[-–—]\s+/).map(s => s.trim()).filter(Boolean);
+      if (dashParts.length >= 3) {
+        title = dashParts[0];
+        company = dashParts[1];
+        location = dashParts.slice(2).join(', ');
+      } else if (dashParts.length === 2) {
+        title = dashParts[0];
+        const rest = dashParts[1];
+        if (rest.includes(',')) {
+          const cIdx = rest.indexOf(',');
+          company = rest.substring(0, cIdx).trim();
+          location = rest.substring(cIdx + 1).trim();
+        } else {
+          company = rest;
+        }
+      }
+    }
+    // Strategy 4: Comma delimited
+    else if (text.includes(',')) {
+      const commaParts = text.split(',').map(s => s.trim()).filter(Boolean);
+      if (commaParts.length >= 3) {
+        title = commaParts[0];
+        company = commaParts[1];
+        location = commaParts.slice(2).join(', ');
+      } else if (commaParts.length === 2) {
+        title = commaParts[0];
+        company = commaParts[1];
+      }
+    } else {
+      title = text;
+      company = 'Industrial Operations & Projects';
     }
 
-    if (data.attachments && Array.isArray(data.attachments)) {
-      attachments = data.attachments;
-      await dbSet('doc_attachments', attachments);
-      renderAttachmentsList();
+    title = title.replace(/^[-*•,;:| ]+|[-*•,;:| ]+$/g, '').trim();
+    company = company.replace(/^[-*•,;:| ]+|[-*•,;:| ]+$/g, '').trim();
+    location = location.replace(/^[-*•,;:| ]+|[-*•,;:| ]+$/g, '').trim();
+    date = date.replace(/^[-*•,;:| ]+|[-*•,;:| ]+$/g, '').trim();
+
+    if (!title && !company) return null;
+    if (!title) title = company;
+    if (!company) company = title;
+
+    const fullText = `${location} ${company} ${title} ${rawText}`;
+    const isForeign = detectIsForeign(fullText) || (defaultIsForeign && !detectIsIndian(fullText));
+
+    return { title, company, location, date, isForeign };
+  }
+
+  function parseRawResumeText(text) {
+    if (!text) return null;
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) return null;
+
+    const result = {
+      name: '',
+      title: '',
+      address: '',
+      phone: '',
+      email: '',
+      objective: '',
+      qualifications: [],
+      foreignExp: '',
+      indianExp: '',
+      foreignJobs: [],
+      indianJobs: [],
+      jobs: [],
+      responsibilities: [],
+      personalData: [],
+      declaration: '',
+      placeDate: '',
+      signName: ''
+    };
+
+    let currentSection = 'header';
+    let currentExpSubSection = 'auto'; // 'auto', 'foreign', 'indian'
+    let headerLines = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const cleanLine = line.replace(/^[\[\]()\-–—\s*•#]+|[\[\]()\-–—\s*•#:]+$/g, '').trim();
+      const hasColonValue = line.includes(':') && line.split(':')[1].trim().length > 0;
+
+      // Detect Section Headers
+      if (!/(?:experience|work|employment)\s+summary/i.test(cleanLine) && /(?:career\s+)?objective|(?:professional|profile|executive)\s+summary|\b(?:about\s+me|profile\s+synopsis)\b|^summary$/i.test(cleanLine) && cleanLine.length < 50) {
+        currentSection = 'objective';
+        continue;
+      } else if (/(?:academic|educational|technical|professional)\s+(?:qualifications?|education|background|certificates?|diploma)|education(?:\s+background)?|academics|qualifications/i.test(cleanLine) && cleanLine.length < 55) {
+        currentSection = 'qualifications';
+        continue;
+      } else if (!hasColonValue && /(?:international|foreign|gulf|overseas|middle\s+east)\s+(?:work\s+)?experience|international\s+jobs|foreign\s+experience/i.test(cleanLine) && cleanLine.length < 55) {
+        currentSection = 'experience';
+        currentExpSubSection = 'foreign';
+        continue;
+      } else if (!hasColonValue && /(?:indian|domestic|local)\s+(?:work\s+)?experience|indian\s+jobs|domestic\s+experience/i.test(cleanLine) && cleanLine.length < 55) {
+        currentSection = 'experience';
+        currentExpSubSection = 'indian';
+        continue;
+      } else if (!hasColonValue && /(?:detailed\s+)?(?:work\s+)?experience(?:\s+summary)?|employment(?:\s+history)?|job\s+history|career\s+history|professional\s+experience/i.test(cleanLine) && cleanLine.length < 55) {
+        currentSection = 'experience';
+        currentExpSubSection = 'auto';
+        continue;
+      } else if (/(?:roles?\s*(?:&|and)\s*responsibilities|key\s+responsibilities|job\s+responsibilities|duties(?:\s*(?:&|and)\s*responsibilities)?|core\s+competencies|key\s+competencies|key\s+skills|technical\s+skills|technical\s+competencies|areas\s+of\s+expertise|responsibilities|skills\s*(?:&|and)\s*competencies|skills)/i.test(cleanLine) && cleanLine.length < 60) {
+        currentSection = 'responsibilities';
+        continue;
+      } else if (!hasColonValue && (/personal\s+(?:data|details|profile|information)|passport\s+(?:details|information)/i.test(cleanLine)) && cleanLine.length < 50) {
+        currentSection = 'personal';
+        continue;
+      } else if (/declaration/i.test(cleanLine) && cleanLine.length < 35) {
+        currentSection = 'declaration';
+        continue;
+      }
+
+      // Check for inline contact information regardless of section
+      if (line.includes('@') && !result.email) {
+        const emMatch = line.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+        if (emMatch) result.email = emMatch[0];
+      }
+      if (/(\+?\d[\d\s-]{8,}\d)/.test(line) && !result.phone) {
+        const phMatch = line.match(/(?:\+?\d{1,4}[\s-]?)?\(?\d{2,5}\)?[\s-]?\d{3,5}[\s-]?\d{3,5}/);
+        if (phMatch && phMatch[0].replace(/\D/g, '').length >= 7) {
+          result.phone = phMatch[0].trim();
+        }
+      }
+
+      // Process sections
+      if (currentSection === 'header') {
+        if (/name:\s*/i.test(line)) {
+          result.name = line.replace(/name:\s*/i, '').trim();
+        } else if (/title:\s*|designation:\s*|position:\s*/i.test(line)) {
+          result.title = line.replace(/^(?:title|designation|position):\s*/i, '').trim();
+        } else if (/address:\s*/i.test(line)) {
+          result.address = line.replace(/address:\s*/i, '').trim();
+        } else {
+          headerLines.push(line);
+        }
+      } else if (currentSection === 'objective') {
+        result.objective = result.objective ? (result.objective + ' ' + line) : line;
+      } else if (currentSection === 'qualifications') {
+        let cat = 'Qualification';
+        let detail = line;
+        if (line.includes(':')) {
+          const idx = line.indexOf(':');
+          cat = line.substring(0, idx).replace(/^[-*•\d.)\s]+/, '').trim();
+          detail = line.substring(idx + 1).trim();
+        } else {
+          detail = line.replace(/^[-*•\d.)\s]+/, '').trim();
+        }
+        if (detail) result.qualifications.push({ category: cat || 'Qualification', detail });
+      } else if (currentSection === 'experience') {
+        const cleaned = line.replace(/^[-*•\s]+/, '').trim();
+        const lowerClean = cleaned.toLowerCase();
+
+        // Detect Foreign Experience Summary
+        if ((lowerClean.includes('foreign') || lowerClean.includes('international') || lowerClean.includes('gulf')) && cleaned.includes(':') && /\d+/.test(cleaned)) {
+          result.foreignExp = cleaned.substring(cleaned.indexOf(':') + 1).trim();
+          continue;
+        }
+        // Detect Indian Experience Summary
+        if ((lowerClean.includes('indian') || lowerClean.includes('domestic')) && cleaned.includes(':') && /\d+/.test(cleaned)) {
+          result.indianExp = cleaned.substring(cleaned.indexOf(':') + 1).trim();
+          continue;
+        }
+        // Detect Total Experience Summary
+        if ((lowerClean.includes('total') || lowerClean.includes('experience summary')) && cleaned.includes(':') && /\d+/.test(cleaned)) {
+          if (!result.indianExp) result.indianExp = cleaned.substring(cleaned.indexOf(':') + 1).trim();
+          continue;
+        }
+
+        // Parse as Job Entry
+        const isForeignSub = currentExpSubSection === 'foreign';
+        const job = parseJobEntry(cleaned, isForeignSub);
+        if (job) {
+          if (job.isForeign || isForeignSub) {
+            result.foreignJobs.push(job);
+          } else {
+            result.indianJobs.push(job);
+          }
+          result.jobs.push(job);
+        }
+      } else if (currentSection === 'responsibilities') {
+        const cleanResp = line.replace(/^[-*•\d.)\s]+/, '').trim();
+        if (cleanResp) result.responsibilities.push(cleanResp);
+      } else if (currentSection === 'personal') {
+        if (line.includes(':')) {
+          const idx = line.indexOf(':');
+          const lbl = line.substring(0, idx).replace(/^[-*•\d.)\s]+/, '').trim();
+          const val = line.substring(idx + 1).trim();
+          if (lbl && val) result.personalData.push({ label: lbl, val });
+        }
+      } else if (currentSection === 'declaration') {
+        if (/place|date/i.test(line) && line.includes(':')) {
+          result.placeDate = line;
+        } else if (/\([A-Z\s]+\)/.test(line) || /signature/i.test(line)) {
+          result.signName = line;
+        } else {
+          result.declaration = result.declaration ? (result.declaration + ' ' + line) : line;
+        }
+      }
+    }
+
+    // Infer Name and Title from Header Lines if missing
+    if (!result.name && headerLines.length > 0) {
+      result.name = headerLines[0];
+      if (!result.title && headerLines.length > 1) {
+        result.title = headerLines[1];
+      }
+      if (!result.address && headerLines.length > 2) {
+        result.address = headerLines.slice(2).join(', ');
+      }
+    }
+
+    return result;
+  }
+
+  async function applyStructuredResumeData(struct, sourceLabel) {
+    if (!struct) return;
+
+    // 1. Full Name, Title, Address & Contact
+    if (struct.name) {
+      const nameEl = document.querySelector('.header-left h1.name');
+      if (nameEl) nameEl.textContent = struct.name;
+      localStorage.setItem('cvcraft_user_name', struct.name);
+    }
+    if (struct.title) {
+      const titleEl = document.querySelector('.header-left .title');
+      if (titleEl) titleEl.textContent = struct.title;
+    }
+    if (struct.address) {
+      const addrEl = document.querySelector('.header-left .address');
+      if (addrEl) addrEl.innerHTML = '<b>Address:</b> ' + escapeHtml(struct.address);
+    }
+    
+    const contactContainer = document.querySelector('.header-right .contact');
+    if (contactContainer) {
+      const phoneEmailDivs = contactContainer.querySelectorAll('div');
+      if (phoneEmailDivs && phoneEmailDivs.length >= 2) {
+        if (struct.phone) phoneEmailDivs[0].textContent = 'Phone: ' + struct.phone;
+        if (struct.email) phoneEmailDivs[1].textContent = 'Email: ' + struct.email;
+      } else {
+        contactContainer.innerHTML = `
+          <div contenteditable="true">Phone: ${escapeHtml(struct.phone || '+91 00000 00000')}</div>
+          <div contenteditable="true">Email: ${escapeHtml(struct.email || 'alex.morgan@email.com')}</div>
+        `;
+      }
+    }
+
+    // 2. Career Objective
+    if (struct.objective) {
+      const objEl = document.getElementById('secObjectiveContent');
+      if (objEl) objEl.textContent = struct.objective;
+    }
+
+    // 3. Qualifications
+    const qualEl = document.getElementById('secQualContent');
+    if (qualEl) {
+      if (struct.qualifications && struct.qualifications.length > 0) {
+        let html = '';
+        struct.qualifications.forEach(q => {
+          if (typeof q === 'string') {
+            if (q.includes(':')) {
+              const colonIdx = q.indexOf(':');
+              const cat = q.substring(0, colonIdx).replace(/^[-*•\d.)\s]+/, '').trim();
+              const det = q.substring(colonIdx + 1).trim();
+              html += `<li><b>${escapeHtml(cat)}:</b> ${escapeHtml(det)}</li>`;
+            } else {
+              html += `<li>${escapeHtml(q.replace(/^[-*•\d.)\s]+/, '').trim())}</li>`;
+            }
+          } else if (typeof q === 'object' && q !== null) {
+            const cat = q.category || q.name || q.area || q.studyType || 'Qualification';
+            const detail = q.detail || q.value || q.institution || q.summary || '';
+            if (cat && cat.toLowerCase() !== 'qualification') {
+              html += `<li><b>${escapeHtml(cat)}:</b> ${escapeHtml(detail)}</li>`;
+            } else {
+              html += `<li>${escapeHtml(detail || cat)}</li>`;
+            }
+          }
+        });
+        if (html) qualEl.innerHTML = html;
+      }
+    }
+
+    // 4. Work Experience Jobs (Foreign & Indian)
+    let foreignJobs = Array.isArray(struct.foreignJobs) ? [...struct.foreignJobs] : [];
+    let indianJobs = Array.isArray(struct.indianJobs) ? [...struct.indianJobs] : [];
+
+    if (foreignJobs.length === 0 && indianJobs.length === 0 && Array.isArray(struct.jobs) && struct.jobs.length > 0) {
+      struct.jobs.forEach(j => {
+        if (typeof j === 'string') {
+          const parsed = parseJobEntry(j);
+          if (parsed) {
+            if (parsed.isForeign) foreignJobs.push(parsed);
+            else indianJobs.push(parsed);
+          }
+        } else if (typeof j === 'object' && j !== null) {
+          const isF = j.isForeign !== undefined ? Boolean(j.isForeign) : detectIsForeign(`${j.location || ''} ${j.company || ''} ${j.title || j.position || ''}`);
+          const jobObj = {
+            title: j.title || j.position || j.role || 'Specialist',
+            company: j.company || j.employer || j.name || 'Engineering Projects',
+            location: j.location || (j.city ? `${j.city}, ${j.country || ''}` : ''),
+            date: j.date || j.duration || (j.startDate ? `${j.startDate} – ${j.endDate || 'Present'}` : ''),
+            isForeign: isF
+          };
+          if (isF) foreignJobs.push(jobObj);
+          else indianJobs.push(jobObj);
+        }
+      });
+    }
+
+    // 5. Work Experience Summary
+    const expSumEl = document.getElementById('secExpSummaryContent');
+    if (expSumEl) {
+      let expHTML = '';
+      if (struct.foreignExp) expHTML += `<li><b>Foreign / International Experience:</b> ${escapeHtml(struct.foreignExp)}</li>`;
+      if (struct.indianExp) expHTML += `<li><b>Indian / Domestic Experience:</b> ${escapeHtml(struct.indianExp)}</li>`;
+      
+      if (!expHTML) {
+        if (foreignJobs.length > 0 && indianJobs.length > 0) {
+          expHTML += `<li><b>Foreign / International Experience:</b> ${foreignJobs.length} International Project${foreignJobs.length > 1 ? 's' : ''}</li>`;
+          expHTML += `<li><b>Indian / Domestic Experience:</b> ${indianJobs.length} Domestic Project${indianJobs.length > 1 ? 's' : ''}</li>`;
+        } else if (indianJobs.length > 0) {
+          expHTML += `<li><b>Work Experience Summary:</b> ${indianJobs.length} Professional Project${indianJobs.length > 1 ? 's' : ''}</li>`;
+        } else if (foreignJobs.length > 0) {
+          expHTML += `<li><b>Foreign / International Experience:</b> ${foreignJobs.length} International Project${foreignJobs.length > 1 ? 's' : ''}</li>`;
+        }
+      }
+      if (expHTML) expSumEl.innerHTML = expHTML;
+    }
+
+    const foreignBlock = document.getElementById('secForeignJobsBlock');
+    const foreignContent = document.getElementById('secForeignJobsContent');
+    const indianBlock = document.getElementById('secIndianJobsBlock');
+    const indianContent = document.getElementById('secIndianJobsContent');
+    const indianTitle = document.getElementById('secIndianTitle');
+    const expWrap = document.getElementById('secDetailedExpWrap');
+
+    if (expWrap) expWrap.style.display = '';
+
+    if (foreignJobs.length === 0 && (indianJobs.length > 0 || struct.indianExp)) {
+      setWizardExpMode('india');
+      if (foreignBlock) foreignBlock.style.display = 'none';
+      if (foreignContent) foreignContent.innerHTML = '';
+      if (indianBlock) indianBlock.style.display = '';
+      if (indianTitle) indianTitle.textContent = 'Work Experience';
+
+      if (indianContent) {
+        if (indianJobs.length > 0) {
+          let indHTML = '';
+          indianJobs.forEach(job => {
+            indHTML += `
+              <div class="job">
+                <div class="job-row">
+                  <span class="job-title" contenteditable="true">${escapeHtml(job.title || 'Technical Specialist')}</span>
+                  <span class="job-date" contenteditable="true">${escapeHtml(job.date || '')}</span>
+                </div>
+                <div class="job-row-2">
+                  <span class="job-company" contenteditable="true">${escapeHtml(job.company || '')}</span>
+                  <span class="job-location" contenteditable="true">${escapeHtml(job.location || '')}</span>
+                </div>
+              </div>
+            `;
+          });
+          indianContent.innerHTML = indHTML;
+        } else {
+          indianContent.innerHTML = '';
+        }
+      }
+    } else {
+      setWizardExpMode('both');
+      if (foreignBlock) foreignBlock.style.display = '';
+      if (indianBlock) indianBlock.style.display = '';
+      if (indianTitle) indianTitle.textContent = 'Indian Experience';
+
+      if (foreignContent) {
+        if (foreignJobs.length > 0) {
+          let fHTML = '';
+          foreignJobs.forEach(job => {
+            fHTML += `
+              <div class="job">
+                <div class="job-row">
+                  <span class="job-title" contenteditable="true">${escapeHtml(job.title || 'Senior Specialist')}</span>
+                  <span class="job-date" contenteditable="true">${escapeHtml(job.date || '')}</span>
+                </div>
+                <div class="job-row-2">
+                  <span class="job-company" contenteditable="true">${escapeHtml(job.company || '')}</span>
+                  <span class="job-location" contenteditable="true">${escapeHtml(job.location || '')}</span>
+                </div>
+              </div>
+            `;
+          });
+          foreignContent.innerHTML = fHTML;
+        } else {
+          foreignContent.innerHTML = '';
+        }
+      }
+
+      if (indianContent) {
+        if (indianJobs.length > 0) {
+          let indHTML = '';
+          indianJobs.forEach(job => {
+            indHTML += `
+              <div class="job">
+                <div class="job-row">
+                  <span class="job-title" contenteditable="true">${escapeHtml(job.title || 'Senior Fabricator')}</span>
+                  <span class="job-date" contenteditable="true">${escapeHtml(job.date || '')}</span>
+                </div>
+                <div class="job-row-2">
+                  <span class="job-company" contenteditable="true">${escapeHtml(job.company || '')}</span>
+                  <span class="job-location" contenteditable="true">${escapeHtml(job.location || '')}</span>
+                </div>
+              </div>
+            `;
+          });
+          indianContent.innerHTML = indHTML;
+        } else {
+          indianContent.innerHTML = '';
+        }
+      }
+    }
+
+    // 6. Roles & Responsibilities / Key Competencies (Page 2)
+    const respEl = document.getElementById('secRespContent');
+    if (respEl) {
+      if (struct.responsibilities && struct.responsibilities.length > 0) {
+        let html = '';
+        struct.responsibilities.forEach(r => {
+          let txt = '';
+          if (typeof r === 'string') {
+            txt = r.replace(/^[-*•\d.)\s]+/, '').trim();
+          } else if (typeof r === 'object' && r !== null) {
+            const name = r.name || r.category || r.title || '';
+            const desc = r.description || r.detail || (r.keywords ? r.keywords.join(', ') : '') || '';
+            txt = name && desc ? `${name}: ${desc}` : (desc || name);
+          }
+          if (txt) {
+            if (txt.includes(':')) {
+              const idx = txt.indexOf(':');
+              const head = txt.substring(0, idx).trim();
+              const body = txt.substring(idx + 1).trim();
+              html += `<li><b>${escapeHtml(head)}:</b> ${escapeHtml(body)}</li>`;
+            } else {
+              html += `<li>${escapeHtml(txt)}</li>`;
+            }
+          }
+        });
+        if (html) respEl.innerHTML = html;
+      }
+    }
+
+    // 7. Personal Data & Passport Table (Page 2)
+    const ptable = document.querySelector('.pdata');
+    if (ptable) {
+      if (struct.personalData && struct.personalData.length > 0) {
+        let html = '';
+        struct.personalData.forEach(p => {
+          let label = '';
+          let val = '';
+          if (typeof p === 'string') {
+            if (p.includes(':')) {
+              const idx = p.indexOf(':');
+              label = p.substring(0, idx).replace(/^[-*•\d.)\s]+/, '').trim();
+              val = p.substring(idx + 1).trim();
+            }
+          } else if (typeof p === 'object' && p !== null) {
+            label = p.label || p.key || p.name || '';
+            val = p.val || p.value || '';
+          }
+          if (label && val) {
+            html += `<tr><td class="label">${escapeHtml(label)}</td><td>${escapeHtml(val)}</td></tr>`;
+          }
+        });
+        if (html) ptable.innerHTML = html;
+      }
+    }
+
+    // 8. Declaration, Signature & Place/Date
+    if (struct.declaration) {
+      const declEl = document.querySelector('.declaration-text');
+      if (declEl) declEl.textContent = struct.declaration;
+    }
+    if (struct.signName) {
+      const signNameEl = document.querySelector('.sign-name');
+      if (signNameEl) signNameEl.textContent = struct.signName;
+    } else if (struct.name) {
+      const signNameEl = document.querySelector('.sign-name');
+      if (signNameEl) signNameEl.textContent = '(' + struct.name.toUpperCase() + ')';
+    }
+    if (struct.placeDate) {
+      const pdEl = document.querySelector('.place-date');
+      if (pdEl) pdEl.innerHTML = escapeHtml(struct.placeDate).replace(/\|/g, '<br>');
+    }
+
+    if (struct.name && document.getElementById('pdfFilenameInput')) {
+      document.getElementById('pdfFilenameInput').value = struct.name.replace(/\s+/g, '_') + '_Resume';
     }
 
     localStorage.setItem('cvcraft_profile_created', 'true');
     localStorage.setItem('cvcraft_last_page', 'builder');
     saveState();
-    updatePhotoButtonsLabel();
+    await saveAsOriginalResume(false);
     updateUserGreeting();
     syncResumeToWizardFields();
-    showToast('Loaded profile: ' + sourceLabel, 'success');
+    updatePhotoButtonsLabel();
+    showToast('Loaded profile: ' + (sourceLabel || 'Imported Resume'), 'success');
+  }
+
+  async function applyRawPastedResumeText(rawText, sourceLabel = 'Text Import') {
+    const struct = parseRawResumeText(rawText);
+    if (!struct || (!struct.name && !struct.objective && struct.qualifications.length === 0 && struct.jobs.length === 0)) {
+      alert('Could not detect structured resume fields. Please paste complete resume text or JSON.');
+      return;
+    }
+    await applyStructuredResumeData(struct, sourceLabel);
+  }
+
+  async function loadPastedJSONText() {
+    const textarea = document.getElementById('jsonPasteTextarea');
+    const raw = (textarea?.value || '').trim();
+    if (!raw) {
+      alert('Please paste resume JSON or text first.');
+      return;
+    }
+
+    let isJSON = false;
+    let data = null;
+    try {
+      data = JSON.parse(raw);
+      isJSON = true;
+    } catch (e) {}
+
+    closeImportJsonModal();
+    if (isJSON && data) {
+      await applyImportedJSONData(data, 'Pasted JSON');
+    } else {
+      await applyRawPastedResumeText(raw, 'Pasted Resume Text');
+    }
+
+    setTimeout(() => {
+      openOnboardingWizard(false);
+    }, 150);
+  }
+
+  function normalizeJSONResume(raw) {
+    if (!raw) return null;
+    let data = raw;
+
+    if (Array.isArray(data) && data.length > 0) data = data[0];
+    if (data.profiles && typeof data.profiles === 'object') {
+      const pId = data.currentProfileId || Object.keys(data.profiles)[0] || 'default';
+      if (data.profiles[pId]) data = data.profiles[pId];
+    }
+
+    // Check if CVCraft snapshot
+    if (data.page1HTML || data.page2HTML || data.page1 || data.page2) {
+      return { isSnapshot: true, data };
+    }
+
+    const p = data.profile || data.candidate || data.resume || data.data || {};
+    const b = (data.basics && typeof data.basics === 'object') ? data.basics :
+              ((data.personalInfo && typeof data.personalInfo === 'object') ? data.personalInfo :
+              ((data.personal_info && typeof data.personal_info === 'object') ? data.personal_info :
+              ((data.contact && typeof data.contact === 'object') ? data.contact :
+              ((data.header && typeof data.header === 'object') ? data.header : (p.contact || {})))));
+
+    const name = data.name || p.name || data.fullName || p.fullName || data.full_name || p.full_name || data.Name || p.Name || data.candidateName || b.name || b.fullName || b.full_name || b.Name || '';
+    const title = data.title || p.title || data.subtitle || p.subtitle || data.designation || p.designation || data.position || p.position || data.role || p.role || data.jobTitle || p.jobTitle || b.label || b.title || b.designation || b.position || '';
+    const email = data.email || p.email || data.emailAddress || data.Email || b.email || b.emailAddress || b.email_address || (typeof data.contact === 'string' && data.contact.includes('@') ? data.contact : (b.email || ''));
+    
+    let phone = data.phone || p.phone || data.mobile || p.mobile || data.phoneNumber || data.phone_number || data.Phone || b.phone || b.mobile || b.phoneNumber || '';
+    if (typeof phone === 'object' && phone !== null) {
+      phone = phone.mobile || phone.phone || phone.phoneNumber || '';
+    } else if (!phone && typeof data.contact === 'object' && data.contact !== null) {
+      phone = data.contact.mobile || data.contact.phone || data.contact.phoneNumber || '';
+    }
+
+    let address = data.address || p.address || data.location || p.location || data.Address || b.address || '';
+    if (typeof address === 'object' && address !== null) {
+      const parts = [address.address || address.street, address.city, address.region || address.state, address.countryCode || address.country, address.postalCode || address.pin || address.pincode].filter(Boolean);
+      address = parts.join(', ');
+    } else if (b.location) {
+      if (typeof b.location === 'object') {
+        const parts = [b.location.address, b.location.city, b.location.region || b.location.state, b.location.countryCode || b.location.country, b.location.postalCode || b.location.pin].filter(Boolean);
+        address = parts.join(', ');
+      } else {
+        address = String(b.location);
+      }
+    }
+
+    const objective = data.objective || p.objective || data.summary || p.summary || data.profileSummary || p.profileSummary || data.careerObjective || p.careerObjective || data.about || p.about || data.bio || b.summary || b.about || b.objective || '';
+
+    // Qualifications / Education
+    const rawEdu = data.qualifications || p.qualifications || data.education || p.education || data.academics || p.academics || data.educationalQualifications || data.technicalQualifications || [];
+    const qualifications = [];
+    if (Array.isArray(rawEdu)) {
+      rawEdu.forEach(ed => {
+        if (typeof ed === 'string') {
+          const cleaned = ed.replace(/^[-*•\d.)\s]+/, '').trim();
+          if (cleaned) {
+            if (cleaned.includes(':')) {
+              const idx = cleaned.indexOf(':');
+              qualifications.push({ category: cleaned.substring(0, idx).trim() || 'Qualification', detail: cleaned.substring(idx + 1).trim() });
+            } else {
+              qualifications.push({ category: 'Qualification', detail: cleaned });
+            }
+          }
+        } else if (typeof ed === 'object' && ed !== null) {
+          const cat = ed.category || ed.area || ed.studyType || ed.degree || ed.course || 'Academic Qualification';
+          const degree = ed.studyType || ed.degree || ed.course || '';
+          const area = ed.area || ed.specialization || ed.branch || ed.major || '';
+          const inst = ed.institution || ed.school || ed.college || ed.university || '';
+          const yr = ed.dates || ed.date || ed.year || ed.endDate || ed.passingYear || '';
+          let detail = ed.detail || '';
+          if (!detail) {
+            const mainTitle = degree ? (degree + (area ? ' in ' + area : '')) : area;
+            detail = `${mainTitle}${inst ? (mainTitle ? ' - ' : '') + inst : ''}${yr ? ' (' + yr + ')' : ''}`.trim();
+          }
+          if (detail) qualifications.push({ category: cat, detail });
+        }
+      });
+    }
+
+    // Work Experience
+    const rawWork = data.work || p.work || data.jobs || p.jobs || data.experience || p.experience || data.workExperience || p.workExperience || data.employmentHistory || p.employmentHistory || [];
+    const foreignJobs = [];
+    const indianJobs = [];
+    const allJobs = [];
+
+    const explicitForeign = data.foreignJobs || p.foreignJobs || data.internationalJobs || p.internationalJobs || [];
+    const explicitIndian = data.indianJobs || p.indianJobs || data.domesticJobs || p.domesticJobs || [];
+
+    if (Array.isArray(explicitForeign)) {
+      explicitForeign.forEach(w => {
+        if (typeof w === 'string') {
+          const pEntry = parseJobEntry(w, true);
+          if (pEntry) foreignJobs.push(pEntry);
+        } else if (typeof w === 'object' && w !== null) {
+          foreignJobs.push({
+            title: w.title || w.position || w.role || w.designation || 'Specialist',
+            company: w.company || w.employer || w.name || w.organization || '',
+            location: typeof w.location === 'string' ? w.location : (w.city ? `${w.city}, ${w.country || ''}` : 'Overseas / International'),
+            date: w.dates || w.date || w.duration || w.period || (w.startDate ? `${w.startDate} – ${w.endDate || 'Present'}` : ''),
+            isForeign: true
+          });
+        }
+      });
+    }
+
+    if (Array.isArray(explicitIndian)) {
+      explicitIndian.forEach(w => {
+        if (typeof w === 'string') {
+          const pEntry = parseJobEntry(w, false);
+          if (pEntry) indianJobs.push(pEntry);
+        } else if (typeof w === 'object' && w !== null) {
+          indianJobs.push({
+            title: w.title || w.position || w.role || w.designation || 'Fabricator / Engineer',
+            company: w.company || w.employer || w.name || w.organization || '',
+            location: typeof w.location === 'string' ? w.location : (w.city ? `${w.city}, ${w.country || ''}` : 'India'),
+            date: w.dates || w.date || w.duration || w.period || (w.startDate ? `${w.startDate} – ${w.endDate || 'Present'}` : ''),
+            isForeign: false
+          });
+        }
+      });
+    }
+
+    const responsibilities = [];
+    const rawResp = data.responsibilities || p.responsibilities || data.rolesAndResponsibilities || data.roles_and_responsibilities || data.keyResponsibilities || data.skills || p.skills || data.competencies || data.highlights || data.certs || p.certs || [];
+    if (Array.isArray(rawResp)) {
+      rawResp.forEach(r => {
+        if (typeof r === 'string') {
+          responsibilities.push(r);
+        } else if (typeof r === 'object' && r !== null) {
+          if (r.name && r.keywords) {
+            responsibilities.push(`${r.name}: ${Array.isArray(r.keywords) ? r.keywords.join(', ') : r.keywords}`);
+          } else if (r.name && r.description) {
+            responsibilities.push(`${r.name}: ${r.description}`);
+          } else if (r.label && r.value) {
+            responsibilities.push(`${r.label}: ${r.value}`);
+          } else if (r.title && r.detail) {
+            responsibilities.push(`${r.title}: ${r.detail}`);
+          } else if (r.name) {
+            responsibilities.push(r.name);
+          }
+        }
+      });
+    }
+
+    if (Array.isArray(rawWork)) {
+      rawWork.forEach(w => {
+        if (typeof w === 'string') {
+          const parsed = parseJobEntry(w);
+          if (parsed) {
+            if (parsed.isForeign) foreignJobs.push(parsed);
+            else indianJobs.push(parsed);
+            allJobs.push(parsed);
+          }
+        } else if (typeof w === 'object' && w !== null) {
+          const posStr = w.title || w.position || w.role || w.designation || '';
+          const compStr = w.company || w.employer || w.name || w.organization || w.companyName || '';
+          const locStr = typeof w.location === 'string' ? w.location : (w.city ? `${w.city}, ${w.country || ''}` : (w.location?.city ? `${w.location.city}, ${w.location.country || ''}` : ''));
+          const dateStr = w.dates || w.date || w.duration || w.period || (w.startDate ? `${w.startDate} – ${w.endDate || 'Present'}` : '');
+          
+          if (posStr || compStr) {
+            const fullCombo = `${locStr} ${compStr} ${posStr}`;
+            const isF = w.isForeign !== undefined ? Boolean(w.isForeign) : detectIsForeign(fullCombo);
+            const jobObj = {
+              title: posStr || compStr || 'Technical Specialist',
+              company: compStr || posStr || 'Engineering Project',
+              location: locStr,
+              date: dateStr,
+              isForeign: isF
+            };
+            if (isF) foreignJobs.push(jobObj);
+            else indianJobs.push(jobObj);
+            allJobs.push(jobObj);
+          }
+
+          const bullets = w.bullets || w.highlights || w.responsibilities || w.duties || [];
+          if (Array.isArray(bullets)) {
+            bullets.forEach(bItem => {
+              if (typeof bItem === 'string' && bItem.trim()) responsibilities.push(bItem.trim());
+            });
+          } else if (typeof bullets === 'string' && bullets.trim()) {
+            bullets.split('\n').map(bItem => bItem.replace(/^[-*•\d.)\s]+/, '').trim()).filter(Boolean).forEach(bItem => responsibilities.push(bItem));
+          }
+        }
+      });
+    }
+
+    const foreignExp = data.foreignExp || p.foreignExp || data.foreignExperience || data.internationalExperience || data.overseasExp || '';
+    const indianExp = data.indianExp || p.indianExp || data.indianExperience || data.domesticExperience || data.totalExp || data.totalExperience || '';
+
+    // Personal Data & Passport Table
+    const rawPers = data.personalData || p.personalData || data.personalDetails || p.personalDetails || data.personal_details || p.personal_details || data.personalInfoTable || [];
+    const personalData = [];
+    if (Array.isArray(rawPers)) {
+      rawPers.forEach(pItem => {
+        if (typeof pItem === 'string') {
+          if (pItem.includes(':')) {
+            const idx = pItem.indexOf(':');
+            personalData.push({ label: pItem.substring(0, idx).trim(), val: pItem.substring(idx + 1).trim() });
+          }
+        } else if (typeof pItem === 'object' && pItem !== null) {
+          const l = pItem.label || pItem.key || pItem.name || pItem.field || '';
+          const v = pItem.val || pItem.value || pItem.detail || '';
+          if (l) personalData.push({ label: l, val: String(v) });
+        }
+      });
+    } else if (typeof rawPers === 'object' && rawPers !== null) {
+      Object.keys(rawPers).forEach(key => {
+        const val = rawPers[key];
+        if (typeof val === 'string' || typeof val === 'number') {
+          const lbl = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();
+          personalData.push({ label: lbl, val: String(val) });
+        }
+      });
+    }
+
+    const directPersonalKeys = [
+      { keys: ["fatherName", "fathersName", "father_name", "Father's Name", "father"], label: "Father's Name" },
+      { keys: ["dob", "dateOfBirth", "date_of_birth", "Date of Birth", "birthDate", "birth_date"], label: "Date of Birth" },
+      { keys: ["maritalStatus", "marital_status", "Marital Status"], label: "Marital Status" },
+      { keys: ["nationality", "Nationality"], label: "Nationality" },
+      { keys: ["gender", "Gender", "sex", "Sex"], label: "Gender" },
+      { keys: ["languages", "languagesKnown", "languages_known", "Languages Known", "languages_spoken"], label: "Languages Known" },
+      { keys: ["passport", "passportNo", "passport_number", "passportNumber", "Current Passport", "passport_details", "passportDetails"], label: "Current Passport" }
+    ];
+
+    directPersonalKeys.forEach(item => {
+      const existing = personalData.find(pItem => pItem.label.toLowerCase() === item.label.toLowerCase());
+      if (!existing) {
+        for (const k of item.keys) {
+          const val = data[k] || p[k] || (data.personalDetails && data.personalDetails[k]) || (p.personalDetails && p.personalDetails[k]) || (data.basics && data.basics[k]);
+          if (val) {
+            const valStr = Array.isArray(val) ? val.join(', ') : String(val);
+            personalData.push({ label: item.label, val: valStr });
+            break;
+          }
+        }
+      }
+    });
+
+    const declaration = data.declaration || p.declaration || data.declarationText || '';
+    const placeDate = data.placeDate || p.placeDate || data.place_date || (data.place ? `Place: ${data.place} | Date: ${data.date || ''}` : '');
+    const signName = data.signName || p.signName || data.signature || data.sign_name || '';
+
+    const struct = {
+      name: String(name || ''),
+      title: String(title || ''),
+      address: String(address || ''),
+      phone: String(phone || ''),
+      email: String(email || ''),
+      objective: String(objective || ''),
+      qualifications,
+      foreignExp: String(foreignExp || ''),
+      indianExp: String(indianExp || ''),
+      foreignJobs,
+      indianJobs,
+      jobs: allJobs,
+      responsibilities,
+      personalData,
+      declaration: String(declaration || ''),
+      placeDate: String(placeDate || ''),
+      signName: String(signName || '')
+    };
+
+    // If data.text or p.text is provided, merge parsed text fields
+    const resumeText = (typeof data.text === 'string' && data.text.trim()) ? data.text : ((typeof p.text === 'string' && p.text.trim()) ? p.text : '');
+    if (resumeText) {
+      const textStruct = parseRawResumeText(resumeText);
+      if (textStruct) {
+        if (!struct.name && textStruct.name) struct.name = textStruct.name;
+        if (!struct.title && textStruct.title) struct.title = textStruct.title;
+        if (!struct.address && textStruct.address) struct.address = textStruct.address;
+        if (!struct.phone && textStruct.phone) struct.phone = textStruct.phone;
+        if (!struct.email && textStruct.email) struct.email = textStruct.email;
+        if (!struct.objective && textStruct.objective) struct.objective = textStruct.objective;
+        if (struct.qualifications.length === 0 && textStruct.qualifications.length > 0) struct.qualifications = textStruct.qualifications;
+        if (struct.foreignJobs.length === 0 && textStruct.foreignJobs.length > 0) struct.foreignJobs = textStruct.foreignJobs;
+        if (struct.indianJobs.length === 0 && textStruct.indianJobs.length > 0) struct.indianJobs = textStruct.indianJobs;
+        if (struct.jobs.length === 0 && textStruct.jobs.length > 0) struct.jobs = textStruct.jobs;
+        if (struct.responsibilities.length === 0 && textStruct.responsibilities.length > 0) struct.responsibilities = textStruct.responsibilities;
+        if (struct.personalData.length === 0 && textStruct.personalData.length > 0) struct.personalData = textStruct.personalData;
+        if (!struct.foreignExp && textStruct.foreignExp) struct.foreignExp = textStruct.foreignExp;
+        if (!struct.indianExp && textStruct.indianExp) struct.indianExp = textStruct.indianExp;
+        if (!struct.declaration && textStruct.declaration) struct.declaration = textStruct.declaration;
+        if (!struct.placeDate && textStruct.placeDate) struct.placeDate = textStruct.placeDate;
+        if (!struct.signName && textStruct.signName) struct.signName = textStruct.signName;
+      }
+    }
+
+    return { isSnapshot: false, struct };
+  }
+
+  function ensureSnapshotStructure() {
+    const r1 = document.getElementById('resume');
+    const r2 = document.getElementById('resume-page2');
+    if (!r1 || !r2) return;
+
+    // 1. Objective
+    const objEl = r1.querySelector('.objective');
+    if (objEl && !objEl.id) objEl.id = 'secObjectiveContent';
+
+    // 2. Page 1 Section IDs
+    const p1Titles = r1.querySelectorAll('.section-title');
+    p1Titles.forEach(st => {
+      const txt = (st.innerText || '').toLowerCase();
+      if (/qualification|academic|education/i.test(txt)) {
+        if (!st.id) st.id = 'secQualTitle';
+        let ul = st.nextElementSibling;
+        while (ul && ul.tagName !== 'UL' && !ul.classList.contains('section-title')) ul = ul.nextElementSibling;
+        if (ul && ul.tagName === 'UL' && !ul.id) ul.id = 'secQualContent';
+      } else if (/experience\s+summary|work\s+summary/i.test(txt)) {
+        if (!st.id) st.id = 'secExpSummaryTitle';
+        let ul = st.nextElementSibling;
+        while (ul && ul.tagName !== 'UL' && !ul.classList.contains('section-title')) ul = ul.nextElementSibling;
+        if (ul && ul.tagName === 'UL' && !ul.id) ul.id = 'secExpSummaryContent';
+      } else if (/international|foreign|overseas/i.test(txt)) {
+        if (!st.id) st.id = 'secForeignTitle';
+      } else if (/indian|domestic|work\s+experience/i.test(txt)) {
+        if (!st.id) st.id = 'secIndianTitle';
+      }
+    });
+
+    // 3. Page 2 Section IDs
+    const p2Titles = r2.querySelectorAll('.section-title');
+    p2Titles.forEach(st => {
+      const txt = (st.innerText || '').toLowerCase();
+      if (/responsibilit|competenc|skill|duties/i.test(txt)) {
+        if (!st.id) st.id = 'secRespTitle';
+        let ul = st.nextElementSibling;
+        while (ul && ul.tagName !== 'UL' && !ul.classList.contains('section-title')) ul = ul.nextElementSibling;
+        if (ul && ul.tagName === 'UL' && !ul.id) ul.id = 'secRespContent';
+      } else if (/personal\s+data|personal\s+details/i.test(txt)) {
+        if (!st.id) st.id = 'secPersonalTitle';
+      }
+    });
+  }
+
+  async function applyImportedJSONData(data, sourceLabel) {
+    if (!data) return;
+
+    const normalized = normalizeJSONResume(data);
+    if (!normalized) {
+      alert('The file or pasted content is not recognized as a valid resume format.');
+      return;
+    }
+
+    // 1. CVCraft snapshot JSON format
+    if (normalized.isSnapshot) {
+      const snap = normalized.data;
+      if (snap.page1HTML) document.getElementById('resume').innerHTML = snap.page1HTML;
+      else if (snap.page1) document.getElementById('resume').innerHTML = snap.page1;
+
+      if (snap.page2HTML) document.getElementById('resume-page2').innerHTML = snap.page2HTML;
+      else if (snap.page2) document.getElementById('resume-page2').innerHTML = snap.page2;
+
+      ensureSnapshotStructure();
+
+      const photoData = snap.photo || null;
+      if (photoData) {
+        await dbSet('profile_photo', photoData);
+        const wrap = document.getElementById('photoWrap');
+        if (wrap) wrap.innerHTML = '<img src="' + photoData + '" alt="Profile Photo">';
+      }
+
+      if (snap.filename && document.getElementById('pdfFilenameInput')) {
+        document.getElementById('pdfFilenameInput').value = snap.filename;
+      }
+
+      if (snap.attachments && Array.isArray(snap.attachments)) {
+        attachments = snap.attachments;
+        await dbSet('doc_attachments', attachments);
+        renderAttachmentsList();
+      }
+
+      localStorage.setItem('cvcraft_profile_created', 'true');
+      localStorage.setItem('cvcraft_last_page', 'builder');
+      saveState();
+      await saveAsOriginalResume(false);
+      updatePhotoButtonsLabel();
+      updateUserGreeting();
+      syncResumeToWizardFields();
+      showToast('Loaded profile: ' + (sourceLabel || 'Backup Snapshot'), 'success');
+      return;
+    }
+
+    // 2. Normalized Structured Resume Data
+    if (normalized.struct) {
+      await applyStructuredResumeData(normalized.struct, sourceLabel);
+      return;
+    }
+
+    alert('The file or pasted content is not recognized as a valid resume format.');
   }
 
     // ---------- Attachments Shelf Manager with Individual Page Deletion & Reordering ----------
@@ -4957,19 +6182,31 @@
     if (isPDF) {
       try {
         const arrayBuffer = await file.arrayBuffer();
+        const pdfBytes = new Uint8Array(arrayBuffer);
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const pages = [];
+        
         for (let i = 1; i <= pdf.numPages; i++) {
-          showDocProcessing(`Rendering PDF Page ${i} of ${pdf.numPages}`, file.name);
+          showDocProcessing(`Processing PDF Page ${i} of ${pdf.numPages}`, file.name);
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 1.6 });
+          // 2.0x scale for crisp, fast browser UI preview thumbnail
+          const viewport = page.getViewport({ scale: 2.0 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
           const ctx = canvas.getContext('2d');
           await page.render({ canvasContext: ctx, viewport }).promise;
-          pages.push(canvas.toDataURL('image/jpeg', 0.92));
+          
+          pages.push({
+            id: 'page_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            thumb: canvas.toDataURL('image/jpeg', 0.88),
+            pdfBytes: pdfBytes,
+            pageIndex: i - 1,
+            name: file.name,
+            type: 'pdf_page'
+          });
         }
+
         attachments.push({
           id: 'att_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
           name: file.name,
@@ -4992,7 +6229,13 @@
         name: file.name,
         type: 'image',
         size: file.size,
-        pages: [dataUrl]
+        pages: [{
+          id: 'page_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+          thumb: dataUrl,
+          dataUrl: dataUrl,
+          name: file.name,
+          type: 'image_page'
+        }]
       });
     }
   }
@@ -5030,7 +6273,9 @@
           </div>
         </div>
         <div class="doc-pages">
-          ${doc.pages.map((p, pIdx) => `
+          ${doc.pages.map((p, pIdx) => {
+            const thumbUrl = typeof p === 'string' ? p : (p.thumb || p.dataUrl || '');
+            return `
             <div class="doc-page-thumb-wrap" 
                  draggable="true" 
                  ondragstart="onDragStartPage(event, '${doc.id}', ${pIdx})"
@@ -5038,18 +6283,19 @@
                  ondragleave="onDragLeavePage(event)"
                  ondrop="onDropPage(event, '${doc.id}', ${pIdx})">
               <div class="doc-page-thumb" onclick="openLightbox('${doc.id}', ${pIdx})" title="Click to enlarge">
-                <img src="${p}" alt="Page ${pIdx + 1} preview" loading="lazy">
+                <img src="${thumbUrl}" alt="Page ${pIdx + 1} preview" loading="lazy">
               </div>
               <div class="doc-page-footer">
                 <span class="doc-page-num">Page ${pIdx + 1}</span>
                 <div class="doc-page-actions">
-                  <button type="button" class="doc-page-btn" onclick="moveAttachmentPage('${doc.id}', ${pIdx}, -1)" ${pIdx === 0 ? 'disabled' : ''} title="Move page left">&larr;</button>
-                  <button type="button" class="doc-page-btn" onclick="moveAttachmentPage('${doc.id}', ${pIdx}, 1)" ${pIdx === doc.pages.length - 1 ? 'disabled' : ''} title="Move page right">&rarr;</button>
+                  <button type="button" class="doc-page-btn" onclick="moveAttachmentPage('${doc.id}', ${pIdx}, -1)" ${pIdx === 0 && idx === 0 ? 'disabled' : ''} title="Move page left">&larr;</button>
+                  <button type="button" class="doc-page-btn" onclick="moveAttachmentPage('${doc.id}', ${pIdx}, 1)" ${pIdx === doc.pages.length - 1 && idx === attachments.length - 1 ? 'disabled' : ''} title="Move page right">&rarr;</button>
                   <button type="button" class="doc-page-btn del" onclick="deleteAttachmentPage('${doc.id}', ${pIdx})" title="Delete this page"><i data-lucide="trash-2" style="width:11px;height:11px;"></i></button>
                 </div>
               </div>
             </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       `;
       container.appendChild(card);
@@ -5075,22 +6321,47 @@
     showToast('Page removed from document.', 'info');
   }
 
-  // Page Move & Reorder
+  // Page Move & Reorder (Supports Intra-Document and Cross-Document Flow)
   async function moveAttachmentPage(docId, pageIdx, dir) {
-    const doc = attachments.find(d => d.id === docId);
-    if (!doc) return;
+    const docIdx = attachments.findIndex(d => d.id === docId);
+    if (docIdx === -1) return;
+    const doc = attachments[docIdx];
     const targetIdx = pageIdx + dir;
-    if (targetIdx < 0 || targetIdx >= doc.pages.length) return;
 
-    const temp = doc.pages[pageIdx];
-    doc.pages[pageIdx] = doc.pages[targetIdx];
-    doc.pages[targetIdx] = temp;
+    // Case 1: Moving within the same document
+    if (targetIdx >= 0 && targetIdx < doc.pages.length) {
+      const temp = doc.pages[pageIdx];
+      doc.pages[pageIdx] = doc.pages[targetIdx];
+      doc.pages[targetIdx] = temp;
+    } 
+    // Case 2: Moving left beyond start of document -> Push to end of previous document
+    else if (targetIdx < 0 && docIdx > 0) {
+      const prevDoc = attachments[docIdx - 1];
+      const movedPage = doc.pages.splice(pageIdx, 1)[0];
+      prevDoc.pages.push(movedPage);
+      if (doc.pages.length === 0) {
+        attachments.splice(docIdx, 1);
+      }
+      showToast(`Page moved to "${prevDoc.name}".`, 'info');
+    } 
+    // Case 3: Moving right beyond end of document -> Push to start of next document
+    else if (targetIdx >= doc.pages.length && docIdx < attachments.length - 1) {
+      const nextDoc = attachments[docIdx + 1];
+      const movedPage = doc.pages.splice(pageIdx, 1)[0];
+      nextDoc.pages.unshift(movedPage);
+      if (doc.pages.length === 0) {
+        attachments.splice(docIdx, 1);
+      }
+      showToast(`Page moved to "${nextDoc.name}".`, 'info');
+    } else {
+      return;
+    }
 
     await dbSet('doc_attachments', attachments);
     renderAttachmentsList();
   }
 
-  // Drag and Drop Page Reordering Handlers
+  // Drag and Drop Page Reordering Handlers (Supports Cross-Document Drag & Drop)
   function onDragStartPage(e, docId, pageIdx) {
     draggedPageInfo = { docId, pageIdx };
     e.dataTransfer.effectAllowed = 'move';
@@ -5113,25 +6384,39 @@
     const wrap = e.currentTarget.closest('.doc-page-thumb-wrap');
     if (wrap) wrap.classList.remove('drag-over');
 
-    if (!draggedPageInfo || draggedPageInfo.docId !== targetDocId) {
-      draggedPageInfo = null;
-      return;
-    }
+    if (!draggedPageInfo) return;
 
-    const srcPageIdx = draggedPageInfo.pageIdx;
+    const { docId: srcDocId, pageIdx: srcPageIdx } = draggedPageInfo;
     draggedPageInfo = null;
 
-    if (srcPageIdx === targetPageIdx) return;
+    const srcDocIdx = attachments.findIndex(d => d.id === srcDocId);
+    const targetDocIdx = attachments.findIndex(d => d.id === targetDocId);
+    if (srcDocIdx === -1 || targetDocIdx === -1) return;
 
-    const doc = attachments.find(d => d.id === targetDocId);
-    if (!doc) return;
+    const srcDoc = attachments[srcDocIdx];
+    const targetDoc = attachments[targetDocIdx];
 
-    const movedPage = doc.pages.splice(srcPageIdx, 1)[0];
-    doc.pages.splice(targetPageIdx, 0, movedPage);
+    // Case 1: Reordering within the same document
+    if (srcDocId === targetDocId) {
+      if (srcPageIdx === targetPageIdx) return;
+      const movedPage = srcDoc.pages.splice(srcPageIdx, 1)[0];
+      srcDoc.pages.splice(targetPageIdx, 0, movedPage);
+      showToast('Page reordered.', 'success');
+    } 
+    // Case 2: Cross-document drag and drop (e.g. drop Page 3 of PDF 2 right after Page 3 of PDF 1)
+    else {
+      const movedPage = srcDoc.pages.splice(srcPageIdx, 1)[0];
+      // Insert right after the target page in the destination document
+      targetDoc.pages.splice(targetPageIdx + 1, 0, movedPage);
+
+      if (srcDoc.pages.length === 0) {
+        attachments.splice(srcDocIdx, 1);
+      }
+      showToast(`Page moved from "${srcDoc.name}" into "${targetDoc.name}".`, 'success');
+    }
 
     await dbSet('doc_attachments', attachments);
     renderAttachmentsList();
-    showToast('Page order updated.', 'success');
   }
 
   async function moveAttachment(idx, dir) {
@@ -5166,11 +6451,14 @@
     currentLightboxDocId = docId;
     currentLightboxPageIdx = pageIdx;
 
+    const pageItem = doc.pages[pageIdx];
+    const previewSrc = typeof pageItem === 'string' ? pageItem : (pageItem.dataUrl || pageItem.thumb || '');
+
     const lbImg = document.getElementById('lightboxImg');
     const lbCaption = document.getElementById('lightboxCaption');
     const lb = document.getElementById('pageLightbox');
 
-    if (lbImg) lbImg.src = doc.pages[pageIdx];
+    if (lbImg) lbImg.src = previewSrc;
     if (lbCaption) lbCaption.textContent = `${doc.name} — Page ${pageIdx + 1} of ${doc.pages.length}`;
     
     if (lb) openModal(lb);
@@ -5212,7 +6500,7 @@
     }
   }
 
-    // Helper to slice and embed canvas pages accurately onto standard A4 pages
+  // Helper to slice and embed canvas pages accurately onto standard A4 pages
   async function embedCanvasAsA4Pages(pdfDoc, canvas, ptWidth, ptHeight) {
     const a4Ratio = ptHeight / ptWidth; // standard A4 aspect ratio: 841.5 / 595.5 = 1.413098
     const standardCanvasA4Height = canvas.width * a4Ratio;
@@ -5227,8 +6515,7 @@
       return;
     }
 
-    // Case 2: Significantly tall / overflowed content (e.g. 15+ bullets + personal data + declaration)
-    // Slices cleanly into A4 pages so NO declaration, date, or signature is EVER cut off!
+    // Case 2: Significantly tall / overflowed content (slices cleanly into A4 pages)
     let offsetY = 0;
     while (offsetY < totalHeight) {
       const remainingHeight = totalHeight - offsetY;
@@ -5239,11 +6526,9 @@
       sliceCanvas.height = standardCanvasA4Height;
       const sCtx = sliceCanvas.getContext('2d');
       
-      // Crisp white background
       sCtx.fillStyle = '#ffffff';
       sCtx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
       
-      // Draw slice
       sCtx.drawImage(
         canvas,
         0, offsetY, canvas.width, sliceHeight,
@@ -5265,7 +6550,6 @@
     rawFilename = rawFilename.replace(/\.pdf$/i, '').replace(/[^a-zA-Z0-9_-]/g, '_');
     if (!rawFilename) rawFilename = 'My_CVCraft_Resume';
 
-    // Persist to storage
     localStorage.setItem('cvcraft_download_filename', rawFilename);
 
     const stepConfirm = document.getElementById('downloadStepConfirm');
@@ -5282,20 +6566,18 @@
     }
 
     try {
-      // Save current resume as recent preset automatically
       await saveCurrentResumeAsPreset(rawFilename, false);
 
       const { PDFDocument } = PDFLib;
       const page1El = document.getElementById('resume');
       const page2El = document.getElementById('resume-page2');
 
-      // Temporarily reset any mobile scale transform so html2canvas captures at full unscaled 1:1 geometry
       const origTransform1 = page1El ? page1El.style.transform : '';
       const origTransform2 = page2El ? page2El.style.transform : '';
       if (page1El) page1El.style.transform = 'none';
       if (page2El) page2El.style.transform = 'none';
 
-      // High-definition 300 DPI render options
+      // Ultra-HD 300 DPI render options for the resume pages
       const opts = {
         scale: 3,
         useCORS: true,
@@ -5309,7 +6591,6 @@
       const canvas1 = await html2canvas(page1El, opts);
       const canvas2 = await html2canvas(page2El, opts);
 
-      // Restore mobile transforms immediately
       if (page1El) page1El.style.transform = origTransform1;
       if (page2El) page2El.style.transform = origTransform2;
 
@@ -5324,40 +6605,62 @@
       // Page 1 Embed (with auto-paginate protection)
       await embedCanvasAsA4Pages(pdfDoc, canvas1, w1, h1);
 
-      // Page 2 Embed (with smart slice pagination so overflow content/signatures are 100% visible)
+      // Page 2 Embed (with smart slice pagination)
       await embedCanvasAsA4Pages(pdfDoc, canvas2, w2, h2);
 
-      // Attached Certificates & Documents Embed (strictly in user-defined custom order)
+      // Attached Certificates & Documents: Lossless Vector PDF Copy & Full-Res Image Embed
+      const donorPdfCache = new Map();
+
       for (const att of attachments) {
         if (att.pages && Array.isArray(att.pages)) {
           for (let pIdx = 0; pIdx < att.pages.length; pIdx++) {
-            const pageData = att.pages[pIdx];
-            if (!pageData) continue;
-            
-            const isPng = pageData.startsWith('data:image/png');
-            const bytes = dataUrlToBytes(pageData);
-            const embedded = isPng ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
+            const pageItem = att.pages[pIdx];
+            if (!pageItem) continue;
 
-            const a4W = w1;
-            const a4H = h1;
-            const pad = 24;
-            const maxAvailW = a4W - (pad * 2);
-            const maxAvailH = a4H - (pad * 2);
-
-            const imgAspect = embedded.width / embedded.height;
-            let drawW = maxAvailW;
-            let drawH = drawW / imgAspect;
-
-            if (drawH > maxAvailH) {
-              drawH = maxAvailH;
-              drawW = drawH * imgAspect;
+            // Strategy 1: Direct Vector PDF Page Copy (100% Original Vector Sharpness & Infinite Zoom)
+            if (typeof pageItem === 'object' && pageItem.pdfBytes && pageItem.pageIndex !== undefined) {
+              try {
+                let donorDoc = donorPdfCache.get(pageItem.pdfBytes);
+                if (!donorDoc) {
+                  donorDoc = await PDFDocument.load(pageItem.pdfBytes);
+                  donorPdfCache.set(pageItem.pdfBytes, donorDoc);
+                }
+                const [copiedPage] = await pdfDoc.copyPages(donorDoc, [pageItem.pageIndex]);
+                pdfDoc.addPage(copiedPage);
+                continue;
+              } catch (copyErr) {
+                console.warn('Direct PDF vector copy fallback:', copyErr);
+              }
             }
 
-            const drawX = pad + (maxAvailW - drawW) / 2;
-            const drawY = pad + (maxAvailH - drawH) / 2;
+            // Strategy 2: High-Resolution Image Embedding (PNG/JPEG Certificate Scan)
+            const imgDataUrl = typeof pageItem === 'string' ? pageItem : (pageItem.dataUrl || pageItem.thumb);
+            if (imgDataUrl) {
+              const isPng = imgDataUrl.startsWith('data:image/png');
+              const bytes = dataUrlToBytes(imgDataUrl);
+              const embedded = isPng ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
 
-            const page = pdfDoc.addPage([a4W, a4H]);
-            page.drawImage(embedded, { x: drawX, y: drawY, width: drawW, height: drawH });
+              const a4W = w1 || 595.28;
+              const a4H = h1 || 841.89;
+              const pad = 12;
+              const maxAvailW = a4W - (pad * 2);
+              const maxAvailH = a4H - (pad * 2);
+
+              const imgAspect = embedded.width / embedded.height;
+              let drawW = maxAvailW;
+              let drawH = drawW / imgAspect;
+
+              if (drawH > maxAvailH) {
+                drawH = maxAvailH;
+                drawW = drawH * imgAspect;
+              }
+
+              const drawX = pad + (maxAvailW - drawW) / 2;
+              const drawY = pad + (maxAvailH - drawH) / 2;
+
+              const page = pdfDoc.addPage([a4W, a4H]);
+              page.drawImage(embedded, { x: drawX, y: drawY, width: drawW, height: drawH });
+            }
           }
         }
       }
