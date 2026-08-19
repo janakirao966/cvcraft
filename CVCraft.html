@@ -2151,9 +2151,32 @@
     }
     .attachments-header p { display: none; }
     .doc-pages {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      padding: 8px 4px;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      padding: 10px 4px !important;
+    }
+    .doc-page-thumb-wrap {
+      width: 100%;
+    }
+    .doc-page-thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1.414;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      background: #ffffff;
+    }
+    .doc-page-footer {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 2px;
+      box-sizing: border-box;
+    }
+    .doc-page-btn {
+      min-height: 28px;
+      padding: 4px 8px;
+      font-size: 12px;
     }
     .app-footer { margin: 14px 12px 28px 12px; padding: 0; }
   }
@@ -6258,17 +6281,19 @@
         for (let i = 1; i <= pdf.numPages; i++) {
           showDocProcessing(`Processing PDF Page ${i} of ${pdf.numPages}`, file.name);
           const page = await pdf.getPage(i);
-          // 2.0x scale for crisp, fast browser UI preview thumbnail
-          const viewport = page.getViewport({ scale: 2.0 });
+          // 3.0x scale (300+ DPI Ultra-HD) for razor-sharp visual preview and lightbox inspection
+          const viewport = page.getViewport({ scale: 3.0 });
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
-          const ctx = canvas.getContext('2d');
+          const ctx = canvas.getContext('2d', { alpha: false });
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
           await page.render({ canvasContext: ctx, viewport }).promise;
           
           pages.push({
             id: 'page_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-            thumb: canvas.toDataURL('image/jpeg', 0.88),
+            thumb: canvas.toDataURL('image/jpeg', 0.95),
             pdfBytes: pdfBytes,
             pageIndex: i - 1,
             name: file.name,
